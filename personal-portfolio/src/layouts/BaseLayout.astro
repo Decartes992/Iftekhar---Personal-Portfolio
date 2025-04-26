@@ -50,31 +50,47 @@ const { title } = Astro.props;
 					button.textContent = newTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
 				}
 			};
+
+			// Set initial button text after theme is determined and applied
+			document.addEventListener('DOMContentLoaded', () => {
+				const button = document.getElementById('theme-toggle');
+				const currentTheme = document.documentElement.getAttribute('data-theme');
+				if (button) {
+					button.textContent = currentTheme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode';
+				}
+			});
 		</script>
 	</head>
 	<body>
 		<header>
-			<!-- Navigation -->
-			<nav>
-				<a href="/">Home</a>
-				<a href="/about">About</a>
-				<a href="/projects">Projects</a>
-				<a href="/resume">Resume/Skills</a>
-				<a href="/contact">Contact</a>
-				<button id="theme-toggle" onclick="toggleTheme()">
-					{/* Initial text set by script, or default */}
-					Toggle Theme
+			<div class="container">
+				<!-- Site Title/Logo (Optional) -->
+				<!-- <a href="/" class="site-title">My Portfolio</a> -->
+				<nav>
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="/projects">Projects</a></li>
+						<li><a href="/resume">Resume/Skills</a></li>
+						<li><a href="/contact">Contact</a></li>
+					</ul>
+				</nav>
+				<button id="theme-toggle" class="theme-toggle-button" onclick="toggleTheme()">
+					{/* Text set by script */}
+					Loading Theme...
 				</button>
-			</nav>
-			<hr />
+			</div>
 		</header>
 		<main>
-			<slot /> <!-- Page content will be injected here -->
+			<div class="container">
+				<slot /> <!-- Page content will be injected here -->
+			</div>
 		</main>
 		<footer>
-			<hr />
-			<!-- Footer content will go here later -->
-			<p>&copy; {new Date().getFullYear()} Iftekhar - Personal Portfolio</p>
+			<div class="container">
+				<!-- Footer content will go here later -->
+				<p>&copy; {new Date().getFullYear()} Iftekhar - Personal Portfolio</p>
+			</div>
 		</footer>
 	</body>
 </html>
