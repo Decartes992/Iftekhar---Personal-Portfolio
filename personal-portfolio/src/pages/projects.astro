@@ -1,0 +1,59 @@
+---
+// src/pages/projects.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageTitle = "Projects | Iftekhar's Portfolio";
+---
+<BaseLayout title={pageTitle}>
+	<h1>My Projects</h1>
+	<p>Here are some of the projects I've contributed to:</p>
+
+	<article>
+		<h2>Project: MILTON - AI-Powered Training Decisions</h2>
+
+		<h3>Project Overview</h3>
+		<p>MILTON is a Dockerized application designed to empower training decisions using AI. The system utilizes a 4-service architecture comprising a React frontend, a KSA (Key Skills and Abilities) extraction service, a DIF (Difficulty, Importance, Frequency) scoring service, and a Mistral AI model service. This architecture replaced a previous Django/PostgreSQL setup, moving towards a more streamlined and container-focused approach with file-based persistence. The primary function is to extract KSA statements from text or PDF inputs and provide DIF scores for these statements.</p>
+
+		<h3>My Role & Contributions</h3>
+		<p>As a contributor to the MILTON project, I worked across various components, including the frontend, the DIF scoring service (<code>dif_service</code>), and the KSA extraction service (<code>ksa_service</code>). My contributions focused on implementing key features, resolving bugs, and improving the overall functionality and architecture of the system.</p>
+
+		<h3>Detailed Contributions</h3>
+		<h4>Frontend</h4>
+		<ul>
+			<li><strong>Implementing User Authentication:</strong> Developed the necessary components and logic to handle user authentication flows, ensuring secure access to the application.</li>
+			<li><strong>Adding File Upload Functionality:</strong> Integrated the capability for users to upload files (specifically PDFs, as indicated by the documentation) for KSA extraction.</li>
+			<li><strong>Establishing Basic Frontend Structure:</strong> Helped set up the foundational structure of the React application, laying the groundwork for subsequent feature development.</li>
+		</ul>
+		<h4>DIF Service (<code>dif_service</code>)</h4>
+		<ul>
+			<li><strong>Improving DIF Scoring Algorithm:</strong> Made enhancements to the algorithm used to calculate DIF scores, aiming for more accurate and relevant assessments of KSA statements.</li>
+			<li><strong>Updating Dependencies:</strong> Managed and updated the project dependencies to ensure the service was running with the latest libraries and security patches.</li>
+		</ul>
+		<h4>KSA Service (<code>ksa_service</code>)</h4>
+		<ul>
+			<li><strong>Resolving Bug in KSA Extraction Logic:</strong> Identified and fixed a bug within the core KSA extraction logic, improving the reliability and accuracy of the extracted statements.</li>
+			<li><strong>Implementing Feedback Submission Endpoint:</strong> Developed an endpoint to allow users to submit feedback on the extracted KSAs, which is crucial for potential model fine-tuning.</li>
+			<li><strong>Correcting Data Handling:</strong> Addressed issues related to data handling within the service to ensure smooth and correct processing of information.</li>
+		</ul>
+		<h4>Documentation</h4>
+		<ul>
+			<li><strong>Updating Architecture Diagram:</strong> Modified and updated the architecture diagram to accurately reflect the current 4-service structure and data flows.</li>
+		</ul>
+
+		<h3>Technical Skills Demonstrated</h3>
+		<ul>
+			<li><strong>Python:</strong> Developing backend services using FastAPI.</li>
+			<li><strong>JavaScript/React:</strong> Building interactive user interfaces.</li>
+			<li><strong>Docker:</strong> Working with containerized applications and <code>docker-compose</code>.</li>
+			<li><strong>Git:</strong> Version control, including committing changes and managing branches.</li>
+			<li><strong>API Development:</strong> Designing and implementing RESTful APIs.</li>
+			<li><strong>Understanding of AI/ML Systems:</strong> Working within an application that integrates machine learning models.</li>
+		</ul>
+
+		<h3>Outcomes & Impact</h3>
+		<p>My contributions helped to advance the MILTON project by implementing core user features, improving the accuracy of the DIF scoring, enhancing the reliability of the KSA extraction process, and ensuring the project's documentation remained current.</p>
+	</article>
+
+	<!-- Add other projects here as needed -->
+
+</BaseLayout>

@@ -1,0 +1,60 @@
+/* src/styles/global.css */
+
+/* Basic Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: system-ui, sans-serif;
+  /* -- Theme Variables -- */
+  /* Dark Theme (Default) */
+  --bg-color: #1a1a1a; /* Dark background */
+  --text-color: #e0e0e0; /* Light text */
+  --primary-color: #64ffda; /* Accent color (e.g., teal/cyan) */
+  --secondary-color: #8892b0; /* Muted text/secondary elements */
+  --card-bg-color: #2a2a2a; /* Slightly lighter dark for cards/containers */
+  --border-color: #444;
+  --link-color: var(--primary-color);
+  --link-hover-color: #a7ffeb;
+}
+
+/* Light Theme */
+html[data-theme='light'] {
+  --bg-color: #f4f4f4; /* Light background */
+  --text-color: #333; /* Dark text */
+  --primary-color: #007bff; /* Accent color (e.g., blue) */
+  --secondary-color: #555; /* Muted text/secondary elements */
+  --card-bg-color: #ffffff; /* White for cards/containers */
+  --border-color: #ccc;
+  --link-color: var(--primary-color);
+  --link-hover-color: #0056b3;
+}
+
+body {
+  /* Apply base background and text colors */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1; /* Ensure main content pushes footer down */
+  padding: 1rem; /* Add some padding */
+}
+
+header, footer {
+	padding: 1rem;
+}
+
+nav a {
+	margin-right: 1rem;
+}
+
+/* Add more global styles as needed */
