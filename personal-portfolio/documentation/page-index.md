@@ -12,6 +12,8 @@ The page uses the `BaseLayout.astro` component to provide a consistent header, f
 The main content of the index page includes:
 - A main heading: "Welcome to My Portfolio!"
 - Placeholder paragraphs indicating that detailed content is forthcoming and mentioning the types of information (skills, projects, experience) that will eventually be present on the site.
+- A small interactive click counter demo using a React component.
+- A section displaying the 3 most recent blog posts fetched from the 'blog' content collection.
 
 ## Structure and Components
-The page structure is simple, primarily consisting of standard HTML elements (`<h1>`, `<p>`) wrapped by the `BaseLayout` component. No unique or custom components are used on this page currently.
+The page structure includes standard HTML elements (`<h1>`, `<p>`) wrapped by the `BaseLayout` component. It utilizes the `BlogPostCard` React component to display individual blog posts and the `HomePageClickCounter` React component for the interactive demo.

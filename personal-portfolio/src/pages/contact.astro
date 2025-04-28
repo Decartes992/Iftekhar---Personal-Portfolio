@@ -1,6 +1,7 @@
 ---
 // src/pages/contact.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.jsx';
 
 const pageTitle = "Contact Me | Iftekhar's Portfolio";
 ---
@@ -8,10 +9,10 @@ const pageTitle = "Contact Me | Iftekhar's Portfolio";
 	<h1>Contact Me</h1>
 	<p>Feel free to reach out via email, phone, or connect with me on LinkedIn.</p>
 	<ul>
-		<li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca">Iftekhar.Rafi@dal.ca</a></li>
+		<li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">Iftekhar.Rafi@dal.ca</a></li>
 		<li><strong>Phone:</strong> +1 902 324 3992</li>
-		<li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer">linkedin.com/in/iftekhar-hossain992</a></li>
+		<li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">linkedin.com/in/iftekhar-hossain992</a></li>
 		<li><strong>Location:</strong> Halifax, N.S, B3R 1S9</li>
 	</ul>
-	<!-- Consider adding a contact form later if desired -->
+	<ContactForm client:load />
 </BaseLayout>

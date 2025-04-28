@@ -3,23 +3,34 @@
 Documentation for `src/pages/projects.astro`.
 
 ## Purpose
-This file defines the content for the "Projects" page of the personal portfolio website. It is used to showcase the projects the portfolio owner has contributed to, detailing their involvement, contributions, and the technologies used.
+This file defines the content for the "Projects" page of the personal portfolio website. It is used to showcase the projects the portfolio owner has contributed to, with dynamic listing, filtering, and sorting capabilities.
+
+## Data Source
+Project data is sourced from Astro Content Collections, specifically the `projects` collection located in `src/content/projects/`. Each project is represented by a Markdown file within this collection.
 
 ## Layout
-The page uses the `BaseLayout.astro` component to provide a consistent header, footer, and basic page structure. The content specific to the projects page is placed within the `BaseLayout`.
+The page uses the `BaseLayout.astro` component to provide a consistent header, footer, and basic page structure. The dynamic project listing and filtering/sorting UI are placed within the `BaseLayout`.
 
-## Content
-The main content of the Projects page includes:
-- A main heading: "My Projects"
-- An introductory paragraph.
-- A detailed section for the "MILTON - AI-Powered Training Decisions" project, which includes:
-    - Project Overview
-    - My Role & Contributions (covering Frontend, DIF Service, KSA Service, and Documentation)
-    - Detailed Contributions within each area (e.g., Implementing User Authentication, Improving DIF Scoring Algorithm, Resolving Bug in KSA Extraction Logic, Updating Architecture Diagram)
-    - Technical Skills Demonstrated (e.g., Python, JavaScript/React, Docker, Git, API Development, Understanding of AI/ML Systems)
-    - Outcomes & Impact
+## Functionality: Listing, Filtering, and Sorting
+The projects page now dynamically fetches all project entries from the `projects` content collection. The listing, filtering, and sorting logic are handled by a dedicated React component, `ProjectFilterSort.jsx`.
 
-There is a placeholder comment indicating where other project details can be added.
+### Filtering
+Users can filter the project list based on the following criteria, using checkboxes provided by the `ProjectFilterSort` component:
+- Technology
+- Project Type
+- Skills
+
+The filtering logic in the `ProjectFilterSort` component updates the displayed projects based on the selected filter options.
+
+### Sorting
+Users can sort the project list using a dropdown provided by the `ProjectFilterSort` component. The available sorting options are:
+- Date (Newest First)
+- Alphabetical (by project title)
+
+The sorting logic in the `ProjectFilterSort` component reorders the displayed projects based on the selected sort option.
 
 ## Structure and Components
-The page structure uses standard HTML elements (`<h1>`, `<p>`, `<article>`, `<h2>`, `<h3>`, `<ul>`, `<li>`) wrapped by the `BaseLayout` component. The `<article>` element is used to semantically group the details for each project. No unique or custom components are used on this page currently, other than the `BaseLayout`.
+The page structure uses standard HTML elements (`<h1>`, `<p>`) wrapped by the `BaseLayout` component. The core functionality for displaying, filtering, and sorting projects is encapsulated within the `ProjectFilterSort` React component, which is imported and used on this page with the `client:load` directive to ensure interactivity.
+
+- `BaseLayout.astro`: Provides the overall page layout.
+- `ProjectFilterSort.jsx`: A React component responsible for receiving the project data (passed as a prop from `projects.astro`), managing filter and sort state, implementing filtering and sorting logic based on user selections, and rendering the filter/sort UI and the list of filtered/sorted projects.

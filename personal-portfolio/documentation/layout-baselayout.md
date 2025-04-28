@@ -18,13 +18,13 @@ This component defines the main HTML structure, head elements, header, footer, a
 ## Structure
 
 *   **HTML Shell:** Standard `<!doctype html>`, `<html>`, `<head>`, `<body>`.
-*   **Head:** Contains meta tags, the page `title`, and an inline script for theme management.
+*   **Head:** Contains meta tags (charset, viewport, favicon, generator, a generic description), the page `title`, and an inline script for theme management.
 *   **Body:**
     *   `<header>`: Contains the main navigation (`<nav>`) and the theme toggle button, wrapped in a `<div class="container">` for consistent padding and max-width.
-        *   Navigation is an unordered list (`<ul>`) of links.
+        *   Navigation is an unordered list (`<ul>`) of links (`/`, `/about`, `/projects`, `/blog`, `/resume`, `/contact`).
         *   Theme toggle button has `id="theme-toggle"` and `class="theme-toggle-button"`.
     *   `<main>`: Wraps the page content (`<slot />`) within a `<div class="container">`.
-    *   `<footer>`: Contains copyright information, wrapped in a `<div class="container">`.
+    *   `<footer>`: Contains the dynamic copyright year and a placeholder for the site last updated timestamp, wrapped in a `<div class="container">`.
 
 ## Theme Switching Logic (Inline `<script>`)
 
