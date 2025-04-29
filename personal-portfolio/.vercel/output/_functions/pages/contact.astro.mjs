@@ -1,6 +1,7 @@
-import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
+/* empty css                                 */
+import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_Cb9XKqvL.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_CycZLcLl.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_CqVMGi1P.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -65,11 +66,11 @@ const ContactForm = () => {
       }
     }
   };
-  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg", "aria-label": "Contact Form", children: [
-    submitStatus === "success" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-green-100 text-green-800 rounded", children: "Message sent successfully!" }),
-    submitStatus === "error" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-red-100 text-red-800 rounded", children: "Failed to send message. Please try again later." }),
-    /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
-      /* @__PURE__ */ jsx("label", { htmlFor: "name", className: "block text-gray-700 text-sm font-bold mb-2", children: "Name" }),
+  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg transition-shadow duration-300 hover:shadow-xl", "aria-label": "Contact Form", children: [
+    submitStatus === "success" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-green-100 text-green-800 rounded animate-fade-in", children: "Message sent successfully!" }),
+    submitStatus === "error" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-red-100 text-red-800 rounded animate-shake", children: "Failed to send message. Please try again later." }),
+    /* @__PURE__ */ jsxs("div", { className: "mb-6", children: [
+      /* @__PURE__ */ jsx("label", { htmlFor: "name", className: "block text-gray-700 text-sm font-bold mb-2 transition-colors duration-200 hover:text-gray-900", children: "Name" }),
       /* @__PURE__ */ jsx(
         "input",
         {
@@ -81,10 +82,10 @@ const ContactForm = () => {
           "aria-required": "true",
           "aria-invalid": !!errors.name,
           "aria-describedby": errors.name ? "name-error" : void 0,
-          className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? "border-red-500" : ""}`
+          className: `shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-shadow duration-200 focus:ring-2 focus:ring-blue-500 ${errors.name ? "border-red-500" : ""}`
         }
       ),
-      errors.name && /* @__PURE__ */ jsx("p", { id: "name-error", className: "text-red-700 text-xs italic", children: errors.name }),
+      errors.name && /* @__PURE__ */ jsx("p", { id: "name-error", className: "text-red-700 text-xs italic animate-fade-in", children: errors.name }),
       errors.name && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.name })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
