@@ -12,10 +12,13 @@ const posts = (await getCollection('blog'))
 	.slice(0, 3);
 ---
 <BaseLayout title={pageTitle}>
-	<section class="container mx-auto px-4 py-8">
-		<h1 class="text-4xl font-bold mb-6">Welcome to My Portfolio!</h1>
-		<p class="text-lg mb-8">This is the home page. Content coming soon...</p>
-		<p class="text-lg mb-12">Here you'll find information about my skills, projects, and experience.</p>
+	<section class="relative container mx-auto px-4 py-16 bg-cover bg-center" style="background-image: url('/background-image.jpg');">
+		<div class="absolute inset-0 bg-black opacity-50"></div>
+		<div class="relative z-10 text-center">
+			<h1 class="text-5xl font-bold mb-6 text-white">Welcome to My Portfolio!</h1>
+			<p class="text-xl mb-8 text-gray-200">Discover my projects, skills, and experience.</p>
+			<p class="text-lg mb-12 text-gray-300">Explore to learn more about my work and achievements.</p>
+		</div>
 
 		<div class="my-8">
 			<h2 class="text-3xl font-semibold mb-4">Interactive Demo</h2>

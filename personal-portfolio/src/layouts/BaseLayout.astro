@@ -14,7 +14,7 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
@@ -74,7 +74,7 @@ const { title } = Astro.props;
 						<li><a href="/contact">Contact</a></li>
 					</ul>
 				</nav>
-				<button id="theme-toggle" class="theme-toggle-button" onclick="toggleTheme()">
+				<button id="theme-toggle" class="theme-toggle-button px-4 py-2 rounded-md transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700" onclick="toggleTheme()">
 					{/* Text set by script */}
 					Loading Theme...
 				</button>

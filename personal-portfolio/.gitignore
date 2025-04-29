@@ -50,3 +50,6 @@ openapi.json
 
 # Other documentation-related temporary files
 *.doxytmp/
+
+# Temporary files generated to plan work
+personal-portfolio\documentation\dev_docs

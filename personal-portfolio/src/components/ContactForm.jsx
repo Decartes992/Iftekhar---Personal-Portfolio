@@ -68,34 +68,34 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg" aria-label="Contact Form">
-      {submitStatus === 'success' && (
-        <div className="mb-4 p-3 bg-green-100 text-green-800 rounded">
-          Message sent successfully!
-        </div>
-      )}
-      {submitStatus === 'error' && (
-        <div className="mb-4 p-3 bg-red-100 text-red-800 rounded">
-          Failed to send message. Please try again later.
-        </div>
-      )}
+  	<form onSubmit={handleSubmit} className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg transition-shadow duration-300 hover:shadow-xl" aria-label="Contact Form">
+  		{submitStatus === 'success' && (
+  			<div className="mb-4 p-3 bg-green-100 text-green-800 rounded animate-fade-in">
+  				Message sent successfully!
+  			</div>
+  		)}
+  		{submitStatus === 'error' && (
+  			<div className="mb-4 p-3 bg-red-100 text-red-800 rounded animate-shake">
+  				Failed to send message. Please try again later.
+  			</div>
+  		)}
 
-      <div className="mb-4">
-        <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">
-          Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          aria-required="true"
-          aria-invalid={!!errors.name}
-          aria-describedby={errors.name ? "name-error" : undefined}
-          className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? 'border-red-500' : ''}`}
-        />
-        {errors.name && <p id="name-error" className="text-red-700 text-xs italic">{errors.name}</p>}
+      <div className="mb-6">
+      	<label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2 transition-colors duration-200 hover:text-gray-900">
+      		Name
+      	</label>
+      	<input
+      		type="text"
+      		id="name"
+      		name="name"
+      		value={formData.name}
+      		onChange={handleChange}
+      		aria-required="true"
+      		aria-invalid={!!errors.name}
+      		aria-describedby={errors.name ? "name-error" : undefined}
+      		className={`shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline transition-shadow duration-200 focus:ring-2 focus:ring-blue-500 ${errors.name ? 'border-red-500' : ''}`}
+      	/>
+      	{errors.name && <p id="name-error" className="text-red-700 text-xs italic animate-fade-in">{errors.name}</p>}
         {errors.name && <p className="text-red-700 text-xs italic">{errors.name}</p>}
       </div>
 

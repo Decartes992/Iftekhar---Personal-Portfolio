@@ -5,7 +5,7 @@ This component defines the main HTML structure, head elements, header, footer, a
 ## Purpose
 
 *   Provides a consistent structure (`<header>`, `<main>`, `<footer>`).
-*   Includes common `<head>` elements (charset, viewport, favicon, generator tag).
+*   Includes common `<head>` elements (charset, viewport (`width=device-width, initial-scale=1.0`), favicon, generator tag).
 *   Imports global CSS (`src/styles/global.css`).
 *   Injects page-specific content via the `<slot />`.
 *   Implements the light/dark theme switching functionality.

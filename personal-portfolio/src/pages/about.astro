@@ -5,9 +5,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "About Me | Iftekhar's Portfolio";
 ---
 <BaseLayout title={pageTitle}>
-	<h1>About Me</h1>
-	<p>Hello! I'm Iftekhar Hossain Rafi, an Electrical Engineering student at Dalhousie University with a strong focus on the Computer Engineering option. I'm passionate about the intersection of hardware and software, with hands-on experience in software development (Python, C/C++), embedded systems programming, and system architecture.</p>
-    <p>My academic journey and project work, such as contributing as a core software developer for the Dalhousie Space Systems Lab's LORIS satellite project and working on the MILTON AI-powered training decisions application, have allowed me to develop practical skills in areas like data structures, algorithms, API development, and working with tools like Git, Docker, and Linux. I've also gained valuable experience in technical communication, project management, and collaborating effectively within teams.</p>
-    <p>Previously, as a Makerspace Coordinator at Dalhousie's Emera Ideahub, I enjoyed advising students on diverse engineering projects and maintaining a variety of advanced equipment, further honing my problem-solving and technical support skills.</p>
-    <p>I am actively seeking opportunities where I can apply my skills in software engineering, systems development, and electrical engineering to contribute to innovative projects, whether in a full-time role or through freelance collaborations.</p>
+	<section class="container mx-auto px-4 py-8">
+		<h1 class="text-4xl font-bold mb-6">About Me</h1>
+		<div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+			<img src="/profile-picture.jpg" alt="Iftekhar Hossain Rafi" class="w-48 h-48 rounded-full object-cover">
+			<div>
+				<p class="text-lg mb-4">Hello! I'm Iftekhar Hossain Rafi, an Electrical Engineering student at Dalhousie University with a strong focus on the Computer Engineering option. I'm passionate about the intersection of hardware and software, with hands-on experience in software development (Python, C/C++), embedded systems programming, and system architecture.</p>
+				<p class="text-lg mb-4">My academic journey and project work, such as contributing as a core software developer for the Dalhousie Space Systems Lab's LORIS satellite project and working on the MILTON AI-powered training decisions application, have allowed me to develop practical skills in areas like data structures, algorithms, API development, and working with tools like Git, Docker, and Linux.</p>
+				<p class="text-lg mb-4">Previously, as a Makerspace Coordinator at Dalhousie's Emera Ideahub, I enjoyed advising students on diverse engineering projects and maintaining a variety of advanced equipment.</p>
+				<p class="text-lg mb-4">I am actively seeking opportunities where I can apply my skills in software engineering, systems development, and electrical engineering to contribute to innovative projects.</p>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
