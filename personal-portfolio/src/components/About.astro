@@ -1,0 +1,100 @@
+---
+--- 
+<section class="about-section" id="about" aria-labelledby="about-headline">
+  <div class="container">
+    <h2 id="about-headline" class="section-title">About Me</h2>
+    <div class="about-content">
+      <div class="about-image">
+        <img src="/images/profile-photo.jpg" alt="Profile picture of Iftekhar" loading="lazy" width="250" height="250" /> {/* Updated alt text */}
+      </div>
+      <div class="about-text">
+        <p>I am an Electrical Engineering student with a background in Computer Engineering at Dalhousie University. I have developed strong skills in software and embedded systems, including proficiency in Python, C/C++, Git, Docker, and Linux.</p>
+        <p>My project experience includes working on Dalhousie Space Systems Lab's LORIS satellite and developing the MILTON AI-powered training decisions application.</p>
+        <p>Previously, I served as a Makerspace Coordinator at Dalhousie's Emera Ideahub, where I gained valuable experience in managing resources and supporting innovation.</p>
+        <p>I am now seeking opportunities in software engineering, systems development, and electrical engineering, driven by my passion for technology and problem-solving.</p>
+        {/* Optional Creative Elements [56, 57] */}
+        {/* Example: Skills Visualization Placeholder */}
+        <div class="skills-section">
+          <h3>Skills</h3>
+          <ul class="skills-list">
+            <li>Python</li>
+            <li>C/C++</li>
+            <li>JavaScript</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>Astro</li>
+            <li>Git</li>
+            <li>Docker</li>
+            <li>Linux</li>
+            <li>UI/UX</li>
+          </ul>
+        </div>
+        {/* Example: Timeline Placeholder */}
+      </div>
+    </div>
+  </div>
+</section>
+<script src="/scripts/about-interactive.js" type="module"></script>
+<style>
+ .about-section { padding-block: clamp(3rem, 10vh, 5rem); }
+ .container { max-width: 1000px; margin-inline: auto; padding-inline: 1rem; }
+ .section-title { text-align: center; margin-bottom: 2rem; font-size: var(--fs-3); }
+ .about-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Mobile default */
+    gap: 2rem;
+    align-items: flex-start; /* Align items top */
+  }
+ .about-image { text-align: center; }
+ .about-image img {
+    max-width: 250px; /* Control size */
+    width: 100%; /* Responsive within max-width */
+    height: auto;
+    border-radius: 50%; /* Circular photo */
+    object-fit: cover;
+    border: 3px solid var(--clr-primary); /* Example border */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  }
+ .about-image img:hover {
+    transform: scale(1.05) rotate(2deg); /* Example playful hover */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+ .about-text p { margin-bottom: 1em; line-height: var(--lh-base); }
+ .skills-section { margin-top: 2rem; }
+ .skills-section h3 { font-size: var(--fs-1); margin-bottom: 1rem; }
+ .skills-list {
+    list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.75rem;
+    opacity: 0; /* Initial state for animation */
+  }
+ .skills-list.visible { opacity: 1; }
+ .skills-list li {
+    background-color: var(--clr-secondary);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 99px; /* Pill shape */
+    font-size: var(--fs--1);
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    opacity: 0; /* Initial state for animation */
+    transform: scale(0.5);
+  }
+  .skills-list li:hover {
+    background-color: var(--clr-secondary); /* Use secondary color for hover */
+    transform: translateY(-2px); /* Example hover effect */
+  }
+ .skills-list.visible li {
+    animation: popIn 0.5s ease-out forwards;
+  }
+  @media (min-width: 768px) {
+   .about-content {
+      grid-template-columns: 250px 1fr; /* Fixed image width, flexible text */
+      gap: 3rem;
+      text-align: left;
+    }
+   .about-image { text-align: left; }
+  }
+  @keyframes popIn {
+    to { opacity: 1; transform: scale(1); }
+  }
+</style>

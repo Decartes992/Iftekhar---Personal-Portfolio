@@ -1,0 +1,157 @@
+---
+export interface Props {
+  headline: string;
+  subheadline: string;
+  ctaText?: string;
+  ctaLink?: string;
+  imageUrl?: string;
+  imageAlt?: string;
+  socialProofLogos?: { src: string; alt: string }[];
+}
+
+const {
+  headline = "Default Headline",
+  subheadline = "Default subheadline text.",
+  ctaText = "Get In Touch",
+  ctaLink = "#contact",
+  imageUrl = "/images/hero-placeholder.svg",
+  imageAlt = "Hero visual element",
+  socialProofLogos // Destructure socialProofLogos
+} = Astro.props;
+
+import Button from './Button.astro'; 
+
+---
+
+<section class="hero-section" aria-labelledby="hero-headline">
+  <div class="container hero-content-wrapper">
+    <div class="hero-text">
+      <h1 id="hero-headline" set:html={headline} />
+      <p set:html={subheadline} />
+      {ctaText && ctaLink && <Button href={ctaLink} variant="primary">{ctaText}</Button>}
+      {/* Optional: Social proof logos */}
+      {socialProofLogos && socialProofLogos.length > 0 && (
+        <div class="hero-social-proof">
+          {socialProofLogos.map(logo => (
+            <img src={logo.src} alt={logo.alt} />
+          ))}
+        </div>
+      )}
+    </div>
+    {imageUrl && (
+      <div class="hero-visual">
+        <img src={imageUrl} alt={imageAlt} loading="eager" fetchpriority="high" />
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding-block: clamp(4rem, 15vh, 8rem);
+    background-color: var(--clr-bg-alt-current, var(--clr-bg-current));
+    overflow: hidden;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .hero-content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: var(--fs-4);
+    color: var(--clr-primary);
+    margin-bottom: 0.5em;
+  }
+
+  .hero-text p {
+    font-size: var(--fs-1);
+    max-width: 60ch;
+    margin-inline: auto;
+    margin-bottom: 1.5em;
+    color: var(--clr-text-muted, var(--clr-text-current));
+  }
+
+  .hero-visual img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
+    margin-inline: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (min-width: 768px) {
+    .hero-content-wrapper {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      text-align: left;
+      gap: 3rem;
+    }
+    .hero-text p {
+      margin-inline: 0;
+    }
+    .hero-visual {
+      order: -1;
+    }
+  }
+
+  .hero-text h1 {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+
+  .hero-text p {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+
+  /* Target the Button component */
+  .hero-text .btn {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+
+  .hero-visual img {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: scaleIn 1s 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-text h1,
+    .hero-text p,
+    .hero-text .button,
+    .hero-visual img {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+---
+
+<section class="projects-section" id="projects" aria-labelledby="projects-headline">
+  <div class="container">
+    <h2 id="projects-headline" class="section-title">Featured Projects</h2>
+    <div class="projects-grid">
+      {projects.map(project => (
+        <ProjectCard
+          title={project.data.title}
+          description={project.data.description}
+          technologies={project.data.technologies}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-section {
+    padding-block: clamp(3rem, 10vh, 5rem);
+    background-color: var(--clr-bg-alt-current, var(--clr-bg-current));
+  }
+
+  .container {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    font-size: var(--fs-3);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+    gap: 2rem;
+  }
+
+  .view-all-cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+</style>

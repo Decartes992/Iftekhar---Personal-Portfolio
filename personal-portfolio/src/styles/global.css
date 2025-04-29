@@ -103,7 +103,7 @@ h4 { font-size: var(--fs-1); }
 
 p { margin-bottom: 1em; }
 a { color: var(--clr-primary); text-decoration: none; transition: color 0.2s ease; }
-a:hover, a:focus { text-decoration: underline; color: var(--clr-primary-hover, #2563eb); }
+a:hover, a:focus { text-decoration: underline; color: var(--clr-primary); } /* Use primary color for hover/focus */
 
 @media (min-width: 768px) {
   :root {
@@ -116,32 +116,6 @@ a:hover, a:focus { text-decoration: underline; color: var(--clr-primary-hover, #
   :root {
     font-size: 18px;
   }
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 0.8em;
-  color: var(--primary-color);
-  line-height: 1.2;
-}
-
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-
-p {
-  margin-bottom: 1em;
-}
-
-a {
-  color: var(--link-color);
-  text-decoration: none;
-  transition: color var(--transition-speed) var(--transition-ease);
-}
-
-a:hover, a:focus {
-  color: var(--link-hover-color);
-  text-decoration: underline;
 }
 
 img, svg, video {
@@ -162,8 +136,8 @@ img, svg, video {
 
 header {
   padding: 1.5rem 0;
-  border-bottom: 1px solid var(--border-color);
-  transition: border-color var(--transition-speed) var(--transition-ease);
+  border-bottom: 1px solid var(--clr-border-current);
+  transition: border-color 0.3s ease;
 }
 
 header .container {
@@ -186,8 +160,8 @@ nav a {
 }
 
 nav a:hover, nav a:focus, nav a.active { /* Add .active class via JS/Astro later if needed */
-    color: var(--link-hover-color);
-    border-bottom-color: var(--link-hover-color);
+    color: var(--clr-primary);
+    border-bottom-color: var(--clr-primary);
 }
 
 main {
@@ -199,37 +173,37 @@ main {
 footer {
   padding: 1.5rem 0;
   margin-top: 2rem;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid var(--clr-border-current);
   text-align: center;
-  color: var(--text-secondary-color);
+  color: var(--clr-text-current);
   font-size: 0.9rem;
-  transition: border-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
 /* --- Components (Basic) --- */
 .theme-toggle-button {
     background: none;
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary-color);
+    border: 1px solid var(--clr-border-current);
+    color: var(--clr-text-current);
     padding: 0.5rem;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .theme-toggle-button:hover {
-    background-color: var(--bg-secondary-color);
-    color: var(--text-color);
+    background-color: var(--clr-bg-alt-current);
+    color: var(--clr-text-current);
 }
 
 /* Example Card Style (can be refined when project cards are added) */
 .card {
-    background-color: var(--bg-secondary-color);
+    background-color: var(--clr-bg-alt-current);
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 8px var(--shadow-color);
-    transition: background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+    border: 1px solid var(--clr-border-current);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Use a consistent shadow */
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* --- Animations/Transitions --- */
@@ -255,12 +229,12 @@ footer {
 
 /* --- Micro-interactions --- */
 button, .theme-toggle-button {
-  transition: background-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 button:hover, .theme-toggle-button:hover {
-  background-color: var(--bg-secondary-color);
-  color: var(--text-color);
+  background-color: var(--clr-bg-alt-current);
+  color: var(--clr-text-current);
 }
 
 /* --- Responsiveness --- */
@@ -278,10 +252,10 @@ button:hover, .theme-toggle-button:hover {
 }
 
 @media (max-width: 768px) {
-	h1 { font-size: 2rem; }
-	h2 { font-size: 1.75rem; }
-	h3 { font-size: 1.5rem; }
-	h4 { font-size: 1.25rem; }
+	h1 { font-size: var(--fs-3); } /* Use modular scale */
+	h2 { font-size: var(--fs-2); } /* Use modular scale */
+	h3 { font-size: var(--fs-1); } /* Use modular scale */
+	h4 { font-size: var(--fs-0); } /* Use modular scale */
 
 	main {
 		padding-top: 1.5rem;
@@ -306,22 +280,65 @@ button:hover, .theme-toggle-button:hover {
 	}
 
 	nav a {
-		font-size: 0.9rem;
+		font-size: var(--fs--1); /* Use modular scale */
 	}
 }
 
-@media (max-width: 480px) {
-    .container {
-        width: 95%;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
+/* Accessibility: Skip Link Styles */
+.skip-link {
+  position: absolute;
+  top: -40px; /* Hide off-screen */
+  left: 0;
+  background: var(--clr-primary);
+  color: white;
+  padding: 8px;
+  z-index: 100;
+  transition: top 0.3s ease;
+}
 
-    nav ul {
-        gap: 0.8rem;
-    }
+.skip-link:focus {
+  top: 0; /* Reveal on focus */
+}
 
-    nav a {
-        font-size: 0.9rem;
-    }
+/* Accessibility: Enhanced Focus Styles */
+*:focus-visible {
+  outline: 3px solid var(--clr-accent);
+  outline-offset: 2px;
+  box-shadow: none; /* Override browser defaults if needed */
+}
+
+/* Accessibility: Minimum touch target size */
+button, a.btn, input[type="checkbox"], input[type="radio"] {
+   min-height: 44px;
+   min-width: 44px; /* Apply where appropriate, e.g., icon buttons */
+   cursor: pointer;
+}
+
+/* Accessibility: Spacing between adjacent touch targets */
+.form-group + .form-group { margin-top: 1rem; }
+.card-links a + a { margin-left: 1rem; }
+
+/* Astro View Transitions */
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes slide-from-right { from { transform: translateX(30px); opacity: 0; } }
+@keyframes slide-to-left { to { transform: translateX(-30px); opacity: 0; } }
+
+html {
+  view-transition-name: none; /* Prevent default root transition */
+}
+
+html.is-animating { /* Class added by JS during transition */
+  overflow: hidden;
+}
+
+/* Define default transitions */
+::view-transition-old(root) {
+  animation: 0.3s cubic-bezier(0.4, 0, 1, 1) both fade-out,
+             0.3s cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+}
+
+::view-transition-new(root) {
+  animation: 0.3s cubic-bezier(0, 0, 0.2, 1) 0.1s both fade-in, /* Delay fade-in slightly */
+             0.3s cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
 }

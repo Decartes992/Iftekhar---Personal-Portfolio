@@ -1,0 +1,57 @@
+---
+// src/components/Button.astro
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  children: any;
+}
+
+const { href, variant = 'primary', children } = Astro.props;
+
+const className = `btn btn-${variant}`;
+---
+
+{/* Conditional rendering in the template */}
+{href ? (
+  <a href={href} class={className}>
+    <slot /> {/* Use slot for children */}
+  </a>
+) : (
+  <button class={className}>
+    <slot /> {/* Use slot for children */}
+  </button>
+)}
+
+<style>
+  .btn {
+    padding: 0.75rem 1.5rem; /* Increased padding for better touch target */
+    border: none;
+    border-radius: 0.25rem;
+    font-size: var(--fs-base);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px; /* Ensure minimum touch target size */
+    min-height: 44px; /* Ensure minimum touch target size */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Add transitions */
+  }
+  .btn-primary {
+    background-color: var(--clr-primary);
+    color: white;
+  }
+  .btn-secondary {
+    background-color: var(--clr-secondary);
+    color: white;
+  }
+  .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--clr-primary) 90%, black); /* Slightly darker primary on hover */
+  }
+   .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--clr-secondary) 90%, black); /* Slightly darker secondary on hover */
+  }
+  .btn:active {
+    transform: scale(0.98); /* Subtle click feedback */
+  }
+</style>
