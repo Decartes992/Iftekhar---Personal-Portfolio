@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { c as createComponent, b as createAstro, m as maybeRenderHead, d as addAttribute, f as renderSlot, a as renderTemplate, u as unescapeHTML, r as renderComponent, e as renderScript } from '../chunks/astro/server_Cb9XKqvL.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_CqVMGi1P.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_BVxVitlN.mjs';
 import 'clsx';
 /* empty css                                 */
 import { g as getCollection } from '../chunks/_astro_content_pHFDW997.mjs';
@@ -25,7 +25,7 @@ const $$Hero = createComponent(($$result, $$props, $$slots) => {
     subheadline = "Default subheadline text.",
     ctaText = "Get In Touch",
     ctaLink = "#contact",
-    imageUrl = "/images/hero-placeholder.svg",
+    imageUrl = "/images/iftekhar_photo.jpg",
     imageAlt = "Hero visual element",
     socialProofLogos
     // Destructure socialProofLogos
@@ -41,7 +41,7 @@ const $$Astro$1 = createAstro();
 const $$About = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$About;
-  return renderTemplate(_a || (_a = __template(["", `<section class="about-section" id="about" aria-labelledby="about-headline" data-astro-cid-v2cbyr3p> <div class="container" data-astro-cid-v2cbyr3p> <h2 id="about-headline" class="section-title" data-astro-cid-v2cbyr3p>About Me</h2> <div class="about-content" data-astro-cid-v2cbyr3p> <div class="about-image" data-astro-cid-v2cbyr3p> <img src="/images/profile-photo.jpg" alt="Profile picture of Iftekhar" loading="lazy" width="250" height="250" data-astro-cid-v2cbyr3p>  </div> <div class="about-text" data-astro-cid-v2cbyr3p> <p data-astro-cid-v2cbyr3p>I am an Electrical Engineering student with a background in Computer Engineering at Dalhousie University. I have developed strong skills in software and embedded systems, including proficiency in Python, C/C++, Git, Docker, and Linux.</p> <p data-astro-cid-v2cbyr3p>My project experience includes working on Dalhousie Space Systems Lab's LORIS satellite and developing the MILTON AI-powered training decisions application.</p> <p data-astro-cid-v2cbyr3p>Previously, I served as a Makerspace Coordinator at Dalhousie's Emera Ideahub, where I gained valuable experience in managing resources and supporting innovation.</p> <p data-astro-cid-v2cbyr3p>I am now seeking opportunities in software engineering, systems development, and electrical engineering, driven by my passion for technology and problem-solving.</p>   <div class="skills-section" data-astro-cid-v2cbyr3p> <h3 data-astro-cid-v2cbyr3p>Skills</h3> <ul class="skills-list" data-astro-cid-v2cbyr3p> <li data-astro-cid-v2cbyr3p>Python</li> <li data-astro-cid-v2cbyr3p>C/C++</li> <li data-astro-cid-v2cbyr3p>JavaScript</li> <li data-astro-cid-v2cbyr3p>HTML</li> <li data-astro-cid-v2cbyr3p>CSS</li> <li data-astro-cid-v2cbyr3p>Astro</li> <li data-astro-cid-v2cbyr3p>Git</li> <li data-astro-cid-v2cbyr3p>Docker</li> <li data-astro-cid-v2cbyr3p>Linux</li> <li data-astro-cid-v2cbyr3p>UI/UX</li> </ul> </div>  </div> </div> </div> </section> <script src="/scripts/about-interactive.js" type="module"><\/script> `])), maybeRenderHead());
+  return renderTemplate(_a || (_a = __template(["", `<section class="about-section" id="about" aria-labelledby="about-headline" data-astro-cid-v2cbyr3p> <div class="container" data-astro-cid-v2cbyr3p> <h2 id="about-headline" class="section-title" data-astro-cid-v2cbyr3p>About Me</h2> <div class="about-content" data-astro-cid-v2cbyr3p> <div class="about-image" data-astro-cid-v2cbyr3p> <img src="/images/iftekhar_photo.jpg" alt="Profile picture of Iftekhar" loading="lazy" width="250" height="250" data-astro-cid-v2cbyr3p>  </div> <div class="about-text" data-astro-cid-v2cbyr3p> <p data-astro-cid-v2cbyr3p>I am an Electrical Engineering student with a background in Computer Engineering at Dalhousie University. I have developed strong skills in software and embedded systems, including proficiency in Python, C/C++, Git, Docker, and Linux.</p> <p data-astro-cid-v2cbyr3p>My project experience includes working on Dalhousie Space Systems Lab's LORIS satellite and developing the MILTON AI-powered training decisions application.</p> <p data-astro-cid-v2cbyr3p>Previously, I served as a Makerspace Coordinator at Dalhousie's Emera Ideahub, where I gained valuable experience in managing resources and supporting innovation.</p> <p data-astro-cid-v2cbyr3p>I am now seeking opportunities in software engineering, systems development, and electrical engineering, driven by my passion for technology and problem-solving.</p>   <div class="skills-section" data-astro-cid-v2cbyr3p> <h3 data-astro-cid-v2cbyr3p>Skills</h3> <ul class="skills-list" data-astro-cid-v2cbyr3p> <li data-astro-cid-v2cbyr3p>Python</li> <li data-astro-cid-v2cbyr3p>C/C++</li> <li data-astro-cid-v2cbyr3p>JavaScript</li> <li data-astro-cid-v2cbyr3p>HTML</li> <li data-astro-cid-v2cbyr3p>CSS</li> <li data-astro-cid-v2cbyr3p>Astro</li> <li data-astro-cid-v2cbyr3p>Git</li> <li data-astro-cid-v2cbyr3p>Docker</li> <li data-astro-cid-v2cbyr3p>Linux</li> <li data-astro-cid-v2cbyr3p>UI/UX</li> </ul> </div>  </div> </div> </div> </section> <script src="/scripts/about-interactive.js" type="module"><\/script> `])), maybeRenderHead());
 }, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/components/About.astro", void 0);
 
 const $$Astro = createAstro();
@@ -67,7 +67,7 @@ const $$Index = createComponent(($$result, $$props, $$slots) => {
     subheadline: "Passionate developer specializing in modern web technologies and user-centric design."
     // Add other props as defined in Hero.astro
   };
-  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "ROO Architect - Portfolio", "description": "Personal portfolio showcasing projects and skills in web development." }, { "default": ($$result2) => renderTemplate`${renderComponent($$result2, "Hero", $$Hero, { ...heroData })} ${renderComponent($$result2, "About", $$About, {})} ${renderComponent($$result2, "ProjectsSection", $$ProjectsSection, {})} ${renderComponent($$result2, "ContactForm", $$ContactForm, {})} ` })}`;
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": "Iftekhar Rafi - Portfolio", "description": "Personal portfolio showcasing projects and skills in programming." }, { "default": ($$result2) => renderTemplate`${renderComponent($$result2, "Hero", $$Hero, { ...heroData })} ${renderComponent($$result2, "About", $$About, {})} ${renderComponent($$result2, "ProjectsSection", $$ProjectsSection, {})} ${renderComponent($$result2, "ContactForm", $$ContactForm, {})} ` })}`;
 }, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/index.astro", void 0);
 
 const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/index.astro";

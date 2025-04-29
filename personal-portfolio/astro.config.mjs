@@ -7,7 +7,7 @@ import tailwind from '@astrojs/tailwind';
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: vercel({}), // Add the adapter with an empty config object
+  adapter: vercel({}),
   integrations: [react(), tailwind()],
 });
 
