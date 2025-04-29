@@ -69,9 +69,20 @@ const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 		<footer>
 			<div class="container">
 				<p>&copy; {new Date().getFullYear()} Iftekhar - Personal Portfolio</p>
-				<p>Site Last Updated: [Placeholder for dynamic timestamp]</p> {/* TODO: Implement dynamic timestamp */}
+				<p>Site Last Updated: <span id="last-updated-timestamp"></span></p>
 			</div>
 		</footer>
+		{/* Script to update dynamic timestamp */}
+		<script is:inline>
+			document.addEventListener('DOMContentLoaded', () => {
+				const timestampSpan = document.getElementById('last-updated-timestamp');
+				if (timestampSpan) {
+					const now = new Date();
+					const options = { year: 'numeric', month: 'long', day: 'numeric' };
+					timestampSpan.textContent = now.toLocaleDateString(undefined, options);
+				}
+			});
+		</script>
 		{/* Deferred script for theme toggle functionality */}
 		<script src="/scripts/theme-toggle.js" defer></script> {/* Load deferred */}
 		{/* Script for Astro View Transitions class toggling */}

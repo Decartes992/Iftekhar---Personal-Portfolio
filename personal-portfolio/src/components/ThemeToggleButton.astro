@@ -5,19 +5,20 @@ const sunIcon = `<svg class="sun-icon" aria-hidden="true" width="24" height="24"
 const moonIcon = `<svg class="moon-icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.75 22.78a.75.75 0 0 1-.75-.75V2.97a.75.75 0 0 1 1.5 0v19.06a.75.75 0 0 1-.75.75zM12 22.5c-5.523 0-10-4.477-10-10S6.477 2.5 12 2.5c.75 0 1.5.07 2.22.2a.75.75 0 0 1 .58.91.76.76 0 0 1-.91.58A8.5 8.5 0 0 0 12 4c-4.694 0-8.5 3.806-8.5 8.5S7.306 21 12 21c.75 0 1.5-.07 2.22-.2a.75.75 0 0 1 .91.58.76.76 0 0 1-.58.91A13.02 13.02 0 0 1 12 22.5z"/></svg>`;
 ---
 <button
-  class="theme-toggle"
   id="theme-toggle"
+  class="theme-toggle-button"
+  aria-label="Toggle light/dark theme"
+  aria-pressed="false"
   title="Toggle light/dark theme"
-  aria-label="Change to dark theme"
-  aria-live="polite"
   data-current-theme="light"
+  role="switch"
 >
   <Fragment set:html={sunIcon} />
   <Fragment set:html={moonIcon} />
 </button>
 
 <style>
-  .theme-toggle {
+  .theme-toggle-button {
     background: none;
     border: none;
     padding: 0.5rem;
@@ -32,8 +33,8 @@ const moonIcon = `<svg class="moon-icon" aria-hidden="true" width="24" height="2
     width: 40px;
     height: 40px;
   }
-  .theme-toggle:hover,
-  .theme-toggle:focus-visible {
+  .theme-toggle-button:hover,
+  .theme-toggle-button:focus-visible {
     background-color: rgba(128, 128, 128, 0.1); /* Subtle background */
   }
   .sun-icon,
@@ -42,11 +43,11 @@ const moonIcon = `<svg class="moon-icon" aria-hidden="true" width="24" height="2
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
   }
   /* Initial state: show sun, hide moon */
-  .theme-toggle[data-current-theme="light"] .moon-icon {
+  .theme-toggle-button[data-current-theme="light"] .moon-icon {
     transform: translateY(100%);
     opacity: 0;
   }
-  .theme-toggle[data-current-theme="dark"] .sun-icon {
+  .theme-toggle-button[data-current-theme="dark"] .sun-icon {
     transform: translateY(-100%);
     opacity: 0;
   }

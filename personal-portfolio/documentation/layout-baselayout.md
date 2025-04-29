@@ -26,7 +26,8 @@ This component defines the main HTML structure, head elements, and theme switchi
     *   Skip link (`.skip-link`) for keyboard navigation accessibility.
     *   `<header>`: Contains the main navigation (`<nav>`) and the theme toggle button.
     *   `<main id="main-content">`: Wraps the page content (`<slot />`) and includes an ID for skip links.
-    *   `<footer>`: Contains the dynamic copyright year and a placeholder for the site last updated timestamp.
+    *   `<footer>`: Contains the dynamic copyright year and a client-side updated timestamp.
+    *   Inline script for client-side dynamic timestamp update.
     *   Deferred script (`theme-toggle.js`) for theme toggle functionality.
     *   Inline script for managing `is-animating` class for View Transitions.
 
@@ -34,6 +35,7 @@ This component defines the main HTML structure, head elements, and theme switchi
 
 *   **Inline Script (in `<head>`):** Reads theme preference from `localStorage` or system preference (`prefers-color-scheme`) and immediately applies the `data-theme` attribute to the `<html>` element to prevent FOUC.
 *   **Deferred Script (`src/scripts/theme-toggle.js`):** Handles user interaction with the theme toggle button, updates the `data-theme` attribute, persists the preference to `localStorage`, respects system changes, syncs across tabs, and handles `astro:after-swap` for View Transitions.
+*   **Inline Script (in `<body>`):** Updates the "Site Last Updated" timestamp on `DOMContentLoaded` using client-side JavaScript.
 
 ## Styling
 
