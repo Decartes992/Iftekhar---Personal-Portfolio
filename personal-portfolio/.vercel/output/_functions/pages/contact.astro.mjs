@@ -1,6 +1,6 @@
 import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DiGCOmgv.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_B8Ece2LE.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -47,17 +47,25 @@ const ContactForm = () => {
     if (validate()) {
       setIsSubmitting(true);
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1e3));
-        setSubmitStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          body: new FormData(e.target)
+        });
+        if (response.ok) {
+          setSubmitStatus("success");
+          setFormData({ name: "", email: "", subject: "", message: "" });
+        } else {
+          setSubmitStatus("error");
+        }
       } catch (error) {
+        console.error("Error submitting form:", error);
         setSubmitStatus("error");
       } finally {
         setIsSubmitting(false);
       }
     }
   };
-  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg", children: [
+  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg", "aria-label": "Contact Form", children: [
     submitStatus === "success" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-green-100 text-green-800 rounded", children: "Message sent successfully!" }),
     submitStatus === "error" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-red-100 text-red-800 rounded", children: "Failed to send message. Please try again later." }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -70,9 +78,13 @@ const ContactForm = () => {
           name: "name",
           value: formData.name,
           onChange: handleChange,
+          "aria-required": "true",
+          "aria-invalid": !!errors.name,
+          "aria-describedby": errors.name ? "name-error" : void 0,
           className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? "border-red-500" : ""}`
         }
       ),
+      errors.name && /* @__PURE__ */ jsx("p", { id: "name-error", className: "text-red-700 text-xs italic", children: errors.name }),
       errors.name && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.name })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -85,9 +97,13 @@ const ContactForm = () => {
           name: "email",
           value: formData.email,
           onChange: handleChange,
+          "aria-required": "true",
+          "aria-invalid": !!errors.email,
+          "aria-describedby": errors.email ? "email-error" : void 0,
           className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? "border-red-500" : ""}`
         }
       ),
+      errors.email && /* @__PURE__ */ jsx("p", { id: "email-error", className: "text-red-700 text-xs italic", children: errors.email }),
       errors.email && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.email })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -100,9 +116,13 @@ const ContactForm = () => {
           name: "subject",
           value: formData.subject,
           onChange: handleChange,
+          "aria-required": "true",
+          "aria-invalid": !!errors.subject,
+          "aria-describedby": errors.subject ? "subject-error" : void 0,
           className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.subject ? "border-red-500" : ""}`
         }
       ),
+      errors.subject && /* @__PURE__ */ jsx("p", { id: "subject-error", className: "text-red-700 text-xs italic", children: errors.subject }),
       errors.subject && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.subject })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-6", children: [
@@ -115,9 +135,13 @@ const ContactForm = () => {
           value: formData.message,
           onChange: handleChange,
           rows: "6",
+          "aria-required": "true",
+          "aria-invalid": !!errors.message,
+          "aria-describedby": errors.message ? "message-error" : void 0,
           className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.message ? "border-red-500" : ""}`
         }
       ),
+      errors.message && /* @__PURE__ */ jsx("p", { id: "message-error", className: "text-red-700 text-xs italic", children: errors.message }),
       errors.message && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.message })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsx(

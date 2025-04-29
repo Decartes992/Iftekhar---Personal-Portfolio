@@ -1,6 +1,6 @@
 import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DiGCOmgv.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_B8Ece2LE.mjs';
 import { g as getCollection } from '../chunks/_astro_content_Bn0ya_Tv.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState } from 'react';
@@ -12,7 +12,7 @@ const BlogPostCard = ({ post }) => {
     month: "long",
     day: "numeric"
   });
-  return /* @__PURE__ */ jsxs("a", { href: `/blog/${post.slug}`, className: "block border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", children: [
+  return /* @__PURE__ */ jsxs("a", { href: `/blog/${post.slug}`, className: "block border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", "aria-label": `Read more about ${post.data.title}`, children: [
     /* @__PURE__ */ jsx("h3", { className: "text-xl font-semibold mb-2", children: post.data.title }),
     /* @__PURE__ */ jsx("p", { className: "text-gray-600 text-sm mb-4", children: formattedDate }),
     post.data.description && /* @__PURE__ */ jsx("p", { className: "text-gray-700", children: post.data.description })
@@ -25,7 +25,7 @@ const HomePageClickCounter = () => {
     setCount(count + 1);
   };
   return /* @__PURE__ */ jsxs("div", { className: "flex flex-col items-center justify-center p-4 border border-gray-300 rounded-md shadow-sm", children: [
-    /* @__PURE__ */ jsxs("p", { className: "text-lg font-semibold mb-2", children: [
+    /* @__PURE__ */ jsxs("p", { className: "text-lg font-semibold mb-2", "aria-live": "polite", "aria-atomic": "true", children: [
       "Clicks: ",
       count
     ] }),
@@ -34,6 +34,7 @@ const HomePageClickCounter = () => {
       {
         onClick: handleClick,
         className: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50",
+        "aria-label": "Increment click count",
         children: "Click Me!"
       }
     )

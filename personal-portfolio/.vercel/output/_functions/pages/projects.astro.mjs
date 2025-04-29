@@ -1,6 +1,6 @@
 import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_DiGCOmgv.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_B8Ece2LE.mjs';
 import { g as getCollection } from '../chunks/_astro_content_Bn0ya_Tv.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
@@ -65,7 +65,7 @@ const ProjectFilterSort = ({ projects }) => {
         /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold mb-2", children: "Filter by:" }),
         /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-2", children: [
           /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Technologies:" }),
+            /* @__PURE__ */ jsx("h4", { id: "technologies-label", className: "font-medium", children: "Technologies:" }),
             allTechnologies.map((tech) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -73,6 +73,7 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedTechnologies.includes(tech),
                   onChange: () => handleTechnologyChange(tech),
+                  "aria-labelledby": "technologies-label",
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -80,7 +81,7 @@ const ProjectFilterSort = ({ projects }) => {
             ] }, tech))
           ] }),
           /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Project Types:" }),
+            /* @__PURE__ */ jsx("h4", { id: "project-types-label", className: "font-medium", children: "Project Types:" }),
             allProjectTypes.map((type) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -88,6 +89,7 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedProjectTypes.includes(type),
                   onChange: () => handleProjectTypeChange(type),
+                  "aria-labelledby": "project-types-label",
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -95,7 +97,7 @@ const ProjectFilterSort = ({ projects }) => {
             ] }, type))
           ] }),
           /* @__PURE__ */ jsxs("div", { children: [
-            /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Skills:" }),
+            /* @__PURE__ */ jsx("h4", { id: "skills-label", className: "font-medium", children: "Skills:" }),
             allSkills.map((skill) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -103,6 +105,7 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedSkills.includes(skill),
                   onChange: () => handleSkillChange(skill),
+                  "aria-labelledby": "skills-label",
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -112,8 +115,8 @@ const ProjectFilterSort = ({ projects }) => {
         ] })
       ] }),
       /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold mb-2", children: "Sort by:" }),
-        /* @__PURE__ */ jsxs("select", { value: sortOption, onChange: handleSortChange, className: "p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", children: [
+        /* @__PURE__ */ jsx("label", { htmlFor: "sort-options", className: "text-lg font-semibold mb-2 block", children: "Sort by:" }),
+        /* @__PURE__ */ jsxs("select", { id: "sort-options", value: sortOption, onChange: handleSortChange, className: "p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", children: [
           /* @__PURE__ */ jsx("option", { value: "date-desc", children: "Date (Newest First)" }),
           /* @__PURE__ */ jsx("option", { value: "alphabetical", children: "Alphabetical" })
         ] })
