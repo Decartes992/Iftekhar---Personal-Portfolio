@@ -1,7 +1,12 @@
 import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
+<<<<<<< HEAD
 import { $ as $$BaseLayout } from '../chunks/BaseLayout_D3k3n2ZK.mjs';
 import { g as getCollection } from '../chunks/_astro_content_C9trdLCr.mjs';
+=======
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_B8Ece2LE.mjs';
+import { g as getCollection } from '../chunks/_astro_content_Bn0ya_Tv.mjs';
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -65,7 +70,11 @@ const ProjectFilterSort = ({ projects }) => {
         /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold mb-2", children: "Filter by:" }),
         /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-2 md:grid-cols-3 gap-2", children: [
           /* @__PURE__ */ jsxs("div", { children: [
+<<<<<<< HEAD
             /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Technologies:" }),
+=======
+            /* @__PURE__ */ jsx("h4", { id: "technologies-label", className: "font-medium", children: "Technologies:" }),
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
             allTechnologies.map((tech) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -73,6 +82,10 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedTechnologies.includes(tech),
                   onChange: () => handleTechnologyChange(tech),
+<<<<<<< HEAD
+=======
+                  "aria-labelledby": "technologies-label",
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -80,7 +93,11 @@ const ProjectFilterSort = ({ projects }) => {
             ] }, tech))
           ] }),
           /* @__PURE__ */ jsxs("div", { children: [
+<<<<<<< HEAD
             /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Project Types:" }),
+=======
+            /* @__PURE__ */ jsx("h4", { id: "project-types-label", className: "font-medium", children: "Project Types:" }),
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
             allProjectTypes.map((type) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -88,6 +105,10 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedProjectTypes.includes(type),
                   onChange: () => handleProjectTypeChange(type),
+<<<<<<< HEAD
+=======
+                  "aria-labelledby": "project-types-label",
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -95,7 +116,11 @@ const ProjectFilterSort = ({ projects }) => {
             ] }, type))
           ] }),
           /* @__PURE__ */ jsxs("div", { children: [
+<<<<<<< HEAD
             /* @__PURE__ */ jsx("h4", { className: "font-medium", children: "Skills:" }),
+=======
+            /* @__PURE__ */ jsx("h4", { id: "skills-label", className: "font-medium", children: "Skills:" }),
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
             allSkills.map((skill) => /* @__PURE__ */ jsxs("label", { className: "block", children: [
               /* @__PURE__ */ jsx(
                 "input",
@@ -103,6 +128,10 @@ const ProjectFilterSort = ({ projects }) => {
                   type: "checkbox",
                   checked: selectedSkills.includes(skill),
                   onChange: () => handleSkillChange(skill),
+<<<<<<< HEAD
+=======
+                  "aria-labelledby": "skills-label",
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
                   className: "mr-2 focus:ring-2 focus:ring-blue-500"
                 }
               ),
@@ -112,8 +141,13 @@ const ProjectFilterSort = ({ projects }) => {
         ] })
       ] }),
       /* @__PURE__ */ jsxs("div", { children: [
+<<<<<<< HEAD
         /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold mb-2", children: "Sort by:" }),
         /* @__PURE__ */ jsxs("select", { value: sortOption, onChange: handleSortChange, className: "p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", children: [
+=======
+        /* @__PURE__ */ jsx("label", { htmlFor: "sort-options", className: "text-lg font-semibold mb-2 block", children: "Sort by:" }),
+        /* @__PURE__ */ jsxs("select", { id: "sort-options", value: sortOption, onChange: handleSortChange, className: "p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500", children: [
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
           /* @__PURE__ */ jsx("option", { value: "date-desc", children: "Date (Newest First)" }),
           /* @__PURE__ */ jsx("option", { value: "alphabetical", children: "Alphabetical" })
         ] })
@@ -141,10 +175,17 @@ const ProjectFilterSort = ({ projects }) => {
 const $$Projects = createComponent(async ($$result, $$props, $$slots) => {
   const pageTitle = "Projects | Iftekhar's Portfolio";
   const projects = await getCollection("projects");
+<<<<<<< HEAD
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>My Projects</h1> <p>Here are some of the projects I've contributed to:</p> ${renderComponent($$result2, "ProjectFilterSort", ProjectFilterSort, { "projects": projects, "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/components/ProjectFilterSort.jsx", "client:component-export": "default" })} ` })}`;
 }, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/projects.astro", void 0);
 
 const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/projects.astro";
+=======
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>My Projects</h1> <p>Here are some of the projects I've contributed to:</p> ${renderComponent($$result2, "ProjectFilterSort", ProjectFilterSort, { "projects": projects, "client:load": true, "client:component-hydration": "load", "client:component-path": "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/components/ProjectFilterSort.jsx", "client:component-export": "default" })} ` })}`;
+}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/projects.astro", void 0);
+
+const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/projects.astro";
+>>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 const $$url = "/projects";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

@@ -47,13 +47,19 @@ const ContactForm = () => {
     if (validate()) {
       setIsSubmitting(true);
       try {
-        // TODO: Implement API call to send email
-        // Simulate API call success
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate network delay
-        setSubmitStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form on success
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          body: new FormData(e.target),
+        });
+
+        if (response.ok) {
+          setSubmitStatus('success');
+          setFormData({ name: '', email: '', subject: '', message: '' }); // Clear form on success
+        } else {
+          setSubmitStatus('error');
+        }
       } catch (error) {
-        // Log error internally or handle appropriately in a real app
+        console.error('Error submitting form:', error);
         setSubmitStatus('error');
       } finally {
         setIsSubmitting(false);
@@ -62,7 +68,7 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg" aria-label="Contact Form">
       {submitStatus === 'success' && (
         <div className="mb-4 p-3 bg-green-100 text-green-800 rounded">
           Message sent successfully!
@@ -84,8 +90,12 @@ const ContactForm = () => {
           name="name"
           value={formData.name}
           onChange={handleChange}
+          aria-required="true"
+          aria-invalid={!!errors.name}
+          aria-describedby={errors.name ? "name-error" : undefined}
           className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? 'border-red-500' : ''}`}
         />
+        {errors.name && <p id="name-error" className="text-red-700 text-xs italic">{errors.name}</p>}
         {errors.name && <p className="text-red-700 text-xs italic">{errors.name}</p>}
       </div>
 
@@ -99,8 +109,12 @@ const ContactForm = () => {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          aria-required="true"
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? "email-error" : undefined}
           className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? 'border-red-500' : ''}`}
         />
+        {errors.email && <p id="email-error" className="text-red-700 text-xs italic">{errors.email}</p>}
         {errors.email && <p className="text-red-700 text-xs italic">{errors.email}</p>}
       </div>
 
@@ -114,8 +128,12 @@ const ContactForm = () => {
           name="subject"
           value={formData.subject}
           onChange={handleChange}
+          aria-required="true"
+          aria-invalid={!!errors.subject}
+          aria-describedby={errors.subject ? "subject-error" : undefined}
           className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.subject ? 'border-red-500' : ''}`}
         />
+        {errors.subject && <p id="subject-error" className="text-red-700 text-xs italic">{errors.subject}</p>}
         {errors.subject && <p className="text-red-700 text-xs italic">{errors.subject}</p>}
       </div>
 
@@ -129,8 +147,12 @@ const ContactForm = () => {
           value={formData.message}
           onChange={handleChange}
           rows="6"
+          aria-required="true"
+          aria-invalid={!!errors.message}
+          aria-describedby={errors.message ? "message-error" : undefined}
           className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.message ? 'border-red-500' : ''}`}
         ></textarea>
+        {errors.message && <p id="message-error" className="text-red-700 text-xs italic">{errors.message}</p>}
         {errors.message && <p className="text-red-700 text-xs italic">{errors.message}</p>}
       </div>
 
