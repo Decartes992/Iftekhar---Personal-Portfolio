@@ -35,3 +35,18 @@ Thumbs.db
 
 # package lock
 package-lock.json
+
+# Documentation build artifacts
+docs/_build/
+docs/build/
+
+# Temporary Swagger/OpenAPI generation files
+swagger.json
+openapi.json
+
+# Mermaid.js diagram build outputs
+*.mmd.png
+*.mmd.svg
+
+# Other documentation-related temporary files
+*.doxytmp/

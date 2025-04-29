@@ -61,6 +61,25 @@ The `/personal-portfolio/documentation/` directory contains markdown files expla
 *   **Resume Page:** For details on the Resume page (`/resume`), see `personal-portfolio/documentation/page-resume.md`.
 *   **Global Styles:** For details on the global CSS, see `personal-portfolio/documentation/styles-global.md`.
 
+## WebSocket Implementation
+
+The project utilizes Vite's built-in WebSocket support for Hot Module Replacement (HMR). Key aspects of the WebSocket implementation include:
+
+### WebSocket Configuration
+
+*   Vite automatically sets up a WebSocket server for HMR.
+*   The WebSocket connection is used for live reloading and HMR.
+
+### Handling WebSocket Connections
+
+*   The `crossws` package provides cross-platform WebSocket support.
+*   WebSocket connections are handled internally by Vite for HMR.
+
+### Important Considerations
+
+*   The `skipWebSocketTokenCheck` option can be used to skip token checks for WebSocket connections.
+*   The WebSocket server is configured to handle connections and messages for HMR.
+
 ## Documentation-Code Relationship
 
 Documentation files generally correspond to specific source code files:

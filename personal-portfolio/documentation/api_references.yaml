@@ -1,0 +1,63 @@
+openapi: 3.0.0
+info:
+  title: Personal Portfolio API
+  version: 1.0.0
+paths:
+  /api/contact:
+    post:
+      summary: Handle contact form submission
+      description: Sends an email with contact form details using Resend service
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Contact person's name
+                email:
+                  type: string
+                  format: email
+                  description: Contact person's email
+                subject:
+                  type: string
+                  description: Email subject
+                message:
+                  type: string
+                  description: Email message
+      responses:
+        '200':
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Message sent successfully!
+        '400':
+          description: Invalid request data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: All fields are required.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Failed to send message.
+                  error:
+                    type: string
+                    example: Error details
