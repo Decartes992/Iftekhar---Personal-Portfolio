@@ -76,13 +76,14 @@ const ProjectFilterSort = ({ projects }) => {
           <h3 className="text-lg font-semibold mb-2">Filter by:</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             <div>
-              <h4 className="font-medium">Technologies:</h4>
+              <h4 id="technologies-label" className="font-medium">Technologies:</h4>
               {allTechnologies.map(tech => (
                 <label key={tech} className="block">
                   <input
                     type="checkbox"
                     checked={selectedTechnologies.includes(tech)}
                     onChange={() => handleTechnologyChange(tech)}
+                    aria-labelledby="technologies-label"
                     className="mr-2 focus:ring-2 focus:ring-blue-500"
                   />
                   {tech}
@@ -90,13 +91,14 @@ const ProjectFilterSort = ({ projects }) => {
               ))}
             </div>
              <div>
-              <h4 className="font-medium">Project Types:</h4>
+              <h4 id="project-types-label" className="font-medium">Project Types:</h4>
               {allProjectTypes.map(type => (
                 <label key={type} className="block">
                   <input
                     type="checkbox"
                     checked={selectedProjectTypes.includes(type)}
                     onChange={() => handleProjectTypeChange(type)}
+                    aria-labelledby="project-types-label"
                     className="mr-2 focus:ring-2 focus:ring-blue-500"
                   />
                   {type}
@@ -104,13 +106,14 @@ const ProjectFilterSort = ({ projects }) => {
               ))}
             </div>
              <div>
-              <h4 className="font-medium">Skills:</h4>
+              <h4 id="skills-label" className="font-medium">Skills:</h4>
               {allSkills.map(skill => (
                 <label key={skill} className="block">
                   <input
                     type="checkbox"
                     checked={selectedSkills.includes(skill)}
                     onChange={() => handleSkillChange(skill)}
+                    aria-labelledby="skills-label"
                     className="mr-2 focus:ring-2 focus:ring-blue-500"
                   />
                   {skill}
@@ -122,8 +125,8 @@ const ProjectFilterSort = ({ projects }) => {
 
         {/* Sort Section */}
         <div>
-          <h3 className="text-lg font-semibold mb-2">Sort by:</h3>
-          <select value={sortOption} onChange={handleSortChange} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          <label htmlFor="sort-options" className="text-lg font-semibold mb-2 block">Sort by:</label>
+          <select id="sort-options" value={sortOption} onChange={handleSortChange} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
             <option value="date-desc">Date (Newest First)</option>
             <option value="alphabetical">Alphabetical</option>
           </select>

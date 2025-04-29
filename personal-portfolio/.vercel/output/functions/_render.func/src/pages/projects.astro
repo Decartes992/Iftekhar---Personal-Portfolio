@@ -1,0 +1,16 @@
+---
+// src/pages/projects.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ProjectFilterSort from '../components/ProjectFilterSort.jsx';
+
+const pageTitle = "Projects | Iftekhar's Portfolio";
+const projects = await getCollection('projects');
+---
+<BaseLayout title={pageTitle}>
+	<h1>My Projects</h1>
+	<p>Here are some of the projects I've contributed to:</p>
+
+	<ProjectFilterSort projects={projects} client:load />
+
+</BaseLayout>

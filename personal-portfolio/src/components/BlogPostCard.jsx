@@ -8,7 +8,7 @@ const BlogPostCard = ({ post }) => {
   });
 
   return (
-    <a href={`/blog/${post.slug}`} className="block border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    <a href={`/blog/${post.slug}`} className="block border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" aria-label={`Read more about ${post.data.title}`}>
       <h3 className="text-xl font-semibold mb-2">{post.data.title}</h3>
       <p className="text-gray-600 text-sm mb-4">{formattedDate}</p>
       {post.data.description && <p className="text-gray-700">{post.data.description}</p>}
