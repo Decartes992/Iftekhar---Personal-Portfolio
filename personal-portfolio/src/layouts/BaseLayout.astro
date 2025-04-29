@@ -2,6 +2,7 @@
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; // Import global styles
 import { ViewTransitions } from 'astro:transitions'; // Import ViewTransitions
+import ThemeToggleButton from '../components/ThemeToggleButton.astro';
 
 // Define props the layout accepts, e.g., title
 interface Props {
@@ -55,11 +56,8 @@ const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 						<li><a href="/contact">Contact</a></li>
 					</ul>
 				</nav>
-				{/* Theme Toggle Button - JS logic in separate file */}
-				<button id="theme-toggle" class="theme-toggle-button px-4 py-2 rounded-md transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-700" aria-label="Change to dark theme" aria-live="polite">
-					{/* Icons or text will be managed by theme-toggle.js */}
-					Toggle Theme
-				</button>
+				{/* Theme Toggle Button */}
+				<ThemeToggleButton />
 			</div>
 		</header>
 		<main id="main-content"> {/* Add id for skip links */}
@@ -83,6 +81,18 @@ const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 			});
 			document.addEventListener('astro:before-swap', (e) => {
 				document.documentElement.classList.add('is-animating');
+			});
+		</script>
+		{/* Script for subtle button click microinteraction */}
+		<script is:inline>
+			document.addEventListener('click', (event) => {
+				const button = event.target.closest('button, a.btn');
+				if (button) {
+					button.classList.add('active-pulse');
+					button.addEventListener('animationend', () => {
+						button.classList.remove('active-pulse');
+					}, { once: true });
+				}
 			});
 		</script>
 	</body>

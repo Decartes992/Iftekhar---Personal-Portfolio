@@ -34,6 +34,7 @@ const { title, description, technologies = [] } = Astro.props;
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow; /* Performance hint */
   }
 
   .project-card:hover,
@@ -93,5 +94,36 @@ const { title, description, technologies = [] } = Astro.props;
     border-radius: 4px;
     font-size: 0.75rem;
     font-weight: 500;
+  }
+
+  /* Add styles for card image and links */
+  .card-image-link { display: block; }
+
+  .project-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-bottom: 1px solid var(--clr-border-current, #e5e7eb);
+  }
+
+  .card-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--clr-border-current, #e5e7eb);
+  }
+
+  .card-links a {
+    font-size: var(--fs--1);
+    font-weight: 600;
+    color: var(--clr-primary);
+    text-decoration: none;
+  }
+
+  .card-links a:hover,
+  .card-links a:focus {
+    text-decoration: underline;
   }
 </style>

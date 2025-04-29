@@ -130,8 +130,15 @@ img, svg, video {
   max-width: 1100px; /* Max width for content */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-inline: 1rem; /* Mobile padding */
+}
+
+@media (min-width: 768px) {
+  .container { padding-inline: 1.5rem; }
+}
+
+@media (min-width: 1200px) {
+  .container { padding-inline: 2rem; }
 }
 
 header {
@@ -228,6 +235,16 @@ footer {
 }
 
 /* --- Micro-interactions --- */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+.active-pulse {
+  animation: pulse 0.3s ease-out;
+}
+
 button, .theme-toggle-button {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }

@@ -34,3 +34,5 @@ The page structure uses standard HTML elements (`<h1>`, `<p>`) wrapped by the `B
 
 - `BaseLayout.astro`: Provides the overall page layout.
 - `ProjectFilterSort.jsx`: A React component responsible for receiving the project data (passed as a prop from `projects.astro`), managing filter and sort state, implementing filtering and sorting logic based on user selections, and rendering the filter/sort UI and the list of filtered/sorted projects.
+- `ProjectCard.astro`: Represents an individual project card. It now includes the project image (using Astro Assets for optimization and with descriptive alt text), the project title (linked to the project or repository), a description, a list of technologies used (with accessibility attributes), and links to view the project and/or its repository. A subtle lift and shadow animation is applied on hover and focus-within.
+- `ProjectsSection.astro`: This component utilizes a responsive CSS grid to display the `ProjectCard` components, adjusting the layout and spacing based on screen size.
