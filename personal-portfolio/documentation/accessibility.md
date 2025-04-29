@@ -22,3 +22,6 @@ Based on the review, the following adjustments were made:
     *   Increased the contrast of form submission status messages (`text-green-700` to `text-green-800`, `text-red-700` to `text-red-800`) (`ContactForm.jsx`).
 
 These changes aim to provide a baseline level of accessibility. Further testing, including with screen readers and potentially more comprehensive audits, may be beneficial in the future.
+## OS-Specific Considerations
+- Windows users should ignore `Thumbs.db` files
+- macOS users should maintain `.DS_Store` ignore

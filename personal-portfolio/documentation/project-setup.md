@@ -73,3 +73,8 @@ To preview the production build locally, use:
 
 ```bash
 npm run preview
+## Git Configuration
+Recommended .gitignore additions:
+- Windows users: Add `Thumbs.db` and `*.tmp`
+- Add `.cache/` for development caching
+- Consider `package-lock.json` exclusion for fresh installs

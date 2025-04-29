@@ -56,3 +56,6 @@ Vercel is a common choice for Astro SSR deployment.
 5.  **Deploy:** Push changes to your main branch or trigger a manual deployment via the Vercel dashboard.
 
 Vercel will then build the project using the adapter, deploy the server and client assets, and provide a URL for the live application.
+## Vercel Deployment Notes
+- Add `.vercel/output/` to .gitignore to exclude build artifacts
+- Ensure environment variables are managed through Vercel dashboard

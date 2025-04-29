@@ -22,3 +22,16 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# vercel build output
+.vercel/output/
+
+# Windows-specific
+Thumbs.db
+*.tmp
+
+# cache directories
+.cache/
+
+# package lock
+package-lock.json
