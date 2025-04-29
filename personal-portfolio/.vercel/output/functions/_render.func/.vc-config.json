@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
 	"runtime": "nodejs22.x",
-=======
-	"runtime": "nodejs20.x",
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 	"handler": "dist/server/entry.mjs",
 	"launcherType": "Nodejs",
 	"supportsResponseStreaming": true

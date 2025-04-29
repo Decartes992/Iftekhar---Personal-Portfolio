@@ -1,12 +1,7 @@
 import { c as createComponent, a as createAstro, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
-<<<<<<< HEAD
-import { $ as $$BaseLayout } from '../../chunks/BaseLayout_D3k3n2ZK.mjs';
+import { $ as $$BaseLayout } from '../../chunks/BaseLayout_CycZLcLl.mjs';
 import { a as getEntryBySlug } from '../../chunks/_astro_content_C9trdLCr.mjs';
-=======
-import { $ as $$BaseLayout } from '../../chunks/BaseLayout_B8Ece2LE.mjs';
-import { a as getEntryBySlug } from '../../chunks/_astro_content_Bn0ya_Tv.mjs';
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro();
@@ -23,15 +18,9 @@ const $$ = createComponent(async ($$result, $$props, $$slots) => {
   }
   const { Content } = await post.render();
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": post.data.title }, { "default": async ($$result2) => renderTemplate`${maybeRenderHead()}<article class="prose lg:prose-xl mx-auto py-8"> <h1 class="text-4xl font-bold mb-2">${post.data.title}</h1> <p class="text-gray-600 text-sm mb-4"> ${new Date(post.data.date).toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })} </p> ${renderComponent($$result2, "Content", Content, {})} </article> ` })}`;
-<<<<<<< HEAD
 }, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/blog/[...slug].astro", void 0);
 
 const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/blog/[...slug].astro";
-=======
-}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/blog/[...slug].astro", void 0);
-
-const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/blog/[...slug].astro";
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 const $$url = "/blog/[...slug]";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

@@ -1,10 +1,6 @@
 import { c as createComponent, f as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B7_fxlpj.mjs';
 import 'kleur/colors';
-<<<<<<< HEAD
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_D3k3n2ZK.mjs';
-=======
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_B8Ece2LE.mjs';
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_CycZLcLl.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -51,12 +47,6 @@ const ContactForm = () => {
     if (validate()) {
       setIsSubmitting(true);
       try {
-<<<<<<< HEAD
-        await new Promise((resolve) => setTimeout(resolve, 1e3));
-        setSubmitStatus("success");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } catch (error) {
-=======
         const response = await fetch("/api/contact", {
           method: "POST",
           body: new FormData(e.target)
@@ -69,18 +59,13 @@ const ContactForm = () => {
         }
       } catch (error) {
         console.error("Error submitting form:", error);
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
         setSubmitStatus("error");
       } finally {
         setIsSubmitting(false);
       }
     }
   };
-<<<<<<< HEAD
-  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg", children: [
-=======
   return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg", "aria-label": "Contact Form", children: [
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
     submitStatus === "success" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-green-100 text-green-800 rounded", children: "Message sent successfully!" }),
     submitStatus === "error" && /* @__PURE__ */ jsx("div", { className: "mb-4 p-3 bg-red-100 text-red-800 rounded", children: "Failed to send message. Please try again later." }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -93,11 +78,6 @@ const ContactForm = () => {
           name: "name",
           value: formData.name,
           onChange: handleChange,
-<<<<<<< HEAD
-          className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.name ? "border-red-500" : ""}`
-        }
-      ),
-=======
           "aria-required": "true",
           "aria-invalid": !!errors.name,
           "aria-describedby": errors.name ? "name-error" : void 0,
@@ -105,7 +85,6 @@ const ContactForm = () => {
         }
       ),
       errors.name && /* @__PURE__ */ jsx("p", { id: "name-error", className: "text-red-700 text-xs italic", children: errors.name }),
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
       errors.name && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.name })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -118,11 +97,6 @@ const ContactForm = () => {
           name: "email",
           value: formData.email,
           onChange: handleChange,
-<<<<<<< HEAD
-          className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.email ? "border-red-500" : ""}`
-        }
-      ),
-=======
           "aria-required": "true",
           "aria-invalid": !!errors.email,
           "aria-describedby": errors.email ? "email-error" : void 0,
@@ -130,7 +104,6 @@ const ContactForm = () => {
         }
       ),
       errors.email && /* @__PURE__ */ jsx("p", { id: "email-error", className: "text-red-700 text-xs italic", children: errors.email }),
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
       errors.email && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.email })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-4", children: [
@@ -143,11 +116,6 @@ const ContactForm = () => {
           name: "subject",
           value: formData.subject,
           onChange: handleChange,
-<<<<<<< HEAD
-          className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.subject ? "border-red-500" : ""}`
-        }
-      ),
-=======
           "aria-required": "true",
           "aria-invalid": !!errors.subject,
           "aria-describedby": errors.subject ? "subject-error" : void 0,
@@ -155,7 +123,6 @@ const ContactForm = () => {
         }
       ),
       errors.subject && /* @__PURE__ */ jsx("p", { id: "subject-error", className: "text-red-700 text-xs italic", children: errors.subject }),
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
       errors.subject && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.subject })
     ] }),
     /* @__PURE__ */ jsxs("div", { className: "mb-6", children: [
@@ -168,11 +135,6 @@ const ContactForm = () => {
           value: formData.message,
           onChange: handleChange,
           rows: "6",
-<<<<<<< HEAD
-          className: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${errors.message ? "border-red-500" : ""}`
-        }
-      ),
-=======
           "aria-required": "true",
           "aria-invalid": !!errors.message,
           "aria-describedby": errors.message ? "message-error" : void 0,
@@ -180,7 +142,6 @@ const ContactForm = () => {
         }
       ),
       errors.message && /* @__PURE__ */ jsx("p", { id: "message-error", className: "text-red-700 text-xs italic", children: errors.message }),
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
       errors.message && /* @__PURE__ */ jsx("p", { className: "text-red-700 text-xs italic", children: errors.message })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "flex items-center justify-between", children: /* @__PURE__ */ jsx(
@@ -197,17 +158,10 @@ const ContactForm = () => {
 
 const $$Contact = createComponent(($$result, $$props, $$slots) => {
   const pageTitle = "Contact Me | Iftekhar's Portfolio";
-<<<<<<< HEAD
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>Contact Me</h1> <p>Feel free to reach out via email, phone, or connect with me on LinkedIn.</p> <ul> <li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">Iftekhar.Rafi@dal.ca</a></li> <li><strong>Phone:</strong> +1 902 324 3992</li> <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">linkedin.com/in/iftekhar-hossain992</a></li> <li><strong>Location:</strong> Halifax, N.S, B3R 1S9</li> </ul> ${renderComponent($$result2, "ContactForm", ContactForm, { "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/components/ContactForm.jsx", "client:component-export": "default" })} ` })}`;
 }, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/contact.astro", void 0);
 
 const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/contact.astro";
-=======
-  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>Contact Me</h1> <p>Feel free to reach out via email, phone, or connect with me on LinkedIn.</p> <ul> <li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">Iftekhar.Rafi@dal.ca</a></li> <li><strong>Phone:</strong> +1 902 324 3992</li> <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">linkedin.com/in/iftekhar-hossain992</a></li> <li><strong>Location:</strong> Halifax, N.S, B3R 1S9</li> </ul> ${renderComponent($$result2, "ContactForm", ContactForm, { "client:load": true, "client:component-hydration": "load", "client:component-path": "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/components/ContactForm.jsx", "client:component-export": "default" })} ` })}`;
-}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/contact.astro", void 0);
-
-const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/contact.astro";
->>>>>>> f7baf53d4a5dbc135fc6bf0788842b256d3b1efb
 const $$url = "/contact";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
