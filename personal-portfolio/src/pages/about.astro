@@ -1,20 +1,151 @@
 ---
 // src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SkillRadarChart from '../components/SkillRadarChart.jsx';
+import AnimatedTimeline from '../components/AnimatedTimeline.jsx';
+import SectionDivider from '../components/SectionDivider.jsx';
 
 const pageTitle = "About Me | Iftekhar's Portfolio";
+
+// Skills data for the radar chart
+const skillsData = [
+  { name: "JavaScript", level: 90 },
+  { name: "React", level: 85 },
+  { name: "Node.js", level: 80 },
+  { name: "Python", level: 75 },
+  { name: "C/C++", level: 70 },
+  { name: "Embedded Systems", level: 65 },
+  { name: "UI/UX Design", level: 60 },
+  { name: "DevOps", level: 55 }
+];
+
+// Experience data for the timeline
+const experienceData = [
+  {
+    date: "2023 - Present",
+    title: "Core Software Developer",
+    description: "Dalhousie Space Systems Lab, LORIS satellite project. Developing flight software and ground control systems.",
+    technologies: ["Python", "C++", "Git", "Linux"]
+  },
+  {
+    date: "2022 - 2023",
+    title: "Software Developer",
+    description: "MILTON AI-powered training application. Designed and implemented core algorithms and API integration.",
+    technologies: ["JavaScript", "React", "Node.js", "Docker"]
+  },
+  {
+    date: "2021 - 2022",
+    title: "Makerspace Coordinator",
+    description: "Dalhousie's Emera Ideahub. Advised students on engineering projects and maintained advanced equipment.",
+    technologies: ["3D Printing", "CAD", "Electronics"]
+  },
+  {
+    date: "2020 - 2021",
+    title: "Student Researcher",
+    description: "Research in electrical engineering with focus on renewable energy systems and smart grid technology.",
+    technologies: ["MATLAB", "Data Analysis", "Circuit Design"]
+  }
+];
 ---
+
 <BaseLayout title={pageTitle}>
-	<section class="container mx-auto px-4 py-8">
-		<h1 class="text-4xl font-bold mb-6">About Me</h1>
-		<div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-			<img src="/profile-picture.jpg" alt="Iftekhar Hossain Rafi" class="w-48 h-48 rounded-full object-cover">
-			<div>
-				<p class="text-lg mb-4">Hello! I'm Iftekhar Hossain Rafi, an Electrical Engineering student at Dalhousie University with a strong focus on the Computer Engineering option. I'm passionate about the intersection of hardware and software, with hands-on experience in software development (Python, C/C++), embedded systems programming, and system architecture.</p>
-				<p class="text-lg mb-4">My academic journey and project work, such as contributing as a core software developer for the Dalhousie Space Systems Lab's LORIS satellite project and working on the MILTON AI-powered training decisions application, have allowed me to develop practical skills in areas like data structures, algorithms, API development, and working with tools like Git, Docker, and Linux.</p>
-				<p class="text-lg mb-4">Previously, as a Makerspace Coordinator at Dalhousie's Emera Ideahub, I enjoyed advising students on diverse engineering projects and maintaining a variety of advanced equipment.</p>
-				<p class="text-lg mb-4">I am actively seeking opportunities where I can apply my skills in software engineering, systems development, and electrical engineering to contribute to innovative projects.</p>
-			</div>
-		</div>
-	</section>
+  <!-- Hero Section -->
+  <section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-bg-dark">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-gradient-primary">About Me</h1>
+      <p class="text-xl text-center text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+        Electrical Engineering student with a passion for software development and embedded systems
+      </p>
+    </div>
+  </section>
+  
+  <!-- Profile Section -->
+  <section class="py-16 bg-white dark:bg-bg-dark">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        <img 
+          src="/images/iftekhar_photo.jpg" 
+          alt="Iftekhar Hossain Rafi" 
+          class="w-48 h-48 rounded-full object-cover shadow-lg ring-4 ring-primary/20"
+        >
+        <div>
+          <p class="text-lg mb-4">Hello! I'm Iftekhar Hossain Rafi, an Electrical Engineering student at Dalhousie University with a strong focus on the Computer Engineering option. I'm passionate about the intersection of hardware and software, with hands-on experience in software development (Python, C/C++), embedded systems programming, and system architecture.</p>
+          <p class="text-lg mb-4">My academic journey and project work, such as contributing as a core software developer for the Dalhousie Space Systems Lab's LORIS satellite project and working on the MILTON AI-powered training decisions application, have allowed me to develop practical skills in areas like data structures, algorithms, API development, and working with tools like Git, Docker, and Linux.</p>
+          <p class="text-lg mb-4">Previously, as a Makerspace Coordinator at Dalhousie's Emera Ideahub, I enjoyed advising students on diverse engineering projects and maintaining a variety of advanced equipment.</p>
+          <p class="text-lg mb-4">I am actively seeking opportunities where I can apply my skills in software engineering, systems development, and electrical engineering to contribute to innovative projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section Divider -->
+  <SectionDivider 
+    client:load
+    type="wave" 
+    position="bottom" 
+    color="bg-gray-50 dark:bg-gray-900" 
+    height={60}
+  />
+  
+  <!-- Skills Section with Radar Chart -->
+  <section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Technical Skills</h2>
+      <div class="max-w-3xl mx-auto">
+        <SkillRadarChart
+          client:visible
+          skills={skillsData}
+          primaryColor="rgb(59, 130, 246)"
+          backgroundColor="rgba(59, 130, 246, 0.1)"
+          height={400}
+          animationDuration={1500}
+          showLegend={true}
+        />
+      </div>
+    </div>
+  </section>
+  
+  <!-- Section Divider -->
+  <SectionDivider 
+    client:load
+    type="triangles" 
+    position="top" 
+    color="bg-white dark:bg-bg-dark" 
+    height={60}
+  />
+  
+  <!-- Experience Timeline Section -->
+  <section class="py-16 bg-white dark:bg-bg-dark">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Professional Journey</h2>
+      <div class="max-w-4xl mx-auto">
+        <AnimatedTimeline
+          client:visible
+          items={experienceData}
+          layout="vertical"
+          alternating={true}
+          lineColor="#3B82F6"
+          accentColor="#3B82F6"
+        />
+      </div>
+    </div>
+  </section>
+  
+  <!-- Education Section -->
+  <section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-8">Education</h2>
+      <div class="max-w-2xl mx-auto">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
+          <h3 class="text-xl font-bold mb-2">Bachelor of Electrical Engineering</h3>
+          <p class="text-gray-700 dark:text-gray-300 mb-1">Dalhousie University</p>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">Computer Engineering Option, Graduating 2025</p>
+          <p class="text-gray-700 dark:text-gray-300">
+            Relevant coursework includes data structures and algorithms, embedded systems, digital logic, signals and systems, 
+            and software development methodologies.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

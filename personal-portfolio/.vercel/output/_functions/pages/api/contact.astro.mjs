@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 export { renderers } from '../../renderers.mjs';
 
-const resend = new Resend(undefined                              );
+const resend = new Resend("your_resend_api_key_here");
 const POST = async ({ request }) => {
   const data = await request.formData();
   const name = data.get("name");

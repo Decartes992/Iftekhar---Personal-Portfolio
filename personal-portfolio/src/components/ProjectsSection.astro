@@ -13,7 +13,11 @@ const projects = await getCollection('projects');
         <ProjectCard
           title={project.data.title}
           description={project.data.description}
-          technologies={project.data.technologies}
+          tags={project.data.tags || project.data.technologies} 
+          image={project.data.image || "/images/project-placeholder.jpg"}
+          demoUrl={project.data.demoUrl || "#"}
+          codeUrl={project.data.codeUrl || "#"}
+          featured={project.data.featured}
         />
       ))}
     </div>

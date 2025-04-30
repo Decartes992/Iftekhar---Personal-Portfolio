@@ -2,6 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
+export const prerender = true;
+
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   const tags = new Set();
@@ -18,19 +20,35 @@ export async function getStaticPaths() {
 const { tag } = Astro.props;
 const allPosts = await getCollection('blog');
 const posts = allPosts.filter((post) => post.data.tags?.includes(tag));
-posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+
+// Sort posts safely by checking if date exists
+posts.sort((a, b) => {
+  const dateA = a.data.date || a.data.date;
+  const dateB = b.data.date || b.data.date;
+  
+  if (!dateA && !dateB) return 0;
+  if (!dateA) return 1;
+  if (!dateB) return -1;
+  
+  return dateB.getTime() - dateA.getTime();
+});
 ---
 
 <BaseLayout title={`Posts tagged "${tag}"`}>
   <h1 class="text-3xl font-bold mb-6">Posts tagged "{tag}"</h1>
   <ul class="space-y-4">
-    {posts.map((post) => (
-      <li>
-        <a href={`/blog/${post.slug}/`} class="text-xl text-blue-600 hover:underline">
-          {post.data.title}
-        </a>
-        <p class="text-gray-600 text-sm">{post.data.pubDate.toDateString()}</p>
-      </li>
-    ))}
+    {posts.map((post) => {
+      const postDate = post.data.date || post.data.date;
+      const formattedDate = postDate ? postDate.toDateString() : 'No date';
+      
+      return (
+        <li>
+          <a href={`/blog/${post.slug}/`} class="text-xl text-blue-600 hover:underline">
+            {post.data.title}
+          </a>
+          <p class="text-gray-600 text-sm">{formattedDate}</p>
+        </li>
+      );
+    })}
   </ul>
 </BaseLayout>

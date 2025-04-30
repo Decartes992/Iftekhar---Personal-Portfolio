@@ -3,14 +3,62 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import ProjectFilterSort from '../components/ProjectFilterSort.jsx';
+import ProjectCard3D from '../components/ProjectCard3D.jsx';
+import SectionDivider from '../components/SectionDivider.jsx';
 
 const pageTitle = "Projects | Iftekhar's Portfolio";
 const projects = await getCollection('projects');
+
+// Featured projects - in a real scenario, you might mark some projects as featured in their frontmatter
+const featuredProjects = projects.slice(0, 2);
 ---
 <BaseLayout title={pageTitle}>
-	<h1>My Projects</h1>
-	<p>Here are some of the projects I've contributed to:</p>
+  <!-- Projects Header Section -->
+  <section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-bg-dark relative overflow-hidden">
+    <div class="container mx-auto px-4">
+      <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-gradient-primary">My Projects</h1>
+      <p class="text-xl text-center text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12">
+        Explore my portfolio of work spanning web development, design, and interactive experiences
+      </p>
+    </div>
+  </section>
 
-	<ProjectFilterSort projects={projects} client:load />
+  <!-- Featured Projects Section with 3D Cards -->
+  <section class="py-16 bg-white dark:bg-bg-dark">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-8 text-center">Featured Projects</h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {featuredProjects.map((project) => (
+          <ProjectCard3D
+            client:visible
+            title={project.data.title}
+            description={project.data.description}
+            image={project.data.image || "/images/project-placeholder.jpg"}
+            tags={project.data.tags || []}
+            demoUrl={project.data.demoUrl || "#"}
+            codeUrl={project.data.codeUrl || "#"}
+            featured={true}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
 
+  <!-- Section Divider -->
+  <SectionDivider 
+    client:load
+    type="curve" 
+    position="bottom" 
+    color="bg-gray-50 dark:bg-gray-900" 
+    height={60}
+  />
+  
+  <!-- All Projects Section with Filter/Sort -->
+  <section class="py-16 bg-gray-50 dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+      <h2 class="text-2xl font-bold mb-8">All Projects</h2>
+      <ProjectFilterSort projects={projects} client:load />
+    </div>
+  </section>
 </BaseLayout>

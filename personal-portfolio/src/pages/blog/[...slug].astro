@@ -2,7 +2,16 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getEntryBySlug } from 'astro:content';
 
-// Removed getStaticPaths as it's not used in SSR dev mode
+export const prerender = true;
+
+// With prerender = true, we need to implement getStaticPaths again
+export async function getStaticPaths() {
+  const { getCollection } = await import('astro:content');
+  const blogEntries = await getCollection('blog');
+  return blogEntries.map(entry => ({
+    params: { slug: entry.slug },
+  }));
+}
 
 const { slug } = Astro.params;
 const post = await getEntryBySlug('blog', slug);
@@ -16,14 +25,19 @@ if (!post) {
 }
 
 const { Content } = await post.render();
+
+// Handle date formatting safely
+const postDate = post.data.pubDate || post.data.date;
+const formattedDate = postDate 
+  ? new Date(postDate).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})
+  : 'No publication date';
 ---
 
 <BaseLayout title={post.data.title}>
-  {/* Removed ProjectDashboard and ProjectSpecificViz as they seem unrelated */}
   <article class="prose lg:prose-xl mx-auto py-8">
     <h1 class="text-4xl font-bold mb-2">{post.data.title}</h1>
     <p class="text-gray-600 text-sm mb-4">
-      {new Date(post.data.date).toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"})}
+      {formattedDate}
     </p>
     <Content />
   </article>

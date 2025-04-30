@@ -1,95 +1,117 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /**
- * AnimatedStatsCounter - A visually impressive component to display animated statistics
+ * AnimatedStatsCounter - Animated stat counters with counting-up effect
  * 
- * @param {Object} props Component props
- * @param {Array} props.stats Array of statistic objects with label, value, suffix, icon properties
+ * @param {Object} props
+ * @param {Array} props.stats - Array of stat objects with label, value, and optional icon properties
+ * @param {string} props.bgColor - Background color for stat cards (default: "bg-white dark:bg-gray-800")
+ * @param {string} props.textColor - Text color for the stat numbers (default: "text-primary")
+ * @param {number} props.duration - Animation duration in ms (default: 2000)
  */
-const AnimatedStatsCounter = ({ stats }) => {
+const AnimatedStatsCounter = ({
+  stats = [],
+  bgColor = "bg-white dark:bg-gray-800",
+  textColor = "text-primary",
+  duration = 2000
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
   const [counters, setCounters] = useState(stats.map(() => 0));
-  const containerRef = useRef(null);
-  const animationTriggered = useRef(false);
-
+  const counterRef = useRef(null);
+  
+  // Set up intersection observer to trigger animation when element is in view
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !animationTriggered.current) {
-          animationTriggered.current = true;
-          animateCounters();
-          observer.disconnect();
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
         }
       },
       { threshold: 0.1 }
     );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
+    
+    if (counterRef.current) {
+      observer.observe(counterRef.current);
     }
-
+    
     return () => {
-      if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+      if (counterRef.current) {
+        observer.unobserve(counterRef.current);
       }
     };
   }, []);
-
-  const animateCounters = () => {
-    const durations = stats.map(stat => 
-      // Scale duration based on value for a more natural feel
-      Math.min(Math.max(1000, stat.value * 10), 2500)
-    );
+  
+  // Animate counters when visible
+  useEffect(() => {
+    if (!isVisible) return;
     
-    const startTime = Date.now();
+    const stepDuration = 20; // Update every 20ms for smooth animation
+    const steps = duration / stepDuration;
     
-    const animate = () => {
-      const currentTime = Date.now();
-      const elapsedTime = currentTime - startTime;
+    // For each stat, calculate increment per step
+    const incrementValues = stats.map(stat => stat.value / steps);
+    
+    let currentStep = 0;
+    
+    const timer = setInterval(() => {
+      currentStep++;
       
-      const newCounters = stats.map((stat, index) => {
-        const progress = Math.min(elapsedTime / durations[index], 1);
-        // Easing function for natural counting feel
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        return Math.floor(easeOutQuart * stat.value);
-      });
-      
-      setCounters(newCounters);
-      
-      const allComplete = newCounters.every((counter, index) => 
-        counter >= stats[index].value
-      );
-      
-      if (!allComplete) {
-        requestAnimationFrame(animate);
-      } else {
-        // Ensure final values match exactly
+      if (currentStep >= steps) {
+        // Ensure final values are exact
         setCounters(stats.map(stat => stat.value));
+        clearInterval(timer);
+      } else {
+        // Increment counters for each step
+        setCounters(prevCounters => 
+          prevCounters.map((count, index) => {
+            const newValue = count + incrementValues[index];
+            // Don't exceed the target value
+            return Math.min(newValue, stats[index].value);
+          })
+        );
       }
-    };
+    }, stepDuration);
     
-    requestAnimationFrame(animate);
+    return () => clearInterval(timer);
+  }, [isVisible, stats, duration]);
+  
+  // Format numbers with commas
+  const formatNumber = (num) => {
+    return Math.round(num).toLocaleString();
   };
-
+  
+  // Render icon based on the icon object format
+  const renderIcon = (icon) => {
+    if (!icon) return null;
+    
+    return (
+      <div className="mb-3 text-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={icon.path} />
+        </svg>
+      </div>
+    );
+  };
+  
   return (
     <div 
-      ref={containerRef} 
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+      ref={counterRef} 
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
     >
       {stats.map((stat, index) => (
         <div 
-          key={stat.label} 
-          className="bg-white dark:bg-bg-dark rounded-xl p-6 shadow-card hover:shadow-card-hover transition-all duration-300 text-center card-hover"
+          key={index}
+          className={`${bgColor} p-6 rounded-lg shadow-md flex flex-col items-center text-center transition-transform hover:scale-105 duration-300`}
         >
-          {stat.icon && (
-            <div className="flex justify-center mb-3">
-              <div className="text-primary dark:text-primary bg-primary/10 dark:bg-primary/20 p-3 rounded-full">
-                {stat.icon}
-              </div>
-            </div>
-          )}
-          <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
-            {counters[index].toLocaleString()}{stat.suffix || ''}
+          {/* Icon if provided */}
+          {stat.icon && renderIcon(stat.icon)}
+          
+          {/* Counter value */}
+          <div className={`text-4xl font-bold mb-2 ${textColor}`}>
+            {formatNumber(counters[index])}
           </div>
+          
+          {/* Label */}
           <div className="text-gray-600 dark:text-gray-300 font-medium">
             {stat.label}
           </div>
