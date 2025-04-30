@@ -53,3 +53,4 @@ openapi.json
 
 # Temporary files generated to plan work
 personal-portfolio\documentation\dev_docs
+.vercel

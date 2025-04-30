@@ -1,54 +1,98 @@
 ---
-// src/components/ThemeToggleButton.astro
-// Inlined SVGs for simplicity, or use <Icon> component
-const sunIcon = `<svg class="sun-icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 7.05 5.636 8.464zm12-.001l1.414-1.414L20.95 7.05l-1.414 1.414zm-2.828 14.286l1.414 1.414L20.95 16.95l-1.414-1.414zm-10.607-.001l1.414 1.414L7.05 16.95l-1.414 1.414zM0 11h3v2H0v-2zm21 0h3v2h-3v-2z"/></svg>`;
-const moonIcon = `<svg class="moon-icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.75 22.78a.75.75 0 0 1-.75-.75V2.97a.75.75 0 0 1 1.5 0v19.06a.75.75 0 0 1-.75.75zM12 22.5c-5.523 0-10-4.477-10-10S6.477 2.5 12 2.5c.75 0 1.5.07 2.22.2a.75.75 0 0 1 .58.91.76.76 0 0 1-.91.58A8.5 8.5 0 0 0 12 4c-4.694 0-8.5 3.806-8.5 8.5S7.306 21 12 21c.75 0 1.5-.07 2.22-.2a.75.75 0 0 1 .91.58.76.76 0 0 1-.58.91A13.02 13.02 0 0 1 12 22.5z"/></svg>`;
+// Enhanced ThemeToggleButton with smooth transitions and animations
 ---
-<button
-  id="theme-toggle"
-  class="theme-toggle-button"
-  aria-label="Toggle light/dark theme"
-  aria-pressed="false"
-  title="Toggle light/dark theme"
-  data-current-theme="light"
-  role="switch"
->
-  <Fragment set:html={sunIcon} />
-  <Fragment set:html={moonIcon} />
+
+<button id="theme-toggle" class="theme-toggle-button group" aria-label="Toggle dark mode">
+  <!-- Sun icon (visible in dark mode) -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300 rotate-0 dark:rotate-90 dark:scale-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+  </svg>
+  
+  <!-- Moon icon (visible in light mode) -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-300 rotate-90 scale-0 dark:rotate-0 dark:scale-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+  </svg>
 </button>
 
 <style>
   .theme-toggle-button {
-    background: none;
-    border: none;
-    padding: 0.5rem;
-    cursor: pointer;
-    color: var(--clr-text-current); /* Use current text color */
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative; /* For icon positioning/transition */
-    overflow: hidden;
+    position: relative;
+    border-radius: 9999px;
     width: 40px;
     height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
   }
-  .theme-toggle-button:hover,
-  .theme-toggle-button:focus-visible {
-    background-color: rgba(128, 128, 128, 0.1); /* Subtle background */
-  }
-  .sun-icon,
-  .moon-icon {
+
+  .theme-toggle-button::after {
+    content: '';
     position: absolute;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background-color: var(--clr-bg-alt-current);
+    border-radius: 9999px;
+    top: 0;
+    left: 0;
+    transform: scale(0);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  /* Initial state: show sun, hide moon */
-  .theme-toggle-button[data-current-theme="light"] .moon-icon {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  .theme-toggle-button[data-current-theme="dark"] .sun-icon {
-    transform: translateY(-100%);
-    opacity: 0;
+
+  .theme-toggle-button:hover::after {
+    transform: scale(1);
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Check for saved theme preference or use the system preference
+    const getInitialTheme = () => {
+      const savedTheme = localStorage.getItem('theme');
+      
+      if (savedTheme) {
+        return savedTheme;
+      }
+      
+      // Check for system preference
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    
+    // Apply theme
+    const applyTheme = (theme) => {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        document.documentElement.classList.remove('dark');
+      }
+      
+      localStorage.setItem('theme', theme);
+    };
+    
+    // Initial theme setup
+    applyTheme(getInitialTheme());
+    
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = localStorage.getItem('theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      // Add pulse animation on click
+      themeToggle.classList.add('animate-pulse');
+      setTimeout(() => themeToggle.classList.remove('animate-pulse'), 300);
+      
+      applyTheme(newTheme);
+    });
+    
+    // Listen for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      const newTheme = e.matches ? 'dark' : 'light';
+      applyTheme(newTheme);
+    });
+  });
+</script>

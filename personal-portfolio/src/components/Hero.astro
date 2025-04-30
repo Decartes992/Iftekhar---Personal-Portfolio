@@ -22,136 +22,80 @@ const {
 import Button from './Button.astro'; 
 
 ---
+// Enhanced Hero component with modern visual effects
+---
 
-<section class="hero-section" aria-labelledby="hero-headline">
-  <div class="container hero-content-wrapper">
-    <div class="hero-text">
-      <h1 id="hero-headline" set:html={headline} />
-      <p set:html={subheadline} />
-      {ctaText && ctaLink && <Button href={ctaLink} variant="primary">{ctaText}</Button>}
-      {/* Optional: Social proof logos */}
-      {socialProofLogos && socialProofLogos.length > 0 && (
-        <div class="hero-social-proof">
-          {socialProofLogos.map(logo => (
-            <img src={logo.src} alt={logo.alt} />
-          ))}
-        </div>
-      )}
-    </div>
-    {imageUrl && (
-      <div class="hero-visual">
-        <img src={imageUrl} alt={imageAlt} loading="eager" fetchpriority="high" />
+<section class="hero relative overflow-hidden bg-gradient-to-br from-bg-base to-bg-alt dark:from-bg-dark dark:to-bg-alt-dark py-16 md:py-24">
+  <!-- Decorative floating elements -->
+  <div class="absolute top-20 left-10 w-24 h-24 rounded-full bg-primary/10 dark:bg-primary/20 floating-element" style="animation-delay: 0s;"></div>
+  <div class="absolute top-40 right-10 w-16 h-16 rounded-full bg-secondary/10 dark:bg-secondary/20 floating-element" style="animation-delay: 1s;"></div>
+  <div class="absolute bottom-10 left-1/4 w-20 h-20 rounded-full bg-accent/10 dark:bg-accent/20 floating-element" style="animation-delay: 2s;"></div>
+  
+  <!-- Hero content container -->
+  <div class="container relative z-10">
+    <div class="max-w-3xl mx-auto text-center">
+      <!-- Animated gradient text for name -->
+      <h1 class="font-bold mb-4 sm:mb-6 gradient-text animate-fade-in">
+        Iftekhar Ahmed
+      </h1>
+      
+      <!-- Typewriter effect for role -->
+      <div class="text-xl sm:text-2xl md:text-3xl font-light mb-6 overflow-hidden whitespace-nowrap">
+        <span class="typewriter-text">Full Stack Developer</span>
       </div>
-    )}
+      
+      <!-- Description with highlight -->
+      <p class="text-lg md:text-xl mb-8 animate-fade-in" style="animation-delay: 0.3s;">
+        Creating <span class="font-semibold text-primary dark:text-primary">intuitive</span> and 
+        <span class="font-semibold text-secondary dark:text-secondary">impactful</span> digital experiences
+      </p>
+      
+      <!-- Call to action buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8 animate-fade-in" style="animation-delay: 0.6s;">
+        <a href="#projects" class="btn btn-primary">
+          View My Work
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          Get In Touch
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Background tech pattern (SVG shape) -->
+  <div class="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.05]">
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <defs>
+        <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 0 10 L 40 10 M 10 0 L 10 40 M 0 20 L 40 20 M 20 0 L 20 40 M 0 30 L 40 30 M 30 0 L 30 40" 
+                fill="none" stroke="currentColor" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#grid)" />
+    </svg>
   </div>
 </section>
 
-<style>
-  .hero-section {
-    padding-block: clamp(4rem, 15vh, 8rem);
-    background-color: var(--clr-bg-alt-current, var(--clr-bg-current));
-    overflow: hidden;
-  }
+<script>
+  // Add scroll-triggered animations
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
 
-  .container {
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 1rem;
-  }
-
-  .hero-content-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    align-items: center;
-    text-align: center;
-  }
-
-  .hero-text h1 {
-    font-size: var(--fs-4);
-    color: var(--clr-primary);
-    margin-bottom: 0.5em;
-  }
-
-  .hero-text p {
-    font-size: var(--fs-1);
-    max-width: 60ch;
-    margin-inline: auto;
-    margin-bottom: 1.5em;
-    color: var(--clr-text-muted, var(--clr-text-current));
-  }
-
-  .hero-visual img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    max-height: 400px;
-    margin-inline: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  @media (min-width: 768px) {
-    .hero-content-wrapper {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      text-align: left;
-      gap: 3rem;
-    }
-    .hero-text p {
-      margin-inline: 0;
-    }
-    .hero-visual {
-      order: -1;
-    }
-  }
-
-  .hero-text h1 {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s 0.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  }
-
-  .hero-text p {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  }
-
-  /* Target the Button component */
-  .hero-text .btn {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  }
-
-  .hero-visual img {
-    opacity: 0;
-    transform: scale(0.95);
-    animation: scaleIn 1s 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes scaleIn {
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-text h1,
-    .hero-text p,
-    .hero-text .button,
-    .hero-visual img {
-      animation: none;
-      opacity: 1;
-      transform: none;
-    }
-  }
-</style>
+    // Observe elements with the scroll-animate class
+    document.querySelectorAll('.scroll-animate').forEach(el => {
+      observer.observe(el);
+    });
+  });
+</script>

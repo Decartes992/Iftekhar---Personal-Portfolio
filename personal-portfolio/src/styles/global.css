@@ -226,23 +226,39 @@ footer {
   40%, 80% { transform: translateX(5px); }
 }
 
-.animate-fade-in {
-  animation: fade-in 0.5s ease-in-out;
+/* Additional animations to complement Tailwind animations */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
-.animate-shake {
-  animation: shake 0.5s ease-in-out;
+@keyframes cursor-blink {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--clr-primary); }
 }
 
-/* --- Micro-interactions --- */
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(0.97); }
-  100% { transform: scale(1); }
+.typewriter-text {
+  overflow: hidden;
+  border-right: 3px solid var(--clr-primary);
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: 0.15em;
+  animation: 
+    typewriter 3.5s steps(40, end),
+    cursor-blink 0.75s step-end infinite;
 }
 
-.active-pulse {
-  animation: pulse 0.3s ease-out;
+/* Additional visual enhancements */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glassmorphism {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 button, .theme-toggle-button {
@@ -358,4 +374,103 @@ html.is-animating { /* Class added by JS during transition */
 ::view-transition-new(root) {
   animation: 0.3s cubic-bezier(0, 0, 0.2, 1) 0.1s both fade-in, /* Delay fade-in slightly */
              0.3s cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+}
+
+/* Apply Tailwind component abstractions */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-button font-medium transition-all duration-300 shadow-button hover:shadow-button-hover cursor-pointer;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2;
+  }
+
+  .btn-sm {
+    @apply px-4 py-2 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-8 py-4 text-lg;
+  }
+  
+  .card {
+    @apply bg-bg-alt dark:bg-bg-alt-dark p-6 rounded-card border border-border dark:border-border-dark shadow-card hover:shadow-card-hover transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-floating transition-all duration-300;
+  }
+  
+  .section-title {
+    @apply text-2xl md:text-3xl font-secondary font-bold mb-6 relative;
+  }
+
+  .section-title::after {
+    @apply content-[''] absolute -bottom-2 left-0 w-16 h-1 bg-primary;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 rounded-md border border-border dark:border-border-dark bg-white dark:bg-bg-alt-dark focus:border-primary focus:ring-1 focus:ring-primary transition-colors;
+  }
+
+  .tag {
+    @apply inline-flex px-3 py-1 text-xs font-medium rounded-full bg-bg-alt dark:bg-bg-alt-dark border border-border dark:border-border-dark;
+  }
+
+  .tag-primary {
+    @apply bg-primary/10 text-primary border-primary/20;
+  }
+
+  .tag-secondary {
+    @apply bg-secondary/10 text-secondary border-secondary/20;
+  }
+
+  .tag-accent {
+    @apply bg-accent/10 text-accent border-accent/20;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-primary to-secondary inline-block text-transparent bg-clip-text;
+  }
+
+  .animated-border {
+    @apply relative;
+  }
+
+  .animated-border::before {
+    @apply content-[''] absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
+  }
+
+  .animated-border:hover::before {
+    @apply w-full;
+  }
+
+  .badge {
+    @apply absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold;
+  }
+
+  .badge-primary {
+    @apply bg-primary text-white;
+  }
+
+  .floating-element {
+    @apply animate-float;
+  }
+
+  .bg-gradient-animated {
+    @apply bg-gradient-to-r from-primary to-secondary bg-[length:200%_200%] animate-gradient-shift;
+  }
 }
