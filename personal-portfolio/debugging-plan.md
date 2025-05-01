@@ -1,49 +1,51 @@
-# Debugging Plan for Portfolio Site
+# Debugging Plan for Portfolio Pages (Projects, About, Contact)
 
-## Initial errors identified:
-1. Error: `Expected ">" but found "xmlns"` in `index.astro:24:15` ✓
-2. Warning: `getStaticPaths()` ignored in dynamic page `/src/pages/blog/tags/[tag].astro` ✓
-3. Error: `Cannot apply unknown utility class: px-6` in Tailwind CSS processing ✓
-4. Error: `Cannot read properties of undefined (reading 'toDateString')` in blog pages ✓
+## Files to Review:
+- `src/components/ProjectsSection.astro`
+- `src/pages/projects.astro`
+- `src/pages/about.astro`
+- `src/pages/contact.astro`
+- Related components (`ProjectCard.astro`, `ProjectFilterSort.jsx`, `ProjectCard3D.jsx`, `SkillRadarChart.jsx`, `AnimatedTimeline.jsx`, `ContactForm.jsx`, `ParticleBackground.jsx`, `SectionDivider.jsx`)
+- `src/data/aboutData.ts`
 
-## Issues investigated and fixed:
-1. Syntax error in SVG elements in `index.astro` ✓
-2. SSR vs Static generation conflict in blog tag pages ✓
-3. Tailwind CSS configuration issue preventing recognition of standard utilities ✓
-4. Missing or invalid date property in blog posts causing runtime error ✓
+## Potential Issues & Tasks:
 
-## Solutions implemented:
+1.  **`ProjectsSection.astro` / `ProjectCard.astro` - Link Fallbacks:**
+    *   Investigate: `demoUrl` and `codeUrl` passed directly; fallback needed checking.
+    *   Fix: Modified `ProjectCard.astro` to conditionally render links only if URLs are provided.
+    *   Status: Done
 
-### 1. Fix SVG syntax error in index.astro ✓
-- The error was related to improperly formatted SVG in the stats icons
-- Changed SVG strings to icon objects with path properties
-- Updated AnimatedStatsCounter component to properly render the new icon format
+2.  **`projects.astro` - Featured Projects Logic:**
+    *   Investigate: Logic `projects.slice(0, 2)` selected first two projects, but `ProjectCard3D` received `featured={true}` regardless.
+    *   Fix: Updated to filter by `project.data.featured` and pass the correct value.
+    *   Status: Done
 
-### 2. Fix getStaticPaths warning in blog pages ✓
-- Added `export const prerender = true;` to the following pages:
-  - `/src/pages/blog/tags/[tag].astro`
-  - `/src/pages/blog/[...slug].astro`
-  - `/src/pages/blog/index.astro`
-- This ensures proper static generation for all blog pages
+3.  **`projects.astro` / `ProjectsSection.astro` - Inconsistent Tag Property:**
+    *   Investigate: `projects.astro` used `project.data.tags || []`. `ProjectsSection.astro` used `project.data.tags || project.data.technologies`.
+    *   Fix: Standardized both to use `project.data.tags || project.data.technologies || []`.
+    *   Status: Done
 
-### 3. Fix Tailwind CSS configuration issue ✓
-- Fixed the PostCSS configuration by changing the plugin name from `@tailwindcss/postcss` to `tailwindcss`
-- This allows Tailwind to properly recognize standard utility classes like `px-6`
+4.  **`about.astro` - Hardcoded Data:**
+    *   Investigate: Skills and Experience data were hardcoded.
+    *   Fix: Moved data to `src/data/aboutData.ts` and updated `about.astro` to import it.
+    *   Status: Done (Enhancement)
 
-### 4. Fix blog date property issue ✓
-- Added proper error handling for undefined date values in blog pages
-- Implemented fallback for missing date properties
-- Used conditional rendering to safely format dates
+5.  **General - Component Prop Handling:**
+    *   Investigate: Ensure client components receive and use props correctly.
+    *   Fix: Added missing props (`bgColor`, `flipX`, `width` for `SectionDivider`; `maxConnectDistance`, `minSize`, `maxSize`, `minSpeed`, `maxSpeed` for `ParticleBackground`) with default values based on component definitions.
+    *   Status: Done
 
-## Summary:
-All identified issues have been successfully fixed. The build process now completes without errors, and the site should render correctly. The implemented fixes ensure that:
+6.  **General - Check for Errors:**
+    *   Task: Run `get_errors` on reviewed files.
+    *   Fixes:
+        *   Updated `src/content/config.ts` to include optional `tags`, `image`, `demoUrl`, `codeUrl`, `featured` in `projectsCollection` schema.
+        *   Fixed missing props in `SectionDivider` and `ParticleBackground` calls (see point 5).
+        *   Removed comment causing false positive error in `projects.astro`.
+    *   Status: Done (No errors reported after fixes)
 
-1. SVG content is properly formatted in components
-2. Blog pages are correctly pre-rendered during the build process
-3. Tailwind CSS utilities are properly recognized
-4. Blog date handling is robust against missing or invalid date values
+## Debugging Log:
 
-## Next steps:
-- Consider implementing additional error handling throughout the codebase
-- Add validation for required properties in content collections
-- Document the fixes for future reference
+*   **April 30, 2025** - Created initial debugging plan. Identified potential issues 1-5. Added task 6.
+*   **April 30, 2025** - Ran error check (Task 6). Found and fixed schema issues in `config.ts` and missing props in component calls (`SectionDivider`, `ParticleBackground`) across `projects.astro`, `about.astro`, `contact.astro`. Standardized tag usage (Task 3). Corrected featured projects logic (Task 2). Re-ran error check, confirmed no errors.
+*   **April 30, 2025** - Addressed link fallbacks (Task 1) by conditionally rendering links in `ProjectCard.astro`.
+*   **April 30, 2025** - Refactored hardcoded data (Task 4) from `about.astro` into `src/data/aboutData.ts`.

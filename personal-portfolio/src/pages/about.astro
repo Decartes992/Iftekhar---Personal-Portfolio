@@ -4,48 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillRadarChart from '../components/SkillRadarChart.jsx';
 import AnimatedTimeline from '../components/AnimatedTimeline.jsx';
 import SectionDivider from '../components/SectionDivider.jsx';
+// Import data from the new file
+import { skillsData, experienceData } from '../data/aboutData';
 
 const pageTitle = "About Me | Iftekhar's Portfolio";
-
-// Skills data for the radar chart
-const skillsData = [
-  { name: "JavaScript", level: 90 },
-  { name: "React", level: 85 },
-  { name: "Node.js", level: 80 },
-  { name: "Python", level: 75 },
-  { name: "C/C++", level: 70 },
-  { name: "Embedded Systems", level: 65 },
-  { name: "UI/UX Design", level: 60 },
-  { name: "DevOps", level: 55 }
-];
-
-// Experience data for the timeline
-const experienceData = [
-  {
-    date: "2023 - Present",
-    title: "Core Software Developer",
-    description: "Dalhousie Space Systems Lab, LORIS satellite project. Developing flight software and ground control systems.",
-    technologies: ["Python", "C++", "Git", "Linux"]
-  },
-  {
-    date: "2022 - 2023",
-    title: "Software Developer",
-    description: "MILTON AI-powered training application. Designed and implemented core algorithms and API integration.",
-    technologies: ["JavaScript", "React", "Node.js", "Docker"]
-  },
-  {
-    date: "2021 - 2022",
-    title: "Makerspace Coordinator",
-    description: "Dalhousie's Emera Ideahub. Advised students on engineering projects and maintained advanced equipment.",
-    technologies: ["3D Printing", "CAD", "Electronics"]
-  },
-  {
-    date: "2020 - 2021",
-    title: "Student Researcher",
-    description: "Research in electrical engineering with focus on renewable energy systems and smart grid technology.",
-    technologies: ["MATLAB", "Data Analysis", "Circuit Design"]
-  }
-];
 ---
 
 <BaseLayout title={pageTitle}>
@@ -85,6 +47,9 @@ const experienceData = [
     position="bottom" 
     color="bg-gray-50 dark:bg-gray-900" 
     height={60}
+    bgColor=""
+    flipX={false}
+    width={100}
   />
   
   <!-- Skills Section with Radar Chart -->
@@ -112,6 +77,9 @@ const experienceData = [
     position="top" 
     color="bg-white dark:bg-bg-dark" 
     height={60}
+    bgColor=""
+    flipX={false}
+    width={100}
   />
   
   <!-- Experience Timeline Section -->

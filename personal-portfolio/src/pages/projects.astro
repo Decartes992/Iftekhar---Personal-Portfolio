@@ -7,10 +7,10 @@ import ProjectCard3D from '../components/ProjectCard3D.jsx';
 import SectionDivider from '../components/SectionDivider.jsx';
 
 const pageTitle = "Projects | Iftekhar's Portfolio";
-const projects = await getCollection('projects');
+const allProjects = await getCollection('projects');
 
-// Featured projects - in a real scenario, you might mark some projects as featured in their frontmatter
-const featuredProjects = projects.slice(0, 2);
+// Filter featured projects based on the 'featured' flag
+const featuredProjects = allProjects.filter(project => project.data.featured).slice(0, 2); // Limit to 2 featured
 ---
 <BaseLayout title={pageTitle}>
   <!-- Projects Header Section -->
@@ -35,10 +35,10 @@ const featuredProjects = projects.slice(0, 2);
             title={project.data.title}
             description={project.data.description}
             image={project.data.image || "/images/project-placeholder.jpg"}
-            tags={project.data.tags || []}
-            demoUrl={project.data.demoUrl || "#"}
-            codeUrl={project.data.codeUrl || "#"}
-            featured={true}
+            tags={project.data.tags || project.data.technologies || []}
+            demoUrl={project.data.demoUrl}
+            codeUrl={project.data.codeUrl}
+            featured={project.data.featured}
           />
         ))}
       </div>
@@ -52,13 +52,16 @@ const featuredProjects = projects.slice(0, 2);
     position="bottom" 
     color="bg-gray-50 dark:bg-gray-900" 
     height={60}
+    bgColor=""
+    flipX={false}
+    width={100}
   />
   
   <!-- All Projects Section with Filter/Sort -->
   <section class="py-16 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-4">
       <h2 class="text-2xl font-bold mb-8">All Projects</h2>
-      <ProjectFilterSort projects={projects} client:load />
+      <ProjectFilterSort projects={allProjects} client:load />
     </div>
   </section>
 </BaseLayout>

@@ -15,6 +15,11 @@ const projectsCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     technologies: z.array(z.string()),
+    tags: z.array(z.string()).optional(),
+    image: z.string().optional(),
+    demoUrl: z.string().url().optional(),
+    codeUrl: z.string().url().optional(),
+    featured: z.boolean().optional(),
     type: z.string(),
   }),
 });
