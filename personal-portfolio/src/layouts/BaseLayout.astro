@@ -13,7 +13,7 @@ interface Props {
 const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 ---
 <!doctype html>
-<html lang="en" data-theme="light"> {/* Default theme set, JS will override based on preference */}
+<html lang="en"> {/* Remove default data-theme here, let the script handle it */}
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content={description} />
@@ -29,15 +29,18 @@ const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 		<ViewTransitions fallback="animate" />
 		{/* Inline script for immediate theme application to prevent FOUC */}
 		<script is:inline>
-			const storageKey = 'theme-preference';
-			const theme = {
-				value: (() => {
-					const storedPref = localStorage.getItem(storageKey);
-					if (storedPref) return storedPref;
-					return window.matchMedia('(prefers-color-scheme: dark)').matches? 'dark' : 'light';
-				})(),
-			};
-			document.documentElement.setAttribute('data-theme', theme.value);
+			const theme = (() => {
+				// Use 'theme-preference' key consistently
+				const storedPref = localStorage.getItem('theme-preference');
+				if (typeof storedPref === 'string') return storedPref;
+				// Check system preference
+				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+				return mediaQuery.matches ? 'dark' : 'light';
+			})();
+
+			// Set initial data-theme attribute ONLY
+			document.documentElement.setAttribute('data-theme', theme);
+			// Do NOT add/remove 'dark' class here, let the main script handle it after hydration
 		</script>
 	</head>
 	<body>
