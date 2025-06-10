@@ -1,8 +1,8 @@
 /* empty css                                    */
 import { c as createComponent, b as createAstro, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_Cb9XKqvL.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../../chunks/BaseLayout_BVxVitlN.mjs';
-import { a as getEntryBySlug } from '../../chunks/_astro_content_pHFDW997.mjs';
+import { $ as $$BaseLayout } from '../../chunks/BaseLayout_CkVxC_Lk.mjs';
+import { a as getEntryBySlug } from '../../chunks/_astro_content_DDBoBFOC.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro();
@@ -19,9 +19,9 @@ const $$ = createComponent(async ($$result, $$props, $$slots) => {
   }
   const { Content } = await post.render();
   return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": post.data.title }, { "default": async ($$result2) => renderTemplate`${maybeRenderHead()}<article class="prose lg:prose-xl mx-auto py-8"> <h1 class="text-4xl font-bold mb-2">${post.data.title}</h1> <p class="text-gray-600 text-sm mb-4"> ${new Date(post.data.date).toLocaleDateString("en-us", { year: "numeric", month: "short", day: "numeric" })} </p> ${renderComponent($$result2, "Content", Content, {})} </article> ` })}`;
-}, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/blog/[...slug].astro", void 0);
+}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/blog/[...slug].astro", void 0);
 
-const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/blog/[...slug].astro";
+const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/blog/[...slug].astro";
 const $$url = "/blog/[...slug]";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

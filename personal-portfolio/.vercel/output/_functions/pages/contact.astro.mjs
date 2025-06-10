@@ -1,7 +1,7 @@
 /* empty css                                 */
 import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_Cb9XKqvL.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_BVxVitlN.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_CkVxC_Lk.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -159,10 +159,10 @@ const ContactForm = () => {
 
 const $$Contact = createComponent(($$result, $$props, $$slots) => {
   const pageTitle = "Contact Me | Iftekhar's Portfolio";
-  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>Contact Me</h1> <p>Feel free to reach out via email, phone, or connect with me on LinkedIn.</p> <ul> <li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">Iftekhar.Rafi@dal.ca</a></li> <li><strong>Phone:</strong> +1 902 324 3992</li> <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">linkedin.com/in/iftekhar-hossain992</a></li> <li><strong>Location:</strong> Halifax, N.S, B3R 1S9</li> </ul> ${renderComponent($$result2, "ContactForm", ContactForm, { "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/components/ContactForm.jsx", "client:component-export": "default" })} ` })}`;
-}, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/contact.astro", void 0);
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>Contact Me</h1> <p>Feel free to reach out via email, phone, or connect with me on LinkedIn.</p> <ul> <li><strong>Email:</strong> <a href="mailto:Iftekhar.Rafi@dal.ca" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">Iftekhar.Rafi@dal.ca</a></li> <li><strong>Phone:</strong> +1 902 324 3992</li> <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/iftekhar-hossain992" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">linkedin.com/in/iftekhar-hossain992</a></li> <li><strong>Location:</strong> Halifax, N.S, B3R 1S9</li> </ul> ${renderComponent($$result2, "ContactForm", ContactForm, { "client:load": true, "client:component-hydration": "load", "client:component-path": "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/components/ContactForm.jsx", "client:component-export": "default" })} ` })}`;
+}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/contact.astro", void 0);
 
-const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/contact.astro";
+const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/contact.astro";
 const $$url = "/contact";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({

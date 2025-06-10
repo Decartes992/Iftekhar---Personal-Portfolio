@@ -1,8 +1,8 @@
 /* empty css                                 */
 import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_Cb9XKqvL.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_BVxVitlN.mjs';
-import { g as getCollection } from '../chunks/_astro_content_pHFDW997.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_CkVxC_Lk.mjs';
+import { g as getCollection } from '../chunks/_astro_content_DDBoBFOC.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 export { renderers } from '../renderers.mjs';
@@ -145,10 +145,10 @@ const ProjectFilterSort = ({ projects }) => {
 const $$Projects = createComponent(async ($$result, $$props, $$slots) => {
   const pageTitle = "Projects | Iftekhar's Portfolio";
   const projects = await getCollection("projects");
-  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>My Projects</h1> <p>Here are some of the projects I've contributed to:</p> ${renderComponent($$result2, "ProjectFilterSort", ProjectFilterSort, { "projects": projects, "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/components/ProjectFilterSort.jsx", "client:component-export": "default" })} ` })}`;
-}, "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/projects.astro", void 0);
+  return renderTemplate`${renderComponent($$result, "BaseLayout", $$BaseLayout, { "title": pageTitle }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<h1>My Projects</h1> <p>Here are some of the projects I've contributed to:</p> ${renderComponent($$result2, "ProjectFilterSort", ProjectFilterSort, { "projects": projects, "client:load": true, "client:component-hydration": "load", "client:component-path": "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/components/ProjectFilterSort.jsx", "client:component-export": "default" })} ` })}`;
+}, "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/projects.astro", void 0);
 
-const $$file = "C:/Users/Decartes/Documents/GitHub/Iftekhar - Personal Portfolio/personal-portfolio/src/pages/projects.astro";
+const $$file = "/workspaces/Iftekhar---Personal-Portfolio/personal-portfolio/src/pages/projects.astro";
 const $$url = "/projects";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
