@@ -5,36 +5,88 @@ dist/
 
 # dependencies
 node_modules/
+jspm_packages/
 
 # logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
+lerna-debug.log*
 
 # environment variables
 .env
-.env.production
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# macOS-specific files
+# OS-specific files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.tmp
+*.stackdump
 
-# jetbrains setting folder
+# Editor and IDE files
+.vscode/
 .idea/
+*.swp
+*.swo
+*~
+.vim/
+.netrwhist
 
 # vercel build output
 .vercel/output/
 
-# Windows-specific
-Thumbs.db
-*.tmp
-
 # cache directories
 .cache/
+.npm
+.eslintcache
 
-# package lock
-package-lock.json
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+.nyc_output
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Next.js build output
+.next/
+
+# Nuxt.js build / generate output
+.nuxt
+
+# Gatsby files
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+
+# Temporary folders
+tmp/
+temp/
 
 # Documentation build artifacts
 docs/_build/
@@ -53,95 +105,3 @@ openapi.json
 
 # Temporary files generated to plan work
 personal-portfolio\documentation\dev_docs
-
-# Editor and IDE files
-.vscode/
-*.swp
-*.swo
-*~
-.vim/
-.netrwhist
-
-# OS-specific files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Stack dumps
-*.stackdump
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Next.js build output
-.next/
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Gatsby files
-.cache/
-public
-
-# Storybook build outputs
-.out
-.storybook-out
-
-# Temporary folders
-tmp/
-temp/
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Optional eslint cache
-.eslintcache
