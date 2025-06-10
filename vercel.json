@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd personal-portfolio && npm run build",
+  "outputDirectory": "personal-portfolio/.vercel/output",
+  "installCommand": "cd personal-portfolio && npm install",
+  "framework": "astro"
+}

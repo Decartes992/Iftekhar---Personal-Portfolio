@@ -1,8 +1,8 @@
 /* empty css                                 */
-import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_Cb9XKqvL.mjs';
+import { c as createComponent, r as renderComponent, a as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_GqbIBp2s.mjs';
 import 'kleur/colors';
-import { $ as $$BaseLayout } from '../chunks/BaseLayout_CkVxC_Lk.mjs';
-import { g as getCollection } from '../chunks/_astro_content_DDBoBFOC.mjs';
+import { $ as $$BaseLayout } from '../chunks/BaseLayout_D6WyUzxl.mjs';
+import { g as getCollection } from '../chunks/_astro_content_Nk6pWmoV.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
 export { renderers } from '../renderers.mjs';
