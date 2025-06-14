@@ -58,18 +58,18 @@ html {
 html:not([data-theme="dark"]) {
   --clr-text-current: var(--clr-text-light);
   --clr-bg-current: var(--clr-bg-light);
-  --clr-border-current: var(--clr-border);
-  --clr-bg-alt-current: var(--clr-bg-alt);
-  --clr-bg-input-current: var(--clr-bg-input);
+  --clr-primary-current: var(--clr-primary-light);
+  --clr-secondary-current: var(--clr-secondary-light);
+  --clr-accent-current: var(--clr-accent-light);
   color-scheme: light;
 }
 
 [data-theme="dark"] {
   --clr-text-current: var(--clr-text-dark);
   --clr-bg-current: var(--clr-bg-dark);
-  --clr-border-current: var(--clr-border-dark);
-  --clr-bg-alt-current: var(--clr-bg-alt-dark);
-  --clr-bg-input-current: var(--clr-bg-input-dark);
+  --clr-primary-current: var(--clr-primary-dark);
+  --clr-secondary-current: var(--clr-secondary-dark);
+  --clr-accent-current: var(--clr-accent-dark);
   color-scheme: dark;
 }
 

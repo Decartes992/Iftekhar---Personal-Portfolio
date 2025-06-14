@@ -7,17 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#3B82F6',
-        secondary: '#10B981',
-        accent: '#F59E0B',
+        primary: 'var(--clr-primary-current)',
+        secondary: 'var(--clr-secondary-current)',
+        accent: 'var(--clr-accent-current)',
         'text-base': '#1F2937',
         'text-dark': '#F9FAFB',
-        'bg-base': '#F9FAFB',
-        'bg-dark': '#1F2937',
+        'bg-base': 'var(--clr-bg-base)',
+        'bg-alt': 'var(--clr-bg-alt)',
+        'bg-dark': 'var(--clr-bg-dark)',
+        'bg-alt-dark': 'var(--clr-bg-alt-dark)',
         border: '#E5E7EB',
         'border-dark': '#4B5563',
-        'bg-alt': '#F3F4F6',
-        'bg-alt-dark': '#374151',
       },
       fontFamily: {
         primary: ['Poppins', 'sans-serif'],

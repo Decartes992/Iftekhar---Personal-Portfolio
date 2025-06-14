@@ -38,18 +38,18 @@ const className = `btn btn-${variant}`;
     transition: background-color 0.2s ease, transform 0.1s ease; /* Add transitions */
   }
   .btn-primary {
-    background-color: var(--clr-primary);
+    background-color: var(--clr-primary-current);
     color: white;
   }
   .btn-secondary {
-    background-color: var(--clr-secondary);
+    background-color: var(--clr-secondary-current);
     color: white;
   }
   .btn-primary:hover {
-    background-color: color-mix(in srgb, var(--clr-primary) 90%, black); /* Slightly darker primary on hover */
+    background-color: color-mix(in srgb, var(--clr-primary-current) 90%, black);
   }
-   .btn-secondary:hover {
-    background-color: color-mix(in srgb, var(--clr-secondary) 90%, black); /* Slightly darker secondary on hover */
+  .btn-secondary:hover {
+    background-color: color-mix(in srgb, var(--clr-secondary-current) 90%, black);
   }
   .btn:active {
     transform: scale(0.98); /* Subtle click feedback */
