@@ -1,0 +1,218 @@
+---
+// src/components/Header.astro
+import ThemeToggleButton from './ThemeToggleButton.astro';
+import Button from './Button.astro';
+
+const navItems = [
+  { href: '/', text: 'Home' },
+  { href: '/about', text: 'About' },
+  { href: '/projects', text: 'Projects' },
+  { href: '/resume', text: 'Resume' },
+  { href: '/contact', text: 'Contact' },
+];
+
+// TODO: Implement sticky behavior, animated logo, smart navigation, mobile hamburger menu
+
+const currentPage = Astro.url.pathname;
+---
+<header id="main-header" class="fixed top-0 z-50 w-full bg-bg-base-current/80 dark:bg-bg-dark-current/80 backdrop-blur-md shadow-sm header-gradient-border transition-transform duration-300 ease-in-out">
+  <div id="scroll-progress-bar" class="h-1 bg-primary-current" style="width: 0%;"></div>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo/Brand -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex flex-col">
+          <span class="text-xl md:text-2xl font-bold text-text-base-current dark:text-text-dark-current">Iftekhar Rafi</span>
+          <span class="text-xs md:text-sm text-text-muted-current dark:text-text-muted-dark-current">Software Engineer</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center">
+        {navItems.map(item => {
+          const isActive = currentPage === item.href || (item.href !== "/" && currentPage.startsWith(item.href));
+          return (
+            <a 
+              href={item.href} 
+              class:list={[
+                "text-base font-medium hover:text-primary-current dark:hover:text-primary-dark-current transition-colors duration-200 relative group",
+                isActive ? "text-primary-current dark:text-primary-dark-current font-semibold" : "text-text-base-current dark:text-text-dark-current"
+              ]}
+            >
+              {item.text}
+              <span class:list={[
+                "absolute bottom-[-4px] left-0 w-full h-0.5 bg-primary-current dark:bg-primary-dark-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out",
+                isActive ? "scale-x-100" : "scale-x-0"
+              ]}></span>
+            </a>
+          );
+        })}
+      </nav>
+
+      <!-- Right side items: Theme Toggle & CTA -->
+      <div class="flex items-center space-x-3 md:space-x-4">
+        <ThemeToggleButton />
+        <div class="hidden sm:block">
+          <Button href="/contact#contact-form" variant="primary">
+            Hire
+          </Button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" aria-label="Open menu" aria-expanded="false" class="text-text-base-current dark:text-text-dark-current focus:outline-none p-2">
+          <svg class="w-6 h-6 icon-open block" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+          <svg class="w-6 h-6 icon-close hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu Overlay -->
+  <div id="mobile-menu-overlay" class="md:hidden fixed inset-0 bg-bg-base-current/95 dark:bg-bg-dark-current/95 backdrop-blur-sm z-40 transform translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 h-full flex flex-col">
+      <nav class="flex flex-col space-y-6 mt-8">
+        {navItems.map(item => {
+          const isActive = currentPage === item.href || (item.href !== "/" && currentPage.startsWith(item.href));
+          return (
+            <a 
+              href={item.href} 
+              class:list={[
+                "text-xl font-medium hover:text-primary-current dark:hover:text-primary-dark-current transition-colors duration-200 py-2",
+                isActive ? "text-primary-current dark:text-primary-dark-current font-semibold" : "text-text-base-current dark:text-text-dark-current"
+              ]}
+            >
+              {item.text}
+            </a>
+          );
+        })}
+      </nav>
+      <div class="mt-auto pt-8">
+        <Button href="/contact#contact-form" variant="primary" extraClass="w-full">
+          Hire Me
+        </Button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header-gradient-border {
+    position: relative;
+  }
+  .header-gradient-border::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px; /* Adjust height of the border */
+    background: var(--gradient-primary); /* Using the CSS variable defined in global.css */
+    /* TODO: Add animation for the gradient border */
+  }
+</style>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+  const iconOpen = mobileMenuButton?.querySelector('.icon-open');
+  const iconClose = mobileMenuButton?.querySelector('.icon-close');
+
+  function toggleMobileMenu() {
+    const isOpen = mobileMenuOverlay?.classList.contains('translate-x-0');
+    if (isOpen) {
+      mobileMenuOverlay?.classList.remove('translate-x-0');
+      mobileMenuOverlay?.classList.add('translate-x-full');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+      iconOpen?.classList.remove('hidden');
+      iconOpen?.classList.add('block');
+      iconClose?.classList.remove('block');
+      iconClose?.classList.add('hidden');
+      document.body.style.overflow = ''; // Restore scroll
+    } else {
+      mobileMenuOverlay?.classList.remove('translate-x-full');
+      mobileMenuOverlay?.classList.add('translate-x-0');
+      mobileMenuButton?.setAttribute('aria-expanded', 'true');
+      iconOpen?.classList.remove('block');
+      iconOpen?.classList.add('hidden');
+      iconClose?.classList.remove('hidden');
+      iconClose?.classList.add('block');
+      document.body.style.overflow = 'hidden'; // Prevent scroll when overlay is open
+    }
+  }
+
+  mobileMenuButton?.addEventListener('click', toggleMobileMenu);
+
+  // Close mobile menu when a nav link is clicked
+  mobileMenuOverlay?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (mobileMenuOverlay?.classList.contains('translate-x-0')) {
+        toggleMobileMenu();
+      }
+    });
+  });
+
+  // Close mobile menu on escape key press
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileMenuOverlay?.classList.contains('translate-x-0')) {
+      toggleMobileMenu();
+    }
+  });
+
+  // Handle Astro page transitions for mobile menu
+  document.addEventListener('astro:page-load', () => {
+    // Ensure menu is closed on page load/transition
+    if (mobileMenuOverlay?.classList.contains('translate-x-0')) {
+      mobileMenuOverlay?.classList.remove('translate-x-0');
+      mobileMenuOverlay?.classList.add('translate-x-full');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+      iconOpen?.classList.remove('hidden');
+      iconOpen?.classList.add('block');
+      iconClose?.classList.remove('block');
+      iconClose?.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+    // Reset header position and scroll progress on page load
+    const header = document.getElementById('main-header');
+    if (header) {
+      header.style.transform = 'translateY(0)';
+    }
+    updateScrollProgressBar(); 
+  });
+
+  // Smart sticky header & Scroll progress bar
+  let lastScrollTop = 0;
+  const header = document.getElementById('main-header');
+  const scrollProgressBar = document.getElementById('scroll-progress-bar');
+
+  function handleScroll() {
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st > lastScrollTop && st > (header?.offsetHeight || 70) * 2) { // Multiply by 2 to delay hiding a bit
+      // Scroll Down
+      header?.style.setProperty('transform', 'translateY(-100%)');
+    } else {
+      // Scroll Up or at the top
+      header?.style.setProperty('transform', 'translateY(0)');
+    }
+    lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+    updateScrollProgressBar();
+  }
+
+  function updateScrollProgressBar() {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (scrollTop / scrollHeight) * 100;
+    if (scrollProgressBar) {
+      scrollProgressBar.style.width = scrolled + '%';
+    }
+  }
+
+  window.addEventListener('scroll', handleScroll);
+  // Initial call to set progress bar on load (especially for pages that might not be at the top)
+  updateScrollProgressBar();
+</script>

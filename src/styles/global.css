@@ -21,456 +21,332 @@ html {
 /* --- Theme Variables --- */
 :root {
   /* Define core palette using CSS Custom Properties */
-  --clr-primary: #3B82F6;
-  --clr-secondary: #10B981;
-  --clr-accent: #F59E0B;
-  --clr-text-base: #1F2937;
-  --clr-bg-base: #F9FAFB;
-  --clr-border: #E5E7EB;
-  --clr-bg-alt: #F3F4F6;
-  --clr-bg-input: #FFFFFF;
-  --clr-primary-rgb: 59, 130, 246;
-  --clr-text-light: var(--clr-text-base);
-  --clr-bg-light: var(--clr-bg-base);
-  --clr-text-dark: #F9FAFB;
-  --clr-bg-dark: #1F2937;
-  --clr-border-dark: #4B5563;
-  --clr-bg-alt-dark: #374151;
-  --clr-bg-input-dark: #4B5563;
+  --clr-primary: #3B82F6; /* Blue 500 */
+  --clr-primary-light: #60A5FA; /* Blue 400 */
+  --clr-primary-dark: #2563EB; /* Blue 600 */
 
-  /* Define typography scale */
-  font-size: 16px;
-  --font-primary: 'Poppins', sans-serif;
-  --font-secondary: 'Merriweather', serif;
-  --scale-ratio: 1.25;
-  --fs--2: calc(var(--fs--1) / var(--scale-ratio));
-  --fs--1: calc(var(--fs-base) / var(--scale-ratio));
-  --fs-base: 1rem;
-  --fs-1: calc(var(--fs-base) * var(--scale-ratio));
-  --fs-2: calc(var(--fs-1) * var(--scale-ratio));
-  --fs-3: calc(var(--fs-2) * var(--scale-ratio));
-  --fs-4: calc(var(--fs-3) * var(--scale-ratio));
-  --lh-base: 1.6;
-  --lh-heading: 1.2;
+  --clr-secondary: #10B981; /* Green 500 */
+  --clr-secondary-light: #34D399; /* Green 400 */
+  --clr-secondary-dark: #059669; /* Green 600 */
+
+  --clr-accent: #F59E0B; /* Amber 500 */
+  --clr-accent-light: #FBBF24; /* Amber 400 */
+  --clr-accent-dark: #D97706; /* Amber 600 */
+
+  --clr-neutral-100: #F9FAFB; /* Gray 50 */
+  --clr-neutral-200: #F3F4F6; /* Gray 100 */
+  --clr-neutral-300: #E5E7EB; /* Gray 200 */
+  --clr-neutral-400: #D1D5DB; /* Gray 300 */
+  --clr-neutral-500: #9CA3AF; /* Gray 400 */
+  --clr-neutral-600: #6B7280; /* Gray 500 */
+  --clr-neutral-700: #4B5563; /* Gray 600 */
+  --clr-neutral-800: #374151; /* Gray 700 */
+  --clr-neutral-900: #1F2937; /* Gray 800 */
+  --clr-neutral-950: #111827; /* Gray 900 */
+
+  /* Semantic Colors - Light Theme */
+  --clr-text-base: var(--clr-neutral-900);
+  --clr-text-muted: var(--clr-neutral-600);
+  --clr-text-inverted: var(--clr-neutral-100);
+  --clr-bg-base: var(--clr-neutral-100);
+  --clr-bg-alt: var(--clr-neutral-200);
+  --clr-border: var(--clr-neutral-300);
+  --clr-surface: white;
+
+  /* Semantic Colors - Dark Theme (placeholders, to be defined with [data-theme="dark"]) */
+  --clr-text-base-dark: var(--clr-neutral-100);
+  --clr-text-muted-dark: var(--clr-neutral-400);
+  --clr-text-inverted-dark: var(--clr-neutral-900);
+  --clr-bg-base-dark: var(--clr-neutral-950);
+  --clr-bg-alt-dark: var(--clr-neutral-900);
+  --clr-border-dark: var(--clr-neutral-700);
+  --clr-surface-dark: var(--clr-neutral-800);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(to right, var(--clr-primary-light), var(--clr-primary-dark));
+  --gradient-secondary: linear-gradient(to right, var(--clr-secondary-light), var(--clr-secondary-dark));
+  --gradient-accent: linear-gradient(to right, var(--clr-accent-light), var(--clr-accent-dark));
+
+  /* Font Families */
+  --font-sans: 'Inter Variable', sans-serif;
+  --font-serif: 'Satoshi', serif; /* Using Satoshi as a modern serif alternative */
+  --font-mono: 'monospace';
+
+  /* Font Sizes (Type Scale) - More granular */
+  --fs-xs: 0.75rem;    /* 12px */
+  --fs-sm: 0.875rem;   /* 14px */
+  --fs-base: 1rem;     /* 16px */
+  --fs-md: 1.125rem;   /* 18px */
+  --fs-lg: 1.25rem;    /* 20px */
+  --fs-xl: 1.5rem;     /* 24px */
+  --fs-2xl: 1.875rem;  /* 30px */
+  --fs-3xl: 2.25rem;   /* 36px */
+  --fs-4xl: 3rem;      /* 48px */
+  --fs-5xl: 3.75rem;   /* 60px */
+  --fs-6xl: 4.5rem;    /* 72px */
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Border Radius */
+  --rounded-sm: 0.125rem;
+  --rounded-base: 0.25rem;
+  --rounded-md: 0.375rem;
+  --rounded-lg: 0.5rem;
+  --rounded-xl: 0.75rem;
+  --rounded-2xl: 1rem;
+  --rounded-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-base: all 0.3s ease-in-out;
+  --transition-slow: all 0.5s ease-in-out;
 }
 
-/* Light Theme */
+/* Light Theme (Default) */
 html:not([data-theme="dark"]) {
-  --clr-text-current: var(--clr-text-light);
-  --clr-bg-current: var(--clr-bg-light);
-  --clr-primary-current: var(--clr-primary-light);
-  --clr-secondary-current: var(--clr-secondary-light);
-  --clr-accent-current: var(--clr-accent-light);
-  color-scheme: light;
+  --clr-primary-current: var(--clr-primary);
+  --clr-secondary-current: var(--clr-secondary);
+  --clr-accent-current: var(--clr-accent);
+  --clr-text-base-current: var(--clr-text-base);
+  --clr-text-muted-current: var(--clr-text-muted);
+  --clr-text-inverted-current: var(--clr-text-inverted);
+  --clr-bg-base-current: var(--clr-bg-base);
+  --clr-bg-alt-current: var(--clr-bg-alt);
+  --clr-border-current: var(--clr-border);
+  --clr-surface-current: var(--clr-surface);
 }
 
 [data-theme="dark"] {
-  --clr-text-current: var(--clr-text-dark);
-  --clr-bg-current: var(--clr-bg-dark);
-  --clr-primary-current: var(--clr-primary-dark);
-  --clr-secondary-current: var(--clr-secondary-dark);
-  --clr-accent-current: var(--clr-accent-dark);
-  color-scheme: dark;
+  --clr-primary-current: var(--clr-primary-light); /* Lighter primary for dark mode */
+  --clr-secondary-current: var(--clr-secondary-light);
+  --clr-accent-current: var(--clr-accent-light);
+  --clr-text-base-current: var(--clr-text-base-dark);
+  --clr-text-muted-current: var(--clr-text-muted-dark);
+  --clr-text-inverted-current: var(--clr-text-inverted-dark);
+  --clr-bg-base-current: var(--clr-bg-base-dark);
+  --clr-bg-alt-current: var(--clr-bg-alt-dark);
+  --clr-border-current: var(--clr-border-dark);
+  --clr-surface-current: var(--clr-surface-dark);
 }
 
 body {
-  background-color: var(--clr-bg-current);
-  color: var(--clr-text-current);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* --- Base Styles --- */
-body {
-  font-family: var(--font-primary);
+  font-family: var(--font-sans);
+  background-color: var(--clr-bg-base-current);
+  color: var(--clr-text-base-current);
+  line-height: 1.6;
   font-size: var(--fs-base);
-  line-height: var(--lh-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* --- Base Styles --- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-secondary, var(--font-primary));
-  line-height: var(--lh-heading);
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  font-weight: 600;
+  font-family: var(--font-serif); /* Using Satoshi for headings */
+  font-weight: 700; /* Assuming Satoshi has a bold weight */
+  line-height: 1.2;
+  color: var(--clr-text-base-current);
+  margin-bottom: var(--space-4);
 }
 
-h1 { font-size: var(--fs-4); }
-h2 { font-size: var(--fs-3); }
-h3 { font-size: var(--fs-2); }
-h4 { font-size: var(--fs-1); }
+h1 { font-size: var(--fs-4xl); }
+@media (min-width: 768px) { h1 { font-size: var(--fs-5xl); } }
+@media (min-width: 1200px) { h1 { font-size: var(--fs-6xl); } }
 
-p { margin-bottom: 1em; }
-a { color: var(--clr-primary); text-decoration: none; transition: color 0.2s ease; }
-a:hover, a:focus { text-decoration: underline; color: var(--clr-primary); } /* Use primary color for hover/focus */
+h2 { font-size: var(--fs-3xl); }
+@media (min-width: 768px) { h2 { font-size: var(--fs-4xl); } }
 
-@media (min-width: 768px) {
-  :root {
-    font-size: 17px;
-    --scale-ratio: 1.3;
-  }
+h3 { font-size: var(--fs-2xl); }
+@media (min-width: 768px) { h3 { font-size: var(--fs-3xl); } }
+
+h4 { font-size: var(--fs-xl); }
+@media (min-width: 768px) { h4 { font-size: var(--fs-2xl); } }
+
+h5 { font-size: var(--fs-lg); }
+@media (min-width: 768px) { h5 { font-size: var(--fs-xl); } }
+
+h6 { font-size: var(--fs-md); }
+@media (min-width: 768px) { h6 { font-size: var(--fs-lg); } }
+
+p {
+  margin-bottom: var(--space-4);
+  max-width: 65ch; /* Optimal reading width */
 }
 
-@media (min-width: 1200px) {
-  :root {
-    font-size: 18px;
-  }
+a {
+  color: var(--clr-primary-current);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+  color: color-mix(in srgb, var(--clr-primary-current) 80%, var(--clr-text-base-current));
 }
 
 img, svg, video {
   max-width: 100%;
   height: auto;
-  display: block;
+  display: block; /* Remove bottom space */
 }
 
 /* --- Layout --- */
 .container {
-  width: 90%;
-  max-width: 1100px; /* Max width for content */
+  width: 100%;
+  max-width: 1280px; /* Standard max-width */
   margin-left: auto;
   margin-right: auto;
-  padding-inline: 1rem; /* Mobile padding */
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
 }
 
-@media (min-width: 768px) {
-  .container { padding-inline: 1.5rem; }
+@media (min-width: 640px) { /* sm */
+  .container {
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+  }
 }
 
-@media (min-width: 1200px) {
-  .container { padding-inline: 2rem; }
+@media (min-width: 1024px) { /* lg */
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
 }
 
-header {
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--clr-border-current);
-  transition: border-color 0.3s ease;
-}
-
-header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem; /* Spacing between nav items */
-}
-
-nav a {
-    font-weight: 500;
-    text-decoration: none;
-    padding-bottom: 0.25rem;
-    border-bottom: 2px solid transparent; /* For active/hover effect */
-}
-
-nav a:hover, nav a:focus, nav a.active { /* Add .active class via JS/Astro later if needed */
-    color: var(--clr-primary);
-    border-bottom-color: var(--clr-primary);
-}
-
-main {
-  flex-grow: 1; /* Ensure main content pushes footer down */
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-
-footer {
-  padding: 1.5rem 0;
-  margin-top: 2rem;
-  border-top: 1px solid var(--clr-border-current);
-  text-align: center;
-  color: var(--clr-text-current);
-  font-size: 0.9rem;
-  transition: border-color 0.3s ease, color 0.3s ease;
-}
+/* Remove old header, nav, main, footer styles as they will be handled by components or Tailwind */
 
 /* --- Components (Basic) --- */
-.theme-toggle-button {
-    background: none;
-    border: 1px solid var(--clr-border-current);
-    color: var(--clr-text-current);
-    padding: 0.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.theme-toggle-button:hover {
-    background-color: var(--clr-bg-alt-current);
-    color: var(--clr-text-current);
-}
-
-/* Example Card Style (can be refined when project cards are added) */
 .card {
-    background-color: var(--clr-bg-alt-current);
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid var(--clr-border-current);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Use a consistent shadow */
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--clr-surface-current);
+  border-radius: var(--rounded-lg);
+  padding: var(--space-6);
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  transition: var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+/* Glassmorphism effect */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1); /* Light theme base */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--rounded-xl);
+}
+
+[data-theme="dark"] .glassmorphism {
+  background: rgba(31, 41, 55, 0.2); /* Dark theme base (Gray 800 with alpha) */
+  border: 1px solid rgba(75, 85, 99, 0.3); /* Gray 600 with alpha */
+}
+
+button, .btn /* .theme-toggle-button is handled by its component */
+{
+  font-family: var(--font-sans);
+  font-weight: 500; /* Medium weight for buttons */
+  border-radius: var(--rounded-md);
+  transition: var(--transition-fast);
+  cursor: pointer;
+  /* Ensure min touch target size is handled by specific button styles if needed */
+}
+
+button:hover, .btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+button:active, .btn:active {
+  transform: translateY(0px);
+  filter: brightness(0.95);
 }
 
 /* --- Animations/Transitions --- */
-/* --- Animations --- */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
 }
 
-/* Additional animations to complement Tailwind animations */
-@keyframes typewriter {
-  from { width: 0; }
-  to { width: 100%; }
+@keyframes slide-in-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes cursor-blink {
-  from, to { border-color: transparent; }
-  50% { border-color: var(--clr-primary); }
+.animate-slide-in-up {
+  animation: slide-in-up 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.typewriter-text {
-  overflow: hidden;
-  border-right: 3px solid var(--clr-primary);
-  white-space: nowrap;
-  margin: 0 auto;
-  letter-spacing: 0.15em;
-  animation: 
-    typewriter 3.5s steps(40, end),
-    cursor-blink 0.75s step-end infinite;
-}
-
-/* Additional visual enhancements */
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.dark .glassmorphism {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-button, .theme-toggle-button {
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-button:hover, .theme-toggle-button:hover {
-  background-color: var(--clr-bg-alt-current);
-  color: var(--clr-text-current);
-}
+/* Typewriter and cursor blink remain the same if they are working well */
 
 /* --- Responsiveness --- */
-@media (max-width: 1024px) {
-	header .container {
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	nav ul {
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 1rem;
-	}
-}
-
-@media (max-width: 768px) {
-	h1 { font-size: var(--fs-3); } /* Use modular scale */
-	h2 { font-size: var(--fs-2); } /* Use modular scale */
-	h3 { font-size: var(--fs-1); } /* Use modular scale */
-	h4 { font-size: var(--fs-0); } /* Use modular scale */
-
-	main {
-		padding-top: 1.5rem;
-		padding-bottom: 1.5rem;
-	}
-
-	footer {
-		padding: 1rem 0;
-		margin-top: 1.5rem;
-	}
-}
-
-@media (max-width: 480px) {
-	.container {
-		width: 95%;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-	}
-
-	nav ul {
-		gap: 0.8rem;
-	}
-
-	nav a {
-		font-size: var(--fs--1); /* Use modular scale */
-	}
-}
+/* Media queries for font sizes and spacing can be added if needed beyond Tailwind's scope */
 
 /* Accessibility: Skip Link Styles */
 .skip-link {
   position: absolute;
-  top: -40px; /* Hide off-screen */
-  left: 0;
-  background: var(--clr-primary);
-  color: white;
-  padding: 8px;
-  z-index: 100;
-  transition: top 0.3s ease;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: -999;
+  padding: 0.5rem 1rem;
+  background-color: var(--clr-primary-current);
+  color: var(--clr-text-inverted-current);
+  border-radius: var(--rounded-md);
+  text-decoration: none;
 }
 
 .skip-link:focus {
-  top: 0; /* Reveal on focus */
+  position: fixed; /* Changed from absolute for better visibility */
+  top: 1rem;
+  left: 1rem;
+  width: auto;
+  height: auto;
+  z-index: 9999; /* Ensure it's on top of everything */
+  outline: 2px solid var(--clr-primary-current);
+  outline-offset: 2px;
 }
 
 /* Accessibility: Enhanced Focus Styles */
 *:focus-visible {
-  outline: 3px solid var(--clr-accent);
+  outline: 3px solid var(--clr-accent-current);
   outline-offset: 2px;
-  box-shadow: none; /* Override browser defaults if needed */
+  border-radius: var(--rounded-sm); /* Consistent rounding */
 }
 
-/* Accessibility: Minimum touch target size */
-button, a.btn, input[type="checkbox"], input[type="radio"] {
-   min-height: 44px;
-   min-width: 44px; /* Apply where appropriate, e.g., icon buttons */
-   cursor: pointer;
-}
+/* Astro View Transitions - keep existing, ensure they work with new theme */
+/* ... existing Astro View Transition styles ... */
 
-/* Accessibility: Spacing between adjacent touch targets */
-.form-group + .form-group { margin-top: 1rem; }
-.card-links a + a { margin-left: 1rem; }
-
-/* Astro View Transitions */
-@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
-@keyframes slide-from-right { from { transform: translateX(30px); opacity: 0; } }
-@keyframes slide-to-left { to { transform: translateX(-30px); opacity: 0; } }
-
-html {
-  view-transition-name: none; /* Prevent default root transition */
-}
-
-html.is-animating { /* Class added by JS during transition */
-  overflow: hidden;
-}
-
-/* Define default transitions */
-::view-transition-old(root) {
-  animation: 0.3s cubic-bezier(0.4, 0, 1, 1) both fade-out,
-             0.3s cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-}
-
-::view-transition-new(root) {
-  animation: 0.3s cubic-bezier(0, 0, 0.2, 1) 0.1s both fade-in, /* Delay fade-in slightly */
-             0.3s cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-}
-
-/* Apply Tailwind component abstractions */
+/* Tailwind component abstractions */
 @layer components {
-  .btn {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-button font-medium transition-all duration-300 shadow-button hover:shadow-button-hover cursor-pointer;
-  }
-  
-  .btn-primary {
-    @apply bg-primary text-white hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
-  }
-  
-  .btn-secondary {
-    @apply bg-secondary text-white hover:bg-green-700 focus:ring-2 focus:ring-green-500 focus:ring-offset-2;
-  }
-  
-  .btn-outline {
-    @apply border-2 border-primary text-primary bg-transparent hover:bg-primary hover:text-white;
-  }
-  
-  .btn-accent {
-    @apply bg-accent text-white hover:bg-yellow-600 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2;
-  }
-
-  .btn-sm {
-    @apply px-4 py-2 text-sm;
-  }
-
-  .btn-lg {
-    @apply px-8 py-4 text-lg;
-  }
-  
-  .card {
-    @apply bg-bg-alt dark:bg-bg-alt-dark p-6 rounded-card border border-border dark:border-border-dark shadow-card hover:shadow-card-hover transition-all duration-300;
-  }
-
-  .card-hover {
-    @apply hover:-translate-y-1 hover:shadow-floating transition-all duration-300;
-  }
-  
-  .section-title {
-    @apply text-2xl md:text-3xl font-secondary font-bold mb-6 relative;
-  }
-
-  .section-title::after {
-    @apply content-[''] absolute -bottom-2 left-0 w-16 h-1 bg-primary;
-  }
-
-  .form-input {
-    @apply w-full px-4 py-2 rounded-md border border-border dark:border-border-dark bg-white dark:bg-bg-alt-dark focus:border-primary focus:ring-1 focus:ring-primary transition-colors;
-  }
-
-  .tag {
-    @apply inline-flex px-3 py-1 text-xs font-medium rounded-full bg-bg-alt dark:bg-bg-alt-dark border border-border dark:border-border-dark;
-  }
-
-  .tag-primary {
-    @apply bg-primary/10 text-primary border-primary/20;
-  }
-
-  .tag-secondary {
-    @apply bg-secondary/10 text-secondary border-secondary/20;
-  }
-
-  .tag-accent {
-    @apply bg-accent/10 text-accent border-accent/20;
-  }
-
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-secondary inline-block text-transparent bg-clip-text;
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
   }
-
-  .animated-border {
-    @apply relative;
+  .gradient-text-secondary {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-secondary);
   }
-
-  .animated-border::before {
-    @apply content-[''] absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 ease-in-out;
-  }
-
-  .animated-border:hover::before {
-    @apply w-full;
-  }
-
-  .badge {
-    @apply absolute -top-2 -right-2 w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold;
-  }
-
-  .badge-primary {
-    @apply bg-primary text-white;
-  }
-
-  .floating-element {
-    @apply animate-float;
-  }
-
-  .bg-gradient-animated {
-    @apply bg-gradient-to-r from-primary to-secondary bg-[length:200%_200%] animate-gradient-shift;
+  .gradient-text-accent {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-accent);
   }
 }
