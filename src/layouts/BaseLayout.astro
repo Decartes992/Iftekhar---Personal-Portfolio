@@ -29,18 +29,22 @@ const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
 		<ViewTransitions fallback="animate" />
 		{/* Inline script for immediate theme application to prevent FOUC */}
 		<script is:inline>
-			const theme = (() => {
-				// Use 'theme-preference' key consistently
-				const storedPref = localStorage.getItem('theme-preference');
-				if (typeof storedPref === 'string') return storedPref;
-				// Check system preference
-				const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-				return mediaQuery.matches ? 'dark' : 'light';
-			})();
-
-			// Set initial data-theme attribute ONLY
-			document.documentElement.setAttribute('data-theme', theme);
-			// Do NOT add/remove 'dark' class here, let the main script handle it after hydration
+      const getInitialTheme = () => {
+        try {
+          const storedPref = localStorage.getItem('theme-preference');
+          if (storedPref) return storedPref;
+        } catch (e) {
+          // localStorage might be disabled or inaccessible
+          console.warn('Could not access localStorage for theme preference.');
+        }
+        // Fallback to system preference
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+      const theme = getInitialTheme();
+      document.documentElement.setAttribute('data-theme', theme);
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
 		</script>
 	</head>
 	<body>
