@@ -1,0 +1,70 @@
+---
+// src/components/CommandPalette.astro
+import CommandPaletteSearch from './CommandPaletteSearch.jsx';
+---
+<div id="command-palette-container" class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm" aria-modal="true" role="dialog">
+  <div class="fixed top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/4 p-4 w-full max-w-xl">
+    <CommandPaletteSearch client:visible />
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const commandPaletteContainer = document.getElementById('command-palette-container');
+    const openCommandPaletteButton = document.getElementById('open-command-palette'); // We'll add this button later
+
+    function openPalette() {
+      if (commandPaletteContainer) {
+        commandPaletteContainer.classList.remove('hidden');
+        const input = commandPaletteContainer.querySelector('input[type="search"]');
+        if (input) {
+          input.focus();
+        }
+      }
+    }
+
+    function closePalette() {
+      if (commandPaletteContainer) {
+        commandPaletteContainer.classList.add('hidden');
+      }
+    }
+
+    if (openCommandPaletteButton) {
+      openCommandPaletteButton.addEventListener('click', openPalette);
+    }
+
+    // Keyboard shortcut
+    document.addEventListener('keydown', (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault();
+        if (commandPaletteContainer?.classList.contains('hidden')) {
+          openPalette();
+        } else {
+          closePalette();
+        }
+      }
+      if (event.key === 'Escape' && !commandPaletteContainer?.classList.contains('hidden')) {
+        closePalette();
+      }
+    });
+
+    // Close if clicking outside the search dialog (inside the container)
+    if (commandPaletteContainer) {
+      commandPaletteContainer.addEventListener('click', (event) => {
+        if (event.target === commandPaletteContainer) {
+          closePalette();
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Basic styling to ensure visibility, further styling will be needed */
+  #command-palette-container > div {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  }
+</style>

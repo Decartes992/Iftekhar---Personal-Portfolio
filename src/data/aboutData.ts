@@ -10,6 +10,19 @@ export interface Experience {
   technologies: string[];
 }
 
+export interface Achievement {
+  icon: string;
+  title: string;
+  description: string;
+  color: 'blue' | 'gold' | 'green' | 'purple';
+}
+
+export interface PersonalityTrait {
+  trait: string;
+  level: number;
+  color: string;
+}
+
 // Skills data for the radar chart
 export const skillsData: Skill[] = [
   { name: "JavaScript", level: 90 },
@@ -48,4 +61,16 @@ export const experienceData: Experience[] = [
     description: "Research in electrical engineering with focus on renewable energy systems and smart grid technology.",
     technologies: ["MATLAB", "Data Analysis", "Circuit Design"]
   }
+];
+
+export const achievements: Achievement[] = [
+  { icon: 'code', title: 'Open Source Contributor', description: 'Contributed to 5+ major OS projects.', color: 'blue' },
+  { icon: 'award', title: 'Hackathon Winner', description: '1st place in Dal Innovates Codefest 2023.', color: 'gold' },
+  { icon: 'trophy', title: 'Top Student Award', description: "Dean's List for 4 consecutive semesters.", color: 'green' },
+];
+
+export const personalityTraits: PersonalityTrait[] = [
+  { trait: "Creativity", level: 85, color: "#8B5CF6" },
+  { trait: "Problem Solving", level: 92, color: "#3B82F6" },
+  { trait: "Teamwork", level: 78, color: "#10B981" },
 ];

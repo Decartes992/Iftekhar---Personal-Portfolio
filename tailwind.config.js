@@ -3,35 +3,51 @@ module.exports = {
   content: [
     "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
   ],
-  darkMode: 'class', // Enable class-based dark mode for better control
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         primary: 'var(--clr-primary-current)',
         secondary: 'var(--clr-secondary-current)',
         accent: 'var(--clr-accent-current)',
-        'text-base': '#1F2937',
-        'text-dark': '#F9FAFB',
-        'bg-base': 'var(--clr-bg-base)',
-        'bg-alt': 'var(--clr-bg-alt)',
-        'bg-dark': 'var(--clr-bg-dark)',
-        'bg-alt-dark': 'var(--clr-bg-alt-dark)',
-        border: '#E5E7EB',
-        'border-dark': '#4B5563',
+        'text-base': 'var(--clr-text-base-current)', // Updated to use CSS var
+        'text-dark': 'var(--clr-text-base-dark)', // Updated to use CSS var
+        'bg-base': 'var(--clr-bg-base-current)', // Updated to use CSS var
+        'bg-alt': 'var(--clr-bg-alt-current)', // Updated to use CSS var
+        'bg-dark': 'var(--clr-bg-base-dark)', // Updated to use CSS var
+        'bg-alt-dark': 'var(--clr-bg-alt-dark)', // Updated to use CSS var
+        border: 'var(--clr-border-current)', // Updated to use CSS var
+        'border-dark': 'var(--clr-border-dark)', // Updated to use CSS var
+
+        // New Primary Palette
+        'primary-50': 'var(--clr-primary-50)',
+        'primary-100': 'var(--clr-primary-100)',
+        'primary-200': 'var(--clr-primary-200)',
+        'primary-300': 'var(--clr-primary-300)',
+        'primary-400': 'var(--clr-primary-400)',
+        'primary-500': 'var(--clr-primary-500)',
+        'primary-600': 'var(--clr-primary-600)',
+        'primary-700': 'var(--clr-primary-700)',
+        'primary-800': 'var(--clr-primary-800)',
+        'primary-900': 'var(--clr-primary-900)',
       },
       fontFamily: {
-        primary: ['Poppins', 'sans-serif'],
-        secondary: ['Merriweather', 'serif'],
+        primary: ['Inter Variable', 'sans-serif'], // Updated to Inter Variable
+        secondary: ['Satoshi Variable', 'sans-serif'], // Updated to Satoshi Variable for display/headings
+        code: ['JetBrains Mono', 'monospace'], // Added JetBrains Mono for code
+        accent: ['Playfair Display', 'serif'], // Added Playfair Display for accents
       },
       fontSize: {
-        // Using the modular scale from CSS vars
-        'xs': 'var(--fs--2)',
-        'sm': 'var(--fs--1)',
+        'xs': 'var(--fs-xs)',
+        'sm': 'var(--fs-sm)',
         'base': 'var(--fs-base)',
-        'lg': 'var(--fs-1)',
-        'xl': 'var(--fs-2)',
-        '2xl': 'var(--fs-3)',
-        '3xl': 'var(--fs-4)',
+        'lg': 'var(--fs-lg)',
+        'xl': 'var(--fs-xl)',
+        '2xl': 'var(--fs-2xl)',
+        '3xl': 'var(--fs-3xl)',
+        '4xl': 'var(--fs-4xl)',
+        '5xl': 'var(--fs-5xl)',
+        '6xl': 'var(--fs-6xl)',
       },
       padding: {
         // Explicitly define padding values
@@ -139,11 +155,19 @@ module.exports = {
       transitionTimingFunction: {
         'bounce-out': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
       },
+      screens: { // Enhanced Breakpoint System
+        'xs': '480px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+        '3xl': '1920px',
+      },
     },
   },
   plugins: [
-    // Optional plugins for additional functionality
-    // require('@tailwindcss/typography'),
-    // require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
   ],
 }

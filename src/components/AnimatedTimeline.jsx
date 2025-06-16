@@ -1,14 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 /**
- * AnimatedTimeline - Creates an animated timeline for experience, projects, or other chronological data
- * 
- * @param {Object} props
- * @param {Array} props.items - Array of timeline items with date, title, description, and optional technologies properties
- * @param {string} props.layout - Layout of the timeline (vertical or horizontal) (default: "vertical")
- * @param {boolean} props.alternating - Whether to alternate items on left and right (for vertical layout) (default: true)
- * @param {string} props.lineColor - Color of the timeline line (default: "#3B82F6")
- * @param {string} props.accentColor - Accent color for dots and highlights (default: "#3B82F6")
+ * AnimatedTimeline Component
+ *
+ * Creates an animated timeline for experience, projects, or other chronological data.
+ * Supports both vertical and horizontal layouts with intersection observer animations.
+ *
+ * @component
+ *
+ * @param {Object} props - Component props
+ * @param {Array} props.items - Array of timeline items with properties:
+ *   @param {string} item.date - Date or time period for the item
+ *   @param {string} item.title - Title of the timeline item
+ *   @param {string} item.description - Description of the timeline item
+ *   @param {string[]} [item.technologies] - Optional list of technologies used
+ * @param {string} [props.layout="vertical"] - Layout type: "vertical" or "horizontal"
+ * @param {boolean} [props.alternating=true] - Whether to alternate item sides in vertical layout
+ * @param {string} [props.lineColor="#3B82F6"] - Color for the timeline line
+ * @param {string} [props.accentColor="#3B82F6"] - Color for timeline dots and highlights
+ *
+ * @example
+ * <AnimatedTimeline
+ *   items={timelineData}
+ *   layout="vertical"
+ *   lineColor="#4f46e5"
+ *   accentColor="#818cf8"
+ * />
  */
 const AnimatedTimeline = ({
   items = [],

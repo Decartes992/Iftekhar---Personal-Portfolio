@@ -1,3 +1,7 @@
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/satoshi';
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,10 +24,17 @@ html {
 
 /* --- Theme Variables --- */
 :root {
-  /* Define core palette using CSS Custom Properties */
-  --clr-primary: #3B82F6; /* Blue 500 */
-  --clr-primary-light: #60A5FA; /* Blue 400 */
-  --clr-primary-dark: #2563EB; /* Blue 600 */
+  /* Core Palette - Expanded Primary */
+  --clr-primary-50: #eff6ff;
+  --clr-primary-100: #dbeafe;
+  --clr-primary-200: #bfdbfe;
+  --clr-primary-300: #93c5fd;
+  --clr-primary-400: #60a5fa;
+  --clr-primary-500: #3b82f6;  /* Main primary */
+  --clr-primary-600: #2563eb;
+  --clr-primary-700: #1d4ed8;
+  --clr-primary-800: #1e40af;
+  --clr-primary-900: #1e3a8a;
 
   --clr-secondary: #10B981; /* Green 500 */
   --clr-secondary-light: #34D399; /* Green 400 */
@@ -44,46 +55,60 @@ html {
   --clr-neutral-900: #1F2937; /* Gray 800 */
   --clr-neutral-950: #111827; /* Gray 900 */
 
-  /* Semantic Colors - Light Theme */
+  /* Semantic Colors - Light Theme Enhanced */
   --clr-text-base: var(--clr-neutral-900);
   --clr-text-muted: var(--clr-neutral-600);
   --clr-text-inverted: var(--clr-neutral-100);
-  --clr-bg-base: var(--clr-neutral-100);
-  --clr-bg-alt: var(--clr-neutral-200);
+  --bg-primary: #ffffff; /* Replaces --clr-bg-base */
+  --bg-secondary: #f8fafc; /* Replaces --clr-bg-alt */
+  --bg-tertiary: #f1f5f9;
+  --surface-elevated: #ffffff;
+  --surface-overlay: rgba(0, 0, 0, 0.02);
   --clr-border: var(--clr-neutral-300);
   --clr-surface: white;
 
-  /* Semantic Colors - Dark Theme (placeholders, to be defined with [data-theme="dark"]) */
+  /* Semantic Colors - Dark Theme Enhanced */
   --clr-text-base-dark: var(--clr-neutral-100);
   --clr-text-muted-dark: var(--clr-neutral-400);
   --clr-text-inverted-dark: var(--clr-neutral-900);
-  --clr-bg-base-dark: var(--clr-neutral-950);
-  --clr-bg-alt-dark: var(--clr-neutral-900);
+  --bg-primary-dark: #0f172a; /* Replaces --clr-bg-base-dark */
+  --bg-secondary-dark: #1e293b; /* Replaces --clr-bg-alt-dark */
+  --bg-tertiary-dark: #334155;
+  --surface-elevated-dark: #1e293b;
+  --surface-overlay-dark: rgba(255, 255, 255, 0.02);
   --clr-border-dark: var(--clr-neutral-700);
   --clr-surface-dark: var(--clr-neutral-800);
 
-  /* Gradients */
-  --gradient-primary: linear-gradient(to right, var(--clr-primary-light), var(--clr-primary-dark));
-  --gradient-secondary: linear-gradient(to right, var(--clr-secondary-light), var(--clr-secondary-dark));
-  --gradient-accent: linear-gradient(to right, var(--clr-accent-light), var(--clr-accent-dark));
+  /* Gradient Collections */
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+
+  /* Glassmorphism Support */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
   /* Font Families */
-  --font-sans: 'Inter Variable', sans-serif;
-  --font-serif: 'Satoshi', serif; /* Using Satoshi as a modern serif alternative */
-  --font-mono: 'monospace';
+  --font-primary: 'Inter Variable', sans-serif; /* Updated from --font-sans */
+  --font-display: 'Satoshi Variable', sans-serif; /* New for headings */
+  --font-code: 'JetBrains Mono', monospace; /* New for code */
+  --font-accent: 'Playfair Display', serif; /* New for special emphasis */
+  --font-serif: 'Satoshi Variable', serif; /* Keeping Satoshi as a fallback serif, but primary/display are preferred */
+  --font-mono: 'JetBrains Mono', monospace; /* Updated from generic monospace */
 
-  /* Font Sizes (Type Scale) - More granular */
-  --fs-xs: 0.75rem;    /* 12px */
-  --fs-sm: 0.875rem;   /* 14px */
-  --fs-base: 1rem;     /* 16px */
-  --fs-md: 1.125rem;   /* 18px */
-  --fs-lg: 1.25rem;    /* 20px */
-  --fs-xl: 1.5rem;     /* 24px */
-  --fs-2xl: 1.875rem;  /* 30px */
-  --fs-3xl: 2.25rem;   /* 36px */
-  --fs-4xl: 3rem;      /* 48px */
-  --fs-5xl: 3.75rem;   /* 60px */
-  --fs-6xl: 4.5rem;    /* 72px */
+  /* Font Sizes (New Typography Scale) */
+  --fs-xs: 0.75rem;      /* 12px - captions, meta text */
+  --fs-sm: 0.875rem;     /* 14px - small text, tags */
+  --fs-base: 1rem;       /* 16px - body text */
+  --fs-lg: 1.125rem;     /* 18px - large body, subtitles */
+  --fs-xl: 1.25rem;      /* 20px - small headings */
+  --fs-2xl: 1.5rem;      /* 24px - medium headings */
+  --fs-3xl: 1.875rem;    /* 30px - large headings */
+  --fs-4xl: 2.25rem;     /* 36px - hero headings */
+  --fs-5xl: 3rem;        /* 48px - display headings */
+  --fs-6xl: 3.75rem;     /* 60px - hero display */
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -115,33 +140,39 @@ html {
 
 /* Light Theme (Default) */
 html:not([data-theme="dark"]) {
-  --clr-primary-current: var(--clr-primary);
+  --clr-primary-current: var(--clr-primary-500);
   --clr-secondary-current: var(--clr-secondary);
   --clr-accent-current: var(--clr-accent);
   --clr-text-base-current: var(--clr-text-base);
   --clr-text-muted-current: var(--clr-text-muted);
   --clr-text-inverted-current: var(--clr-text-inverted);
-  --clr-bg-base-current: var(--clr-bg-base);
-  --clr-bg-alt-current: var(--clr-bg-alt);
+  --clr-bg-base-current: var(--bg-primary); /* Updated */
+  --clr-bg-alt-current: var(--bg-secondary); /* Updated */
+  --clr-bg-tertiary-current: var(--bg-tertiary);
+  --clr-surface-elevated-current: var(--surface-elevated);
+  --clr-surface-overlay-current: var(--surface-overlay);
   --clr-border-current: var(--clr-border);
   --clr-surface-current: var(--clr-surface);
 }
 
 [data-theme="dark"] {
-  --clr-primary-current: var(--clr-primary-light); /* Lighter primary for dark mode */
+  --clr-primary-current: var(--clr-primary-400); /* Adjusted for dark mode contrast */
   --clr-secondary-current: var(--clr-secondary-light);
   --clr-accent-current: var(--clr-accent-light);
   --clr-text-base-current: var(--clr-text-base-dark);
   --clr-text-muted-current: var(--clr-text-muted-dark);
   --clr-text-inverted-current: var(--clr-text-inverted-dark);
-  --clr-bg-base-current: var(--clr-bg-base-dark);
-  --clr-bg-alt-current: var(--clr-bg-alt-dark);
+  --clr-bg-base-current: var(--bg-primary-dark); /* Updated */
+  --clr-bg-alt-current: var(--bg-secondary-dark); /* Updated */
+  --clr-bg-tertiary-current: var(--bg-tertiary-dark);
+  --clr-surface-elevated-current: var(--surface-elevated-dark);
+  --clr-surface-overlay-current: var(--surface-overlay-dark);
   --clr-border-current: var(--clr-border-dark);
   --clr-surface-current: var(--clr-surface-dark);
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-primary);
   background-color: var(--clr-bg-base-current);
   color: var(--clr-text-base-current);
   line-height: 1.6;
@@ -152,7 +183,7 @@ body {
 
 /* --- Base Styles --- */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif); /* Using Satoshi for headings */
+  font-family: var(--font-display); /* Using Satoshi Variable for headings */
   font-weight: 700; /* Assuming Satoshi has a bold weight */
   line-height: 1.2;
   color: var(--clr-text-base-current);
@@ -242,11 +273,12 @@ img, svg, video {
 
 /* Glassmorphism effect */
 .glassmorphism {
-  background: rgba(255, 255, 255, 0.1); /* Light theme base */
+  background: var(--glass-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--rounded-xl);
+  border-radius: var(--rounded-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 [data-theme="dark"] .glassmorphism {

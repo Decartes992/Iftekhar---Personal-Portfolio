@@ -13,6 +13,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^8.1.5",
     "astro": "^5.7.5",
+    "aos": "^2.3.4",
     "chart.js": "^4.4.9",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@astrojs/react": "^4.2.5",
     "@tailwindcss/postcss": "^4.1.4",
+    "@types/aos": "^3.0.7",
     "autoprefixer": "^10.4.21",
     "markdownlint-cli": "^0.44.0",
     "postcss": "^8.5.3",

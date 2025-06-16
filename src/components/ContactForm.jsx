@@ -36,27 +36,24 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Form validation
     if (!formData.name || !formData.email || !formData.message) {
       setFormState({
         isSubmitting: false,
         isSubmitted: false,
         isError: true,
-        errorMessage: 'Please fill in all required fields'
+        errorMessage: 'Please fill in all required fields.' // Corrected typo
       });
       
-      // Add shake animation to form
       const form = e.target;
-      form.classList.add('animate-shake');
-      setTimeout(() => form.classList.remove('animate-shake'), 500);
+      form.classList.add('animate-shake'); // Ensure animate-shake is defined in global.css or tailwind.config.js
+      setTimeout(() => form.classList.remove('animate-shake'), 600); // Increased duration for better visibility
       
       return;
     }
     
     try {
-      setFormState(prev => ({ ...prev, isSubmitting: true }));
+      setFormState(prev => ({ ...prev, isSubmitting: true, isError: false, errorMessage: '' })); // Clear previous errors
       
-      // Send form data to the server
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -66,17 +63,12 @@ const ContactForm = () => {
       });
       
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        const errorData = await response.json().catch(() => ({ message: 'Failed to send message. Please try again.' }));
+        throw new Error(errorData.message || 'Failed to send message. Please try again.');
       }
       
-      // Reset form and show success message
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-      
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFocusedField(null); // Reset focused field
       setFormState({
         isSubmitting: false,
         isSubmitted: true,
@@ -95,19 +87,20 @@ const ContactForm = () => {
 
   if (formState.isSubmitted) {
     return (
-      <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-8 text-center animate-fade-in">
-        <div className="text-green-600 dark:text-green-400 mb-4">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <div className="bg-success-50 dark:bg-success-900/30 border border-success-300 dark:border-success-700 rounded-xl p-8 text-center animate-fade-in-up shadow-lg">
+        <div className="text-success-600 dark:text-success-400 mb-4">
+          {/* ... existing success SVG ... */}
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h3 className="text-2xl font-bold text-green-800 dark:text-green-300 mb-2">Message Sent!</h3>
-        <p className="text-green-700 dark:text-green-400 mb-6">
+        <h3 className="text-2xl font-bold text-success-800 dark:text-success-200 mb-2">Message Sent Successfully!</h3>
+        <p className="text-success-700 dark:text-success-300 mb-6">
           Thank you for reaching out. I'll get back to you as soon as possible.
         </p>
         <button 
-          onClick={() => setFormState(prev => ({ ...prev, isSubmitted: false }))}
-          className="btn btn-primary"
+          onClick={() => setFormState({ isSubmitting: false, isSubmitted: false, isError: false, errorMessage: '' })}
+          className="btn btn-primary hover:btn-primary-dark focus:ring-primary-500/50 transition-all duration-300 ease-in-out transform hover:scale-105"
         >
           Send Another Message
         </button>
@@ -118,18 +111,19 @@ const ContactForm = () => {
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="space-y-6 transition-all duration-300"
+      className="space-y-8 p-6 md:p-8 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-gray-200 dark:border-slate-700 transition-all duration-300"
+      noValidate // Prevent browser validation, rely on custom
     >
       {formState.isError && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 animate-fade-in">
-          <div className="flex">
+        <div className="bg-danger-50 dark:bg-danger-900/30 border border-danger-300 dark:border-danger-700 rounded-lg p-4 mb-6 animate-fade-in-down shadow-md">
+          <div className="flex items-center">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              <svg className="h-6 w-6 text-danger-500 dark:text-danger-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-red-800 dark:text-red-200">
+              <p className="text-sm font-medium text-danger-700 dark:text-danger-200">
                 {formState.errorMessage}
               </p>
             </div>
@@ -137,18 +131,9 @@ const ContactForm = () => {
         </div>
       )}
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="relative">
-          <label 
-            htmlFor="name"
-            className={`absolute left-4 transition-all duration-300 ${
-              focusedField === 'name' || formData.name 
-                ? '-top-2.5 text-primary text-xs bg-white dark:bg-bg-dark px-1'
-                : 'top-3 text-gray-500'
-            }`}
-          >
-            Name*
-          </label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
+        {/* Name Field */}
+        <div className="relative group">
           <input
             type="text"
             id="name"
@@ -157,22 +142,21 @@ const ContactForm = () => {
             onChange={handleChange}
             onFocus={() => handleFocus('name')}
             onBlur={handleBlur}
-            className="form-input pt-4"
+            className={`form-input peer ${(formState.isError && !formData.name) ? 'border-danger-500 dark:border-danger-400 focus:border-danger-500 focus:ring-danger-500/50' : 'focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/30'}`}
             required
+            aria-describedby={ (formState.isError && !formData.name) ? "name-error" : undefined }
           />
+          <label 
+            htmlFor="name"
+            className={`form-label peer-focus:form-label-focused ${ (focusedField === 'name' || formData.name) ? 'form-label-focused' : ''} ${(formState.isError && !formData.name) ? 'text-danger-500 dark:text-danger-400' : 'text-gray-500 dark:text-gray-400 peer-focus:text-primary-600 dark:peer-focus:text-primary-300'}`}
+          >
+            Full Name*
+          </label>
+          {(formState.isError && !formData.name) && <p id="name-error" className="mt-1 text-xs text-danger-600 dark:text-danger-400">Name is required.</p>}
         </div>
         
-        <div className="relative">
-          <label 
-            htmlFor="email"
-            className={`absolute left-4 transition-all duration-300 ${
-              focusedField === 'email' || formData.email 
-                ? '-top-2.5 text-primary text-xs bg-white dark:bg-bg-dark px-1'
-                : 'top-3 text-gray-500'
-            }`}
-          >
-            Email*
-          </label>
+        {/* Email Field */}
+        <div className="relative group">
           <input
             type="email"
             id="email"
@@ -181,23 +165,22 @@ const ContactForm = () => {
             onChange={handleChange}
             onFocus={() => handleFocus('email')}
             onBlur={handleBlur}
-            className="form-input pt-4"
+            className={`form-input peer ${(formState.isError && !formData.email) ? 'border-danger-500 dark:border-danger-400 focus:border-danger-500 focus:ring-danger-500/50' : 'focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/30'}`}
             required
+            aria-describedby={ (formState.isError && !formData.email) ? "email-error" : undefined }
           />
+          <label 
+            htmlFor="email"
+            className={`form-label peer-focus:form-label-focused ${ (focusedField === 'email' || formData.email) ? 'form-label-focused' : ''} ${(formState.isError && !formData.email) ? 'text-danger-500 dark:text-danger-400' : 'text-gray-500 dark:text-gray-400 peer-focus:text-primary-600 dark:peer-focus:text-primary-300'}`}
+          >
+            Email Address*
+          </label>
+          {(formState.isError && !formData.email) && <p id="email-error" className="mt-1 text-xs text-danger-600 dark:text-danger-400">A valid email is required.</p>}
         </div>
       </div>
       
-      <div className="relative">
-        <label 
-          htmlFor="subject"
-          className={`absolute left-4 transition-all duration-300 ${
-            focusedField === 'subject' || formData.subject 
-              ? '-top-2.5 text-primary text-xs bg-white dark:bg-bg-dark px-1'
-              : 'top-3 text-gray-500'
-          }`}
-        >
-          Subject
-        </label>
+      {/* Subject Field */}
+      <div className="relative group">
         <input
           type="text"
           id="subject"
@@ -206,21 +189,18 @@ const ContactForm = () => {
           onChange={handleChange}
           onFocus={() => handleFocus('subject')}
           onBlur={handleBlur}
-          className="form-input pt-4"
+          className="form-input peer focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/30"
         />
+        <label 
+          htmlFor="subject"
+          className={`form-label peer-focus:form-label-focused ${ (focusedField === 'subject' || formData.subject) ? 'form-label-focused' : ''} text-gray-500 dark:text-gray-400 peer-focus:text-primary-600 dark:peer-focus:text-primary-300`}
+        >
+          Subject (Optional)
+        </label>
       </div>
       
-      <div className="relative">
-        <label 
-          htmlFor="message"
-          className={`absolute left-4 transition-all duration-300 ${
-            focusedField === 'message' || formData.message 
-              ? '-top-2.5 text-primary text-xs bg-white dark:bg-bg-dark px-1'
-              : 'top-3 text-gray-500'
-          }`}
-        >
-          Message*
-        </label>
+      {/* Message Field */}
+      <div className="relative group">
         <textarea
           id="message"
           name="message"
@@ -229,19 +209,28 @@ const ContactForm = () => {
           onFocus={() => handleFocus('message')}
           onBlur={handleBlur}
           rows="5"
-          className="form-input pt-4 resize-none"
+          className={`form-input peer resize-none ${(formState.isError && !formData.message) ? 'border-danger-500 dark:border-danger-400 focus:border-danger-500 focus:ring-danger-500/50' : 'focus:border-primary-500 dark:focus:border-primary-400 focus:ring-primary-500/30'}`}
           required
+          aria-describedby={ (formState.isError && !formData.message) ? "message-error" : undefined }
         ></textarea>
+        <label 
+          htmlFor="message"
+          className={`form-label peer-focus:form-label-focused ${ (focusedField === 'message' || formData.message) ? 'form-label-focused' : ''} ${(formState.isError && !formData.message) ? 'text-danger-500 dark:text-danger-400' : 'text-gray-500 dark:text-gray-400 peer-focus:text-primary-600 dark:peer-focus:text-primary-300'}`}
+        >
+          Your Message*
+        </label>
+        {(formState.isError && !formData.message) && <p id="message-error" className="mt-1 text-xs text-danger-600 dark:text-danger-400">Message cannot be empty.</p>}
       </div>
       
-      <div className="flex justify-end">
+      <div className="flex justify-end pt-2">
         <button
           type="submit"
           disabled={formState.isSubmitting}
-          className={`btn btn-primary ${formState.isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+          className="btn btn-lg btn-primary w-full sm:w-auto disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-primary-500/50 shadow-md hover:shadow-lg"
         >
+          <span className="absolute inset-0 bg-gradient-to-r from-primary-400 to-secondary-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
           {formState.isSubmitting ? (
-            <span className="flex items-center">
+            <span className="relative flex items-center justify-center">
               <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -249,7 +238,7 @@ const ContactForm = () => {
               Sending...
             </span>
           ) : (
-            'Send Message'
+            <span className="relative">Send Message</span>
           )}
         </button>
       </div>
