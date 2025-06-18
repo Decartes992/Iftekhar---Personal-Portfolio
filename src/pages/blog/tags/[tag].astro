@@ -1,54 +1,82 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogPostCard from '../../../components/BlogPostCard.jsx'; // Corrected path
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  const tags = new Set();
+  const posts: CollectionEntry<'blog'>[] = await getCollection('blog');
+  const tags = new Set<string>();
   posts.forEach((post) => {
     post.data.tags?.forEach((tag) => tags.add(tag));
   });
 
   return Array.from(tags).map((tag) => ({
-    params: { tag },
-    props: { tag },
+    params: { tag: tag.toLowerCase().replace(/\s+/g, '-') }, // Ensure consistent slug format
+    props: { originalTag: tag }, // Pass original tag for display
   }));
 }
 
-const { tag } = Astro.props;
-const allPosts = await getCollection('blog');
-const posts = allPosts.filter((post) => post.data.tags?.includes(tag));
+interface Props {
+  originalTag: string;
+}
+
+const { originalTag } = Astro.props;
+const allPosts: CollectionEntry<'blog'>[] = await getCollection('blog');
+
+// Filter posts by the original tag, case-insensitively for robustness if needed, though slugs are standardized
+const posts = allPosts.filter((post) => 
+  post.data.tags?.some(t => t.toLowerCase() === originalTag.toLowerCase())
+);
 
 // Sort posts safely by checking if date exists
 posts.sort((a, b) => {
-  const dateA = a.data.date || a.data.date;
-  const dateB = b.data.date || b.data.date;
+  const dateA = a.data.pubDate || a.data.date;
+  const dateB = b.data.pubDate || b.data.date;
   
   if (!dateA && !dateB) return 0;
   if (!dateA) return 1;
   if (!dateB) return -1;
   
-  return dateB.getTime() - dateA.getTime();
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
 });
 ---
 
-<BaseLayout title={`Posts tagged "${tag}"`}>
-  <h1 class="text-3xl font-bold mb-6">Posts tagged "{tag}"</h1>
-  <ul class="space-y-4">
-    {posts.map((post) => {
-      const postDate = post.data.date || post.data.date;
-      const formattedDate = postDate ? postDate.toDateString() : 'No date';
-      
-      return (
-        <li>
-          <a href={`/blog/${post.slug}/`} class="text-xl text-blue-600 hover:underline">
-            {post.data.title}
+<BaseLayout title={`Posts tagged "${originalTag}" | Blog`} description={`Browse blog posts tagged with ${originalTag}.`}>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <header class="mb-12 md:mb-16 text-center" data-aos="fade-down">
+      <p class="text-sm font-medium text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">Tag Archive</p>
+      <h1 class="text-4xl md:text-5xl font-bold text-text-headings dark:text-text-dark-headings tracking-tight">Posts tagged "{originalTag}"</h1>
+    </header>
+
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10" data-aos="fade-up" data-aos-delay="100">
+        {posts.map((post, index) => (
+          <div data-aos="fade-up" data-aos-delay={100 * index}>
+            <BlogPostCard post={post} client:visible />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-16" data-aos="fade-up">
+        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="mt-2 text-xl font-medium text-text-headings dark:text-text-dark-headings">No posts found</h3>
+        <p class="mt-1 text-text-secondary dark:text-text-dark-secondary">There are no blog posts tagged with "{originalTag}" yet.</p>
+        <div class="mt-6">
+          <a href="/blog" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-offset-bg-dark">
+            &larr; Back to Blog Index
           </a>
-          <p class="text-gray-600 text-sm">{formattedDate}</p>
-        </li>
-      );
-    })}
-  </ul>
+        </div>
+      </div>
+    )}
+  </div>
 </BaseLayout>
+
+<style>
+  .container {
+    max-width: 1280px;
+  }
+</style>

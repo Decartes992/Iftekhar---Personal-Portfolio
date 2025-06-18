@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogPostCard from '../../components/BlogPostCard.jsx';
 
 export const prerender = true;
 
-const posts = await getCollection('blog');
-// Sort posts safely by checking if date exists
+const posts: CollectionEntry<'blog'>[] = await getCollection('blog');
+
 posts.sort((a, b) => {
   const dateA = a.data.pubDate || a.data.date;
   const dateB = b.data.pubDate || b.data.date;
@@ -14,25 +15,103 @@ posts.sort((a, b) => {
   if (!dateA) return 1;
   if (!dateB) return -1;
   
-  return dateB.getTime() - dateA.getTime();
+  return new Date(dateB).getTime() - new Date(dateA).getTime();
 });
+
+const featuredPost = posts.length > 0 ? posts[0] : null;
+const regularPosts = posts.length > 1 ? posts.slice(1) : [];
+
+interface PostsByYear {
+  [year: number]: CollectionEntry<'blog'>[];
+}
+
+const postsByYear: PostsByYear = regularPosts.reduce((acc, post) => {
+  const postDate = post.data.pubDate || post.data.date;
+  if (!postDate) return acc; 
+  const year = new Date(postDate).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as PostsByYear);
+
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+
+const allTags = [...new Set(posts.flatMap(post => post.data.tags || []))].sort(); 
+
 ---
 
-<BaseLayout title="Blog">
-  <h1 class="text-3xl font-bold mb-6">Blog Posts</h1>
-  <ul class="space-y-4">
-    {posts.map((post) => {
-      const postDate = post.data.pubDate || post.data.date;
-      const formattedDate = postDate ? postDate.toDateString() : 'No date';
-      
-      return (
-        <li>
-          <a href={`/blog/${post.slug}/`} class="text-xl text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded">
-            {post.data.title}
-          </a>
-          <p class="text-gray-600 text-sm">{formattedDate}</p>
-        </li>
-      );
-    })}
-  </ul>
+<BaseLayout title="Blog | Iftekhar's Portfolio" description="Explore articles on web development, software engineering, and technology.">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <header class="text-center mb-16 md:mb-20">
+      <h1 class="text-5xl md:text-6xl font-bold text-text-headings dark:text-text-dark-headings mb-6 tracking-tight" data-aos="fade-down">Iftekhar's Blog</h1>
+      <p class="text-lg md:text-xl text-text-secondary dark:text-text-dark-secondary max-w-3xl mx-auto leading-relaxed" data-aos="fade-up" data-aos-delay="100">
+        A collection of thoughts, tutorials, and explorations in the world of software engineering, web development, and beyond.
+      </p>
+    </header>
+
+    <!-- Featured Post Section -->
+    {featuredPost && (
+      <section class="mb-16 md:mb-20" aria-labelledby="featured-post-heading" data-aos="fade-up" data-aos-delay="200">
+        <h2 id="featured-post-heading" class="text-3xl md:text-4xl font-semibold text-text-headings dark:text-text-dark-headings mb-8 text-center tracking-tight">Featured Post</h2>
+        <div class="max-w-3xl mx-auto">
+          <BlogPostCard post={featuredPost} client:visible />
+        </div>
+      </section>
+    )}
+
+    <!-- Tag Cloud/Filter Section -->
+    {allTags.length > 0 && (
+      <section class="mb-16 md:mb-20 py-8 bg-bg-alt dark:bg-bg-dark-alt rounded-xl shadow-sm" aria-labelledby="tags-heading" data-aos="fade-up" data-aos-delay="300">
+        <h2 id="tags-heading" class="text-3xl md:text-4xl font-semibold text-text-headings dark:text-text-dark-headings mb-8 text-center tracking-tight">Explore by Tag</h2>
+        <div class="flex flex-wrap justify-center gap-3 md:gap-4 px-4">
+          {allTags.map(tag => (
+            <a 
+              href={`/blog/tags/${tag.toLowerCase().replace(/\s+/g, '-')}/`} 
+              class="px-5 py-2 bg-tag-bg dark:bg-tag-dark-bg text-tag-text dark:text-tag-dark-text rounded-full text-sm font-medium hover:bg-primary-500 dark:hover:bg-primary-400 hover:text-white dark:hover:text-gray-900 transition-all duration-200 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-bg-dark-alt"
+              aria-label={`View posts tagged with ${tag}`}
+            >
+              #{tag}
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Posts Archive Section -->
+    {years.length > 0 && (
+      <section aria-labelledby="posts-archive-heading" data-aos="fade-up" data-aos-delay="400">
+        <h2 id="posts-archive-heading" class="text-3xl md:text-4xl font-semibold text-text-headings dark:text-text-dark-headings mb-12 text-center tracking-tight">All Posts</h2>
+        {years.map((year, yearIndex) => (
+          <div class="mb-12" key={year} data-aos="fade-up" data-aos-delay={100 * yearIndex}>
+            <h3 class="text-2xl md:text-3xl font-semibold text-text-headings dark:text-text-dark-headings mb-8 border-b-2 border-border dark:border-border-dark pb-4 tracking-tight">{year}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              {postsByYear[year].map((post, postIndex) => (
+                <div data-aos="fade-up" data-aos-delay={50 * postIndex}>
+                  <BlogPostCard post={post} client:visible />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
+    )}
+
+    {posts.length === 0 && (
+      <div class="text-center py-16" data-aos="fade-up">
+        <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="mt-2 text-xl font-medium text-text-headings dark:text-text-dark-headings">No posts yet</h3>
+        <p class="mt-1 text-text-secondary dark:text-text-dark-secondary">Keep an eye on this space! New content is coming soon.</p>
+      </div>
+    )}
+  </div>
 </BaseLayout>
+
+<style>
+  .container {
+    max-width: 1280px;
+  }
+</style>

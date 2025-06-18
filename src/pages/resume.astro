@@ -1,97 +1,185 @@
 ---
 // src/pages/resume.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import InteractiveResumeSection from '../components/InteractiveResumeSection.jsx';
+import { resumeData, type Skill, type Certification, type WorkExperienceEntry, type AcademicProjectEntry, type EducationEntry } from '../data/aboutData.ts';
+import { BriefcaseIcon, AcademicCapIcon, SparklesIcon, BadgeCheckIcon, CodeIcon, TerminalIcon, CogIcon, UsersIcon, LightBulbIcon, DesktopComputerIcon, BeakerIcon } from '@heroicons/react/outline'; // Using outline for a cleaner look
 
-const pageTitle = "Resume & Skills | Iftekhar's Portfolio";
+const pageTitle = "Resume | Iftekhar's Portfolio";
+const pageDescription = "Detailed resume of Iftekhar, showcasing skills, experience, projects, and education in software and electrical engineering.";
+
+// Helper to group skills by category
+const skillsByCategory: Record<string, Skill[]> = resumeData.skills.reduce((acc, skill) => {
+  const category = skill.category || 'Other';
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(skill);
+  return acc;
+}, {} as Record<string, Skill[]>);
+
+const categoryIcons = {
+  "Programming Languages": CodeIcon,
+  "Frameworks/Libraries": TerminalIcon,
+  "Tools/Platforms": DesktopComputerIcon,
+  "Methodologies": CogIcon,
+  "Software": SparklesIcon, // Or a more specific icon if available
+  "Hardware": CogIcon, // Placeholder, consider a more specific one
+  "Soft Skills": UsersIcon,
+  "Other": LightBulbIcon
+};
+
 ---
-<BaseLayout title={pageTitle}>
-	<h1>Resume & Skills</h1>
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+    <header class="text-center mb-16 md:mb-20" data-aos="fade-down">
+      <h1 class="text-5xl md:text-6xl font-bold text-text-headings dark:text-text-dark-headings mb-6 tracking-tight">My Resume</h1>
+      <p class="text-lg md:text-xl text-text-secondary dark:text-text-dark-secondary max-w-3xl mx-auto leading-relaxed">
+        A comprehensive overview of my professional journey, skills, and academic achievements in the fields of software and electrical engineering.
+      </p>
+      <div class="mt-8">
+        <a href="/Iftekhar_Resume.pdf" target="_blank" rel="noopener noreferrer" 
+           class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-bg-dark transition-transform transform hover:scale-105 shadow-lg">
+          Download PDF Resume
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+      </div>
+    </header>
 
-	<section>
-		<h2>Skills & Certifications</h2>
-		<h3>Skills:</h3>
-		<ul>
-			<li>Software Development: Python, C/C++, Git, Linux, GitHub</li>
-			<li>Systems Engineering</li>
-			<li>Computer Engineering</li>
-			<li>Electrical Engineering</li>
-			<li>Computer Science</li>
-			<li>Software Engineering</li>
-			<li>System Architecture</li>
-			<li>Data Structure and Algorithms</li>
-			<li>Product Design: SolidWorks</li>
-			<li>Technical Communication</li>
-			<li>Electrical Equipment: Oscilloscope, Signal Generator, Multimeter, Soldering</li>
-			<li>Mechanical Equipment: CNC, Laser Cutter, FDM 3D Printer, Resin 3D Printer</li>
-			<li>Efficient Time Management</li>
-			<li>Project Management</li>
-			<li>Flexibility</li>
-			<li>Disciplined</li>
-			<li>Self-directed</li>
-			<li>Committed</li>
-			<li>Team-player</li>
-			<li>Active Learning</li>
-			<li>Works well in High Pressure</li>
-			<li>Microsoft Office 365 – Word, Excel, Outlook</li>
-			<li>Critical Thinker</li>
-			<li>Collaborative</li>
-		</ul>
-		<h3>Certifications:</h3>
-		<ul>
-			<li>Diploma of Engineering (Dalhousie University)</li>
-			<li>Emergency First Aid & CPR/AED level C</li>
-		</ul>
-	</section>
+    <!-- Skills Section -->
+    <InteractiveResumeSection title="Skills Showcase" client:load initiallyOpen={true}>
+      <div class="space-y-8">
+        {Object.entries(skillsByCategory).map(([category, skills]) => {
+          const IconComponent = categoryIcons[category] || LightBulbIcon;
+          return (
+            <div key={category} class="p-4 bg-bg-alt dark:bg-bg-dark-alt rounded-lg shadow-sm">
+              <div class="flex items-center mb-3">
+                <IconComponent class="h-6 w-6 text-primary-600 dark:text-primary-400 mr-3" />
+                <h4 class="text-lg font-semibold text-text-headings dark:text-text-dark-headings">{category}</h4>
+              </div>
+              <ul class="flex flex-wrap gap-2">
+                {skills.map(skill => (
+                  <li key={skill.name} class="bg-tag-bg dark:bg-tag-dark-bg text-tag-text dark:text-tag-dark-text px-3 py-1.5 rounded-full text-sm font-medium">
+                    {skill.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </InteractiveResumeSection>
 
-	<section>
-		<h2>Work Experience</h2>
-		<article>
-			<h3>Makerspace Coordinator</h3>
-			<p><em>Dalhousie University (Emera Ideahub Makerspace) - Halifax, NS</em> | October 2021 – April 2023</p>
-			<ul>
-				<li>Advised students on engineering 100+ innovative projects using industrial grade Mechanical and Electrical equipment.</li>
-				<li>Studied and maintained 25+ equipment including 3D Printers, CNCs, Laser Printers, Bandsaws, Soldering.</li>
-				<li>Applied innovative management ideas to increase workflow efficiency by 30% for students.</li>
-				<li>Collaborated with 5+ professionals and organizations in prototyping products.</li>
-			</ul>
-		</article>
-	</section>
+    <!-- Work Experience Section -->
+    <InteractiveResumeSection title="Work Experience" client:load initiallyOpen={true}>
+      <div class="space-y-8">
+        {resumeData.workExperience.map((exp, index) => (
+          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+              <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{exp.role}</h4>
+              <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{exp.period}</p>
+            </div>
+            <p class="text-md font-medium text-text-secondary dark:text-text-dark-secondary mb-1">{exp.company} - <span class="italic">{exp.location}</span></p>
+            <ul class="list-disc list-outside ml-5 space-y-1.5 text-text-base dark:text-text-dark-base mt-3">
+              {exp.responsibilities.map((resp, i) => <li key={i}>{resp}</li>)}
+            </ul>
+            {exp.technologies && exp.technologies.length > 0 && (
+              <div class="mt-4 pt-3 border-t border-border-subtle dark:border-border-dark-subtle">
+                <h5 class="text-sm font-semibold text-text-muted dark:text-text-dark-muted mb-2">Key Technologies:</h5>
+                <div class="flex flex-wrap gap-2">
+                  {exp.technologies.map(tech => (
+                    <span key={tech} class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </InteractiveResumeSection>
 
-	<section>
-		<h2>Academic Projects</h2>
-		<article>
-			<h3>Low Orbit Reconnaissance Imagery Satellite project</h3>
-			<p><em>Dalhousie Space systems lab Project (Core software developer)</em> | October 2020 - Present</p>
-			<ul>
-				<li>Programmed an embedded processor in C for the LORIS project in a remote setting, creating 5+ modular containers.</li>
-				<li>Developed a file system module for satellite data management, increasing efficiency by 8% in module unit testing.</li>
-				<li>Engineered the communication protocols for key satellite modules including RF, Command, and Mission Control, implementing best coding practices, increasing pipeline efficiency by greater than 10%.</li>
-				<li>Compiled and presented bi-weekly progress reports on software development, facilitating cross-team collaboration for hardware-specific coding.</li>
-			</ul>
-		</article>
-		<article>
-			<h3>Subsea Infrastructure sensory Pod</h3>
-			<p><em>Dalhousie Engineering Design II (Electrical) Term</em> | January 2022 - April 2022</p>
-			<ul>
-				<li>Programmed an Atmega 328P embedded processor using Microchip Studio for seawater electrical fault and fluid contamination detection.</li>
-				<li>Utilized SolidWorks for internal mechanism design and prototyped using FDM 3D printing.</li>
-				<li>Developed and implemented an ultrasonic sensor-based contamination detection module.</li>
-				<li>Delivered two professional presentations covering methodology, system architecture, and software components.</li>
-				<li>Authored a comprehensive 40-page technical report achieving a grade of A.</li>
-			</ul>
-		</article>
-		<!-- MILTON Project will be detailed on the Projects page -->
-	</section>
+    <!-- Academic Projects Section -->
+    <InteractiveResumeSection title="Academic & Personal Projects" client:load>
+      <div class="space-y-8">
+        {resumeData.academicProjects.map((project, index) => (
+          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+              <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{project.name}</h4>
+              <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{project.period}</p>
+            </div>
+            <p class="text-md font-medium text-text-secondary dark:text-text-dark-secondary mb-1">{project.affiliation}</p>
+            {project.description && <p class="text-text-base dark:text-text-dark-base mb-2">{project.description}</p>}
+            <ul class="list-disc list-outside ml-5 space-y-1.5 text-text-base dark:text-text-dark-base mt-3">
+              {project.highlights.map((highlight, i) => <li key={i}>{highlight}</li>)}
+            </ul>
+            {project.technologies && project.technologies.length > 0 && (
+              <div class="mt-4 pt-3 border-t border-border-subtle dark:border-border-dark-subtle">
+                <h5 class="text-sm font-semibold text-text-muted dark:text-text-dark-muted mb-2">Key Technologies:</h5>
+                <div class="flex flex-wrap gap-2">
+                  {project.technologies.map(tech => (
+                    <span key={tech} class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </InteractiveResumeSection>
 
-	<section>
-		<h2>Education</h2>
-		<article>
-			<h3>BEng Electrical Engineering with Computer Option</h3>
-			<p><em>Dalhousie University</em> | September 2020 - Present</p>
-			<ul>
-				<li>Served as secretary for the Dalhousie IEEE Power and Energy Society, hosting 5+ events and programmes.</li>
-			</ul>
-		</article>
-	</section>
+    <!-- Education Section -->
+    <InteractiveResumeSection title="Education" client:load>
+      <div class="space-y-8">
+        {resumeData.education.map((edu, index) => (
+          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
+              <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{edu.degree}</h4>
+              <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{edu.period}</p>
+            </div>
+            <p class="text-md font-medium text-text-secondary dark:text-text-dark-secondary mb-1">{edu.institution}</p>
+            {edu.gpa && <p class="text-sm text-text-muted dark:text-text-dark-muted">GPA: {edu.gpa}</p>}
+            {edu.details && edu.details.length > 0 && (
+              <ul class="list-disc list-outside ml-5 space-y-1 text-text-base dark:text-text-dark-base mt-3">
+                {edu.details.map((detail, i) => <li key={i}>{detail}</li>)}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </InteractiveResumeSection>
 
+    <!-- Certifications Section -->
+    <InteractiveResumeSection title="Certifications" client:load>
+      <div class="space-y-6">
+        {resumeData.certifications.map((cert, index) => (
+          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark flex items-center">
+            <BadgeCheckIcon class="h-8 w-8 text-green-500 dark:text-green-400 mr-4 flex-shrink-0" />
+            <div>
+              <h4 class="text-lg font-semibold text-text-headings dark:text-text-dark-headings">{cert.name}</h4>
+              <p class="text-sm text-text-muted dark:text-text-dark-muted">{cert.issuer}{cert.date ? ` - ${cert.date}` : ''}</p>
+              {cert.url && <a href={cert.url} target="_blank" rel="noopener noreferrer" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">View Credential</a>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </InteractiveResumeSection>
+
+  </div>
 </BaseLayout>
+
+<style>
+  /* Add any page-specific styles here if needed */
+  /* For example, to ensure prose styles inside InteractiveResumeSection are scoped if necessary */
+  .prose ul > li::before {
+    background-color: var(--color-text-muted) !important;
+  }
+  .dark .prose ul > li::before {
+    background-color: var(--color-text-dark-muted) !important;
+  }
+</style>

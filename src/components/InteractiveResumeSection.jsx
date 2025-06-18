@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid'; // Assuming heroicons for icons
+import React, { useState, useRef, useEffect } from 'react';
+import { PlusIcon, MinusIcon } from '@heroicons/react/solid'; // Using Plus/Minus for a slightly different feel
 
 /**
  * ExpandableSection Component
@@ -12,34 +12,42 @@ import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid'; // Assu
  * @param {React.ReactNode} props.children - The content to be shown/hidden.
  * @param {boolean} [props.initiallyOpen=false] - Whether the section is open by default.
  */
-const ExpandableSection = ({ title, children, initiallyOpen = false }) => {
+const ExpandableSection = ({ title, children, initiallyOpen = false, titleClassName, iconSize = 6 }) => {
   const [isOpen, setIsOpen] = useState(initiallyOpen);
+  const contentRef = useRef(null);
+  const [contentHeight, setContentHeight] = useState('0px');
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(isOpen ? `${contentRef.current.scrollHeight}px` : '0px');
+    }
+  }, [isOpen, children]); // Re-calculate on children change too, in case content becomes dynamic
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
+  const IconComponent = isOpen ? MinusIcon : PlusIcon;
+
   return (
-    <div className="mb-4 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+    <div className="mb-6 border border-border dark:border-border-dark rounded-xl shadow-sm overflow-hidden transition-all duration-300 ease-in-out">
       <button
         onClick={toggleOpen}
-        className="w-full flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors duration-200"
+        className={`w-full flex justify-between items-center p-5 md:p-6 text-left bg-bg-alt dark:bg-bg-dark-alt hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400 transition-colors duration-200 ${isOpen ? 'border-b border-border dark:border-border-dark' : ''}`}
         aria-expanded={isOpen}
         aria-controls={`section-content-${title.replace(/\s+/g, '-').toLowerCase()}`}
       >
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">{title}</h3>
-        {isOpen ? (
-          <ChevronUpIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-        ) : (
-          <ChevronDownIcon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
-        )}
+        <h3 className={`text-xl md:text-2xl font-semibold text-text-headings dark:text-text-dark-headings ${titleClassName || ''}`}>{title}</h3>
+        <IconComponent className={`w-${iconSize} h-${iconSize} text-primary-600 dark:text-primary-400 transition-transform duration-300 ease-in-out ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      {isOpen && (
-        <div 
-          id={`section-content-${title.replace(/\s+/g, '-').toLowerCase()}`}
-          className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 transition-all duration-500 ease-in-out"
-        >
+      <div 
+        ref={contentRef}
+        style={{ maxHeight: contentHeight }}
+        id={`section-content-${title.replace(/\s+/g, '-').toLowerCase()}`}
+        className="overflow-hidden transition-max-height duration-500 ease-in-out"
+      >
+        <div className="p-5 md:p-6 bg-card dark:bg-card-dark text-text-base dark:text-text-dark-base prose dark:prose-invert max-w-none prose-sm md:prose-base">
           {children}
         </div>
-      )}
+      </div>
     </div>
   );
 };
