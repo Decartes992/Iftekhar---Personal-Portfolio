@@ -26,8 +26,10 @@
 export interface Props {
   headline: string;
   subheadline: string;
-  ctaText?: string;
-  ctaLink?: string;
+  ctaPrimaryText?: string;
+  ctaPrimaryLink?: string;
+  ctaSecondaryText?: string;
+  ctaSecondaryLink?: string;
   imageUrl?: string;
   imageAlt?: string;
   socialProofLogos?: { src: string; alt: string }[];
@@ -46,33 +48,19 @@ const {
 } = Astro.props;
 
 import Button from './Button.astro';
-import ParticleBackground from './ParticleBackground.jsx'; // Import ParticleBackground
-import Tilt3D from './Tilt3D.jsx'; // Assuming Tilt3D is for 3D effects
 
 ---
 <!-- Hero Section -->
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20 md:py-24 bg-gradient-hero print:min-h-0 print:py-12">
-  <!-- Interactive Particle Background - client:visible ensures it loads and runs in browser -->
-  <ParticleBackground client:visible 
-    color="255, 255, 255" 
-    particleDensity={6}
-    opacity={0.1}
-    mouseInteract={true}
-    maxConnectDistance={80}
-  />
-
   <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
     <div class="max-w-3xl mx-auto">
-      <!-- 3D Text Effect for Headline - using Tilt3D as an example wrapper -->
-      <Tilt3D client:visible className="mb-6 md:mb-8" data-aos="fade-down" data-aos-delay="100">
+      <div data-aos="fade-down" data-aos-delay="100">
         <h1 
-          class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-display text-white tracking-tight leading-tight hero-headline-shadow"
+          class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold font-display text-white tracking-tight leading-tight mb-6 md:mb-8"
         >
-          {headline.split('').map((char, i) => (
-            <span class="inline-block transition-transform duration-300 ease-out hover:scale-110" style={`animation: letterBounceIn 0.5s ${i * 0.03 + 0.3}s ease-out backwards;`}>{char === ' ' ? '\u00A0' : char}</span>
-          ))}
+          {headline}
         </h1>
-      </Tilt3D>
+      </div>
 
       <p 
         class="text-xl sm:text-2xl md:text-3xl font-primary text-primary-200/90 mb-8 md:mb-12"
@@ -86,66 +74,16 @@ import Tilt3D from './Tilt3D.jsx'; // Assuming Tilt3D is for 3D effects
         class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center"
         data-aos="fade-up" data-aos-delay="500"
       >
-        <Button href={ctaPrimaryLink} variant="primary" size="lg" extraClass="shadow-lg hover:shadow-xl transform hover:scale-105">
+        <Button href={ctaPrimaryLink} variant="primary" size="lg">
           {ctaPrimaryText}
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1">
             <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
           </svg>
         </Button>
-        <Button href={ctaSecondaryLink} variant="outline" size="lg" extraClass="text-white border-primary-200/70 hover:bg-white/10 hover:border-white shadow-lg hover:shadow-xl transform hover:scale-105">
+        <Button href={ctaSecondaryLink} variant="outline" size="lg" extraClass="text-white border-primary-200/70 hover:bg-white/10 hover:border-white">
           {ctaSecondaryText}
         </Button>
       </div>
     </div>
   </div>
-
-  <!-- Scroll-down indicator - optional -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce-slow print:hidden" data-aos="fade-up" data-aos-delay="700">
-    <a href="#about" aria-label="Scroll to about section" class="text-white/70 hover:text-white transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 md:w-10 md:h-10">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m9 12.75 3 3m0 0 3-3m-3 3v-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-      </svg>
-    </a>
-  </div>
 </section>
-
-<style>
-  .hero-headline-shadow {
-    text-shadow: 
-      0px 2px 4px rgba(0,0,0,0.2),
-      0px 4px 8px rgba(0,0,0,0.15),
-      0px 8px 16px rgba(0,0,0,0.1);
-  }
-
-  @keyframes letterBounceIn {
-    0% {
-      opacity: 0;
-      transform: translateY(20px) scale(0.8);
-    }
-    60% {
-      transform: translateY(-5px) scale(1.05);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Ensure animations respect reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-headline-shadow span,
-    .animate-bounce-slow {
-      animation: none !important;
-      transition: none !important;
-      opacity: 1 !important; /* Ensure visibility */
-      transform: none !important;
-    }
-  }
-</style>
-
-<script>
-  // The IntersectionObserver logic from the original Hero.astro can be kept if needed for other elements,
-  // but the primary hero content animations are now CSS-driven with delays.
-  // If ParticleBackground or Tilt3D need specific scroll-triggered behavior beyond their own logic,
-  // that could be managed here or within those components.
-</script>
