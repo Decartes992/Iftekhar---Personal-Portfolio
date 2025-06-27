@@ -4,132 +4,223 @@
  *
  * @module BaseLayout
  * @description Provides the common structure for all pages including head, header, main content, and footer.
- * Handles theme initialization and page transitions.
+ * Handles theme initialization, page transitions, and advanced visual effects like scroll-driven animations.
  *
- * @prop {string} title - Page title
- * @prop {string} [description='Iftekhar - Personal Portfolio'] - Page meta description
+ * @prop {string} title - Page title.
+ * @prop {string} [description='Iftekhar - Personal Portfolio'] - Page meta description.
+ * @prop {Date} [lastUpdated] - The date the content was last updated. Passed to the footer.
  *
  * @example
- * <BaseLayout title="Home">
- *   <!-- page content -->
- * </BaseLayout>
+ * ---
+ * // In your page, e.g., src/pages/index.astro
+ * // You can get the last commit date for a file using custom logic or integrations.
+ * const lastUpdated = new Date(); // Replace with actual logic, e.g., from Git
+ * ---
+ * <BaseLayout title="Home" lastUpdated={lastUpdated}>
+ * * </BaseLayout>
  */
-import '../styles/global.css'; // Import global styles
-import { ViewTransitions } from 'astro:transitions'; // Import ViewTransitions
-import Header from '../components/Header.astro'; // Import the new Header component
-import Footer from '../components/Footer.astro'; // Import the new Footer component
-import ThemeToggleButton from '../components/ThemeToggleButton.astro';
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import CustomCursor from '../components/CustomCursor.jsx';
-import 'aos/dist/aos.css'; // Import AOS styles
+import 'aos/dist/aos.css';
 
 interface Props {
-	title: string;
-	description?: string;
+    title: string;
+    description?: string;
+    lastUpdated?: Date;
 }
 
-const { title, description = 'Iftekhar - Personal Portfolio' } = Astro.props;
+const {
+    title,
+    description = 'Iftekhar - Personal Portfolio',
+    lastUpdated,
+} = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en" class="scroll-smooth">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content={description} />
-		<meta name="viewport" content="width=device-width, initial-scale=1" /> {/* Ensure responsiveness */}
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		{/* Preconnect/Preload fonts if needed for performance */}
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    {/* Updated font imports to use @fontsource packages specified in global.css and avoid duplicate Google Fonts links */}
-		{/* <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Satoshi:wght@400;500;700&display=swap" rel="stylesheet"> */}
-		<title>{title} | Iftekhar Rafi - Software Engineer</title> {/* Enhanced site title */}
-		{/* Astro View Transitions for page transitions */}
-		<ViewTransitions fallback="animate" />
-		{/* Inline script for immediate theme application to prevent FOUC */}
-		<script is:inline>
-      const STORAGE_KEY = 'theme-preference'; // Match the key used in theme-toggle.js
-      const getInitialTheme = () => {
-        try {
-          const storedPref = localStorage.getItem(STORAGE_KEY);
-          if (storedPref) {
-            return storedPref;
-          }
-        } catch (e) {
-          console.warn('Accessing localStorage failed, falling back to system preference.');
-          // Fallback or handle error appropriately
-        }
-        // Fallback to system preference if no stored preference or if localStorage fails
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      };
-      const theme = getInitialTheme();
-      document.documentElement.setAttribute('data-theme', theme);
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-		</script>
-    <script is:inline>
-      // AOS Initialization
-      // It's important to initialize AOS after the DOM is ready
-      // and potentially after Astro's view transitions have completed if animations conflict.
-      // For now, we'll initialize on page load.
-      document.addEventListener('astro:page-load', () => {
-        if (typeof AOS !== 'undefined') {
-          AOS.init({
-            duration: 800, // values from 0 to 3000, with step 50ms
-            easing: 'ease-in-out-quad', // default easing for AOS animations
-            once: true, // whether animation should happen only once - while scrolling down
-            mirror: false, // whether elements should animate out while scrolling past them
-            anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
-          });
-        }
-      });
-    </script>
-	</head>
-	<body class="bg-bg-base-current text-text-base-current flex flex-col min-h-screen font-primary selection:bg-primary-500 selection:text-white">
-    <CustomCursor client:only="jsx" />
-		<Header />
-    {/* New Layout Structure: Main Content Area */}
-		<main id="main-content" class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-			{/* Optional Sidebar can be added here if a page needs it */}
-			<slot />
-		</main>
-		<Footer /> {/* Use the new Footer component */}
-		{/* Script to update dynamic timestamp */}
-		<script is:inline>
-			document.addEventListener('DOMContentLoaded', () => {
-				const timestampSpan = document.getElementById('last-updated-timestamp');
-				if (timestampSpan) {
-					const now = new Date();
-					const options = { year: 'numeric', month: 'long', day: 'numeric' };
-					timestampSpan.textContent = now.toLocaleDateString(undefined, options);
-				}
-			});
-		</script>
-		{/* Deferred script for theme toggle functionality */}
-		<script src="/scripts/theme-toggle.js" defer></script> {/* Load deferred */}
-    <script src="/scripts/aos.js" defer></script> {/* Load AOS script deferred */}
-		{/* Script for Astro View Transitions class toggling */}
-		<script is:inline>
-			document.addEventListener('astro:page-load', () => {
-				document.documentElement.classList.remove('is-animating');
-			});
-			document.addEventListener('astro:before-swap', (e) => {
-				document.documentElement.classList.add('is-animating');
-			});
-		</script>
-		{/* Script for subtle button click microinteraction */}
-		<script is:inline>
-			document.addEventListener('click', (event) => {
-				const button = event.target.closest('button, a.btn');
-				if (button) {
-					button.classList.add('active-pulse');
-					button.addEventListener('animationend', () => {
-						button.classList.remove('active-pulse');
-					}, { once: true });
-				}
-			});
-		</script>
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title} | Iftekhar Rafi - Software Engineer</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Satoshi:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <ViewTransitions fallback="animate" />
+
+        <script is:inline>
+            // Immediately set theme from localStorage or system preference to avoid FOUC
+            const STORAGE_KEY = 'theme-preference';
+            const getInitialTheme = () => {
+                try {
+                    const storedPref = localStorage.getItem(STORAGE_KEY);
+                    if (storedPref) return storedPref;
+                } catch (e) { /* localStorage may be disabled */ }
+                return window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'dark'
+                    : 'light';
+            };
+            const theme = getInitialTheme();
+            document.documentElement.dataset.theme = theme;
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+        </script>
+
+        <style>
+            /* --- 1. Enhanced Animated Gradient Background --- */
+            body {
+                /* Define your gradient colors in your global.css via CSS variables for themeability */
+                background: linear-gradient(
+                    -45deg,
+                    var(--gradient-color-1, #ee7752),
+                    var(--gradient-color-2, #e73c7e),
+                    var(--gradient-color-3, #23a6d5),
+                    var(--gradient-color-4, #23d5ab)
+                );
+                background-size: 400% 400%;
+                animation: gradientBG 15s ease infinite;
+                /* Improve text rendering */
+                text-rendering: optimizeLegibility;
+                -webkit-font-smoothing: antialiased;
+                -moz-osx-font-smoothing: grayscale;
+            }
+
+            @keyframes gradientBG {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+
+            /* --- 2. Enhanced View Transition Animation (Slide + Fade) --- */
+            ::view-transition-old(root) {
+                animation: slide-and-fade 0.5s ease-out;
+            }
+            ::view-transition-new(root) {
+                animation: slide-from-right-and-fade 0.5s ease-in;
+            }
+
+            @keyframes slide-and-fade {
+	            from {
+		            transform: translateX(0);
+                    opacity: 1;
+	            }
+	            to {
+		            transform: translateX(-15%);
+                    opacity: 0;
+	            }
+            }
+
+            @keyframes slide-from-right-and-fade {
+	            from {
+		            transform: translateX(15%);
+                    opacity: 0;
+	            }
+	            to {
+		            transform: translateX(0);
+                    opacity: 1;
+	            }
+            }
+
+            /* --- 3. Scroll-Driven Header Styles --- */
+            /* These styles are applied to the header when the 'scrolled' class is added by JS */
+            header.scrolled {
+                background-color: var(--header-scrolled-bg, rgba(255, 255, 255, 0.8));
+                backdrop-filter: blur(10px);
+                --webkit-backdrop-filter: blur(10px); /* For Safari */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                border-bottom-color: transparent;
+            }
+            /* Ensure smooth transition for these properties */
+            header {
+                transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            }
+        </style>
+    </head>
+
+    <body
+        class="bg-bg-base-current text-text-base-current flex min-h-screen flex-col font-primary selection:bg-primary-500 selection:text-white"
+    >
+        <CustomCursor client:only="jsx" />
+        <Header />
+
+        <main
+            id="main-content"
+            class="mx-auto w-full max-w-screen-2xl flex-grow px-6 py-16 sm:px-8 md:py-20 lg:px-12"
+        >
+            <slot />
+        </main>
+
+        <Footer {lastUpdated} />
+
+        <script src="/scripts/aos.js" defer></script>
+        <script is:inline>
+            // --- Consolidated Page Load & Interaction Script ---
+
+            // Function to handle scroll-driven header style changes
+            const handleScroll = () => {
+                const header = document.querySelector('header');
+                if (header) {
+                    header.classList.toggle('scrolled', window.scrollY > 50);
+                }
+            };
+            
+            // Function to add a micro-interaction pulse effect to buttons on click
+            const handleButtonPulse = (event) => {
+                const button = event.target.closest('button, a.btn');
+                if (button) {
+                    button.classList.add('active-pulse');
+                    button.addEventListener(
+                        'animationend',
+                        () => button.classList.remove('active-pulse'),
+                        { once: true }
+                    );
+                }
+            };
+
+            // This master function runs on initial load and after every page transition
+            const runPageScripts = () => {
+                // Initialize AOS (Animate on Scroll)
+                if (typeof AOS !== 'undefined') {
+                    AOS.init({
+                        duration: 800,
+                        easing: 'ease-in-out-quad',
+                        once: true,
+                        mirror: false,
+                        anchorPlacement: 'top-bottom',
+                    });
+                }
+                
+                // Add scroll listener for the header effect
+                window.addEventListener('scroll', handleScroll, { passive: true });
+            };
+
+            // --- Event Listeners ---
+            
+            // Astro's 'page-load' event is the primary trigger for scripts
+            document.addEventListener('astro:page-load', runPageScripts);
+
+            // Add global click listener for button pulse effect
+            document.addEventListener('click', handleButtonPulse);
+            
+            // Handle View Transition animation classes
+            document.addEventListener('astro:before-swap', () => {
+                // Clean up scroll listener before page swaps to prevent duplicates
+                window.removeEventListener('scroll', handleScroll);
+                document.documentElement.classList.add('is-animating');
+            });
+            document.addEventListener('astro:after-swap', () => {
+                document.documentElement.classList.remove('is-animating');
+            });
+
+        </script>
+    </body>
 </html>
