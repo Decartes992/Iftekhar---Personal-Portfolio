@@ -12,6 +12,9 @@
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
     "@astrojs/vercel": "^8.1.5",
+    "@fontsource-variable/inter": "^5.2.6",
+    "@fontsource/jetbrains-mono": "^5.2.6",
+    "@fontsource/playfair-display": "^5.2.6",
     "@heroicons/react": "^2.2.0",
     "aos": "^2.3.4",
     "astro": "^5.7.5",
@@ -22,7 +25,9 @@
   },
   "devDependencies": {
     "@astrojs/react": "^4.2.5",
+    "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.1.4",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/aos": "^3.0.7",
     "autoprefixer": "^10.4.21",
     "markdownlint-cli": "^0.44.0",

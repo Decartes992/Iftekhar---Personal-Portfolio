@@ -9,16 +9,14 @@
  * <About />
  */
 ---
-// Attempting to import types and values together.
-// Skill and Experience are interfaces in aboutData.ts
-import { skillsData, experienceData, achievements, personalityTraits, type Skill, type Experience, type Achievement, type PersonalityTrait } from '../data/aboutData.ts';
+import { skillsData, experienceData, achievements, personalityTraits } from '../data/aboutData.ts';
+import type { LegacySkill as Skill, LegacyExperience as Experience, LegacyAchievement as Achievement, LegacyPersonalityTrait as PersonalityTrait } from '../data/aboutData.ts';
 
 import SkillRadarChart from './SkillRadarChart.jsx';
 import AnimatedTimeline from './AnimatedTimeline.jsx';
 import AchievementBadge from './AchievementBadge.jsx';
 import InteractiveResumeSection from './InteractiveResumeSection.jsx';
 import PersonalityIndicator from './PersonalityIndicator.jsx';
-
 ---
 
 <section class="about-section py-12 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900" id="about" aria-labelledby="about-headline">
@@ -48,7 +46,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
             <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Personality Snapshot</h4>
             <div class="space-y-2">
               {personalityTraits.map((trait: PersonalityTrait) => (
-                <PersonalityIndicator client:visible trait={trait.trait} level={trait.level} color={trait.color} type="bar" size="small" />
+                <PersonalityIndicator trait={trait.trait} level={trait.level} color={trait.color} type="bar" size="small" client:visible />
               ))}
             </div>
           </div>
@@ -68,7 +66,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {achievements.map((badge: Achievement, index: number) => (
               <div data-aos="fade-up" data-aos-delay={index * 100 + 400}>
-                <AchievementBadge client:visible icon={badge.icon} title={badge.title} description={badge.description} color={badge.color} />
+                <AchievementBadge icon={badge.icon} title={badge.title} description={badge.description} color={badge.color} client:visible />
               </div>
             ))}
           </div>
@@ -79,7 +77,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
     <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
       <h3 class="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">Skills & Expertise</h3>
       <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
-        <SkillRadarChart client:load skills={skillsData} />
+        <SkillRadarChart skills={skillsData} client:load />
       </div>
     </div>
 
@@ -88,8 +86,8 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
       <div class="max-w-3xl mx-auto">
         {experienceData.map((exp: Experience, index: number) => (
           <div data-aos="fade-up" data-aos-delay={index * 150 + 400}>
-            <InteractiveResumeSection client:load title={`${exp.title} (${exp.date})`} initiallyOpen={index === 0}>
-              <AnimatedTimeline client:visible items={[exp]} layout="vertical" alternating={false} accentColor="var(--tw-prose-links)" lineColor="var(--tw-prose-bullets)"/>
+            <InteractiveResumeSection title={`${exp.title} (${exp.date})`} initiallyOpen={index === 0} client:load>
+              <AnimatedTimeline items={[exp]} layout="vertical" alternating={false} accentColor="var(--tw-prose-links)" lineColor="var(--tw-prose-bullets)" client:visible />
             </InteractiveResumeSection>
           </div>
         ))}

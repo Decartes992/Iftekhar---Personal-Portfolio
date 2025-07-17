@@ -3,7 +3,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import InteractiveResumeSection from '../components/InteractiveResumeSection.jsx';
 import { resumeData, type Skill, type Certification, type WorkExperienceEntry, type AcademicProjectEntry, type EducationEntry } from '../data/aboutData.ts';
-import { BriefcaseIcon, AcademicCapIcon, SparklesIcon, BadgeCheckIcon, CodeIcon, TerminalIcon, CogIcon, UsersIcon, LightBulbIcon, DesktopComputerIcon, BeakerIcon } from '@heroicons/react/outline'; // Using outline for a cleaner look
 
 const pageTitle = "Resume | Iftekhar's Portfolio";
 const pageDescription = "Detailed resume of Iftekhar, showcasing skills, experience, projects, and education in software and electrical engineering.";
@@ -17,19 +16,8 @@ const skillsByCategory: Record<string, Skill[]> = resumeData.skills.reduce((acc,
   acc[category].push(skill);
   return acc;
 }, {} as Record<string, Skill[]>);
-
-const categoryIcons = {
-  "Programming Languages": CodeIcon,
-  "Frameworks/Libraries": TerminalIcon,
-  "Tools/Platforms": DesktopComputerIcon,
-  "Methodologies": CogIcon,
-  "Software": SparklesIcon, // Or a more specific icon if available
-  "Hardware": CogIcon, // Placeholder, consider a more specific one
-  "Soft Skills": UsersIcon,
-  "Other": LightBulbIcon
-};
-
 ---
+
 <BaseLayout title={pageTitle} description={pageDescription}>
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
     <header class="text-center mb-16 md:mb-20" data-aos="fade-down">
@@ -51,24 +39,31 @@ const categoryIcons = {
     <!-- Skills Section -->
     <InteractiveResumeSection title="Skills Showcase" client:load initiallyOpen={true}>
       <div class="space-y-8">
-        {Object.entries(skillsByCategory).map(([category, skills]) => {
-          const IconComponent = categoryIcons[category] || LightBulbIcon;
-          return (
-            <div key={category} class="p-4 bg-bg-alt dark:bg-bg-dark-alt rounded-lg shadow-sm">
-              <div class="flex items-center mb-3">
-                <IconComponent class="h-6 w-6 text-primary-600 dark:text-primary-400 mr-3" />
-                <h4 class="text-lg font-semibold text-text-headings dark:text-text-dark-headings">{category}</h4>
+        {Object.entries(skillsByCategory).map(([category, skills]) => (
+          <div class="p-4 bg-bg-alt dark:bg-bg-dark-alt rounded-lg shadow-sm">
+            <div class="flex items-center mb-3">
+              <div class="h-6 w-6 text-primary-600 dark:text-primary-400 mr-3">
+                <!-- Icon placeholder based on category -->
+                {category === "Programming Languages" && "💻"}
+                {category === "Frameworks/Libraries" && "🔧"}
+                {category === "Tools/Platforms" && "🛠️"}
+                {category === "Methodologies" && "📊"}
+                {category === "Software" && "✨"}
+                {category === "Hardware" && "🔌"}
+                {category === "Soft Skills" && "👥"}
+                {category === "Other" && "💡"}
               </div>
-              <ul class="flex flex-wrap gap-2">
-                {skills.map(skill => (
-                  <li key={skill.name} class="bg-tag-bg dark:bg-tag-dark-bg text-tag-text dark:text-tag-dark-text px-3 py-1.5 rounded-full text-sm font-medium">
-                    {skill.name}
-                  </li>
-                ))}
-              </ul>
+              <h4 class="text-lg font-semibold text-text-headings dark:text-text-dark-headings">{category}</h4>
             </div>
-          );
-        })}
+            <ul class="flex flex-wrap gap-2">
+              {skills.map(skill => (
+                <li class="bg-tag-bg dark:bg-tag-dark-bg text-tag-text dark:text-tag-dark-text px-3 py-1.5 rounded-full text-sm font-medium">
+                  {skill.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </InteractiveResumeSection>
 
@@ -76,21 +71,21 @@ const categoryIcons = {
     <InteractiveResumeSection title="Work Experience" client:load initiallyOpen={true}>
       <div class="space-y-8">
         {resumeData.workExperience.map((exp, index) => (
-          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+          <div class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
               <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{exp.role}</h4>
               <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{exp.period}</p>
             </div>
             <p class="text-md font-medium text-text-secondary dark:text-text-dark-secondary mb-1">{exp.company} - <span class="italic">{exp.location}</span></p>
             <ul class="list-disc list-outside ml-5 space-y-1.5 text-text-base dark:text-text-dark-base mt-3">
-              {exp.responsibilities.map((resp, i) => <li key={i}>{resp}</li>)}
+              {exp.responsibilities.map(resp => <li>{resp}</li>)}
             </ul>
             {exp.technologies && exp.technologies.length > 0 && (
               <div class="mt-4 pt-3 border-t border-border-subtle dark:border-border-dark-subtle">
                 <h5 class="text-sm font-semibold text-text-muted dark:text-text-dark-muted mb-2">Key Technologies:</h5>
                 <div class="flex flex-wrap gap-2">
                   {exp.technologies.map(tech => (
-                    <span key={tech} class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
+                    <span class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
                       {tech}
                     </span>
                   ))}
@@ -105,8 +100,8 @@ const categoryIcons = {
     <!-- Academic Projects Section -->
     <InteractiveResumeSection title="Academic & Personal Projects" client:load>
       <div class="space-y-8">
-        {resumeData.academicProjects.map((project, index) => (
-          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+        {resumeData.academicProjects.map(project => (
+          <div class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
               <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{project.name}</h4>
               <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{project.period}</p>
@@ -114,14 +109,14 @@ const categoryIcons = {
             <p class="text-md font-medium text-text-secondary dark:text-text-dark-secondary mb-1">{project.affiliation}</p>
             {project.description && <p class="text-text-base dark:text-text-dark-base mb-2">{project.description}</p>}
             <ul class="list-disc list-outside ml-5 space-y-1.5 text-text-base dark:text-text-dark-base mt-3">
-              {project.highlights.map((highlight, i) => <li key={i}>{highlight}</li>)}
+              {project.highlights.map(highlight => <li>{highlight}</li>)}
             </ul>
             {project.technologies && project.technologies.length > 0 && (
               <div class="mt-4 pt-3 border-t border-border-subtle dark:border-border-dark-subtle">
                 <h5 class="text-sm font-semibold text-text-muted dark:text-text-dark-muted mb-2">Key Technologies:</h5>
                 <div class="flex flex-wrap gap-2">
                   {project.technologies.map(tech => (
-                    <span key={tech} class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
+                    <span class="text-xs bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-300 px-2.5 py-1 rounded-full font-medium">
                       {tech}
                     </span>
                   ))}
@@ -136,8 +131,8 @@ const categoryIcons = {
     <!-- Education Section -->
     <InteractiveResumeSection title="Education" client:load>
       <div class="space-y-8">
-        {resumeData.education.map((edu, index) => (
-          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
+        {resumeData.education.map(edu => (
+          <div class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-2">
               <h4 class="text-xl font-semibold text-primary-700 dark:text-primary-300">{edu.degree}</h4>
               <p class="text-sm text-text-muted dark:text-text-dark-muted mt-1 sm:mt-0">{edu.period}</p>
@@ -146,7 +141,7 @@ const categoryIcons = {
             {edu.gpa && <p class="text-sm text-text-muted dark:text-text-dark-muted">GPA: {edu.gpa}</p>}
             {edu.details && edu.details.length > 0 && (
               <ul class="list-disc list-outside ml-5 space-y-1 text-text-base dark:text-text-dark-base mt-3">
-                {edu.details.map((detail, i) => <li key={i}>{detail}</li>)}
+                {edu.details.map(detail => <li>{detail}</li>)}
               </ul>
             )}
           </div>
@@ -157,9 +152,9 @@ const categoryIcons = {
     <!-- Certifications Section -->
     <InteractiveResumeSection title="Certifications" client:load>
       <div class="space-y-6">
-        {resumeData.certifications.map((cert, index) => (
-          <div key={index} class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark flex items-center">
-            <BadgeCheckIcon class="h-8 w-8 text-green-500 dark:text-green-400 mr-4 flex-shrink-0" />
+        {resumeData.certifications.map(cert => (
+          <div class="p-5 border border-border dark:border-border-dark rounded-lg shadow-md bg-card dark:bg-card-dark flex items-center">
+            <div class="h-8 w-8 text-green-500 dark:text-green-400 mr-4 flex-shrink-0">✅</div>
             <div>
               <h4 class="text-lg font-semibold text-text-headings dark:text-text-dark-headings">{cert.name}</h4>
               <p class="text-sm text-text-muted dark:text-text-dark-muted">{cert.issuer}{cert.date ? ` - ${cert.date}` : ''}</p>

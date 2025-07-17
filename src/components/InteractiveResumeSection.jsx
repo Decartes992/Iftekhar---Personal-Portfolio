@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { PlusIcon, MinusIcon } from '@heroicons/react/solid'; // Using Plus/Minus for a slightly different feel
+import { PlusIcon, MinusIcon } from '@heroicons/react/24/solid'; // Using Plus/Minus for a slightly different feel
 
 /**
  * ExpandableSection Component

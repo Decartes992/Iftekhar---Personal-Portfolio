@@ -1,6 +1,6 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/satoshi';
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import '@fontsource/jetbrains-mono';
+@import '@fontsource/playfair-display';
 
 @tailwind base;
 @tailwind components;
@@ -91,12 +91,12 @@ html {
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
   /* Font Families */
-  --font-primary: 'Inter Variable', sans-serif; /* Updated from --font-sans */
-  --font-display: 'Satoshi Variable', sans-serif; /* New for headings */
-  --font-code: 'JetBrains Mono', monospace; /* New for code */
-  --font-accent: 'Playfair Display', serif; /* New for special emphasis */
-  --font-serif: 'Satoshi Variable', serif; /* Keeping Satoshi as a fallback serif, but primary/display are preferred */
-  --font-mono: 'JetBrains Mono', monospace; /* Updated from generic monospace */
+  --font-primary: 'Inter Variable', sans-serif;
+  --font-display: 'Inter Variable', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+  --font-accent: 'Playfair Display', serif;
+  --font-serif: 'Playfair Display', serif;
+  --font-mono: 'JetBrains Mono', monospace;
 
   /* Font Sizes (New Typography Scale) */
   --fs-xs: 0.75rem;      /* 12px - captions, meta text */
