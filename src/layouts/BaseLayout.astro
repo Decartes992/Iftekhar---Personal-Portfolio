@@ -58,22 +58,12 @@ const {
 
         <ViewTransitions fallback="animate" />
 
-        <script is:inline>
-            // Immediately set theme from localStorage or system preference to avoid FOUC
-            const STORAGE_KEY = 'theme-preference';
-            const getInitialTheme = () => {
-                try {
-                    const storedPref = localStorage.getItem(STORAGE_KEY);
-                    if (storedPref) return storedPref;
-                } catch (e) { /* localStorage may be disabled */ }
-                return window.matchMedia('(prefers-color-scheme: dark)').matches
-                    ? 'dark'
-                    : 'light';
-            };
-            const theme = getInitialTheme();
-            document.documentElement.dataset.theme = theme;
-            document.documentElement.classList.toggle('dark', theme === 'dark');
-        </script>
+        <!-- Meta theme-color for browser chrome -->
+        <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+
+        <!-- Theme Manager - Inline script to prevent FOUC -->
+        <script is:inline src="/src/scripts/themeManager.js"></script>
 
         <style>
             /* --- 1. Enhanced Animated Gradient Background --- */

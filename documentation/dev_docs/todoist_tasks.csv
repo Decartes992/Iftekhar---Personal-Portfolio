@@ -1,0 +1,19 @@
+TYPE,CONTENT,DESCRIPTION,PRIORITY,INDENT,DATE
+section,Astro Portfolio Project,,,,,
+section,"Phase 2: UI/UX Implementation",,,,,
+task,"Implement dark/light mode toggle","High-priority feature to enhance user experience. See PLAN.md for full success criteria.",1,1,2025-07-24
+task,"Sub-Task: Plan & Analyze","Architect a detailed plan for the feature.",1,2,2025-07-23
+task,"Sub-Task: Configure Tailwind","Update tailwind.config.mjs to enable the 'class' dark mode strategy.",2,2,2025-07-23
+task,"Sub-Task: Create Theme Logic","Create src/scripts/themeManager.js to handle localStorage and system preference.",2,2,2025-07-23
+task,"Sub-Task: Create UI Component","Create the accessible React component at src/components/ThemeToggle.jsx.",2,2,2025-07-24
+task,"Sub-Task: Integrate All Pieces","Add the script and component to the main layout file (BaseLayout.astro).",2,2,2025-07-24
+task,"Sub-Task: Document the Feature","Update PLAN.md and create new feature documentation.",3,2,2025-07-24
+task,"Enhance animations","Improve existing animations and add new smooth transitions. See PLAN.md for success criteria.",2,1,2025-07-28
+section,"Phase 3: Security & Maintenance",,,,,
+task,"Security audit follow-up","Review and address security concerns identified in audit.",3,1,2025-07-30
+task,"Performance optimization","Optimize code and assets for better loading times.",4,1,2025-08-01
+task,"Accessibility improvements","Enhance accessibility features for better user experience.",4,1,2025-08-04
+section,"Project Management & Documentation",,,,,
+task,"Review organization output","Review and validate the organization report and project structure from the last ROO task.",3,1,2025-07-23
+task,"Maintain PLAN.md","Keep the main project plan updated as tasks are completed.",4,1,
+task,"Maintain todoist_tasks.csv","Update this CSV file as the project evolves.",4,1,

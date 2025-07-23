@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import vercel from "@astrojs/vercel"; // ✅ Correct import (not /serverless)
+import vercel from "@astrojs/vercel"; // Correct import (not /serverless)
 import react from '@astrojs/react';
 import tailwind from '@astrojs/tailwind';
 

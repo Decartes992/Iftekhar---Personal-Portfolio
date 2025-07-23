@@ -10,14 +10,16 @@ module.exports = {
         primary: 'var(--clr-primary-current)',
         secondary: 'var(--clr-secondary-current)',
         accent: 'var(--clr-accent-current)',
-        'text-base': 'var(--clr-text-base-current)', // Updated to use CSS var
-        'text-dark': 'var(--clr-text-base-dark)', // Updated to use CSS var
-        'bg-base': 'var(--clr-bg-base-current)', // Updated to use CSS var
-        'bg-alt': 'var(--clr-bg-alt-current)', // Updated to use CSS var
-        'bg-dark': 'var(--clr-bg-base-dark)', // Updated to use CSS var
-        'bg-alt-dark': 'var(--clr-bg-alt-dark)', // Updated to use CSS var
-        border: 'var(--clr-border-current)', // Updated to use CSS var
-        'border-dark': 'var(--clr-border-dark)', // Updated to use CSS var
+        'text-base': 'var(--clr-text-base-current)',
+        'text-muted': 'var(--clr-text-muted-current)',
+        'text-inverted': 'var(--clr-text-inverted-current)',
+        'bg-base': 'var(--clr-bg-base-current)',
+        'bg-alt': 'var(--clr-bg-alt-current)',
+        'bg-tertiary': 'var(--clr-bg-tertiary-current)',
+        'surface-elevated': 'var(--clr-surface-elevated-current)',
+        'surface-overlay': 'var(--clr-surface-overlay-current)',
+        'surface': 'var(--clr-surface-current)',
+        border: 'var(--clr-border-current)',
 
         // New Primary Palette
         'primary-50': 'var(--clr-primary-50)',

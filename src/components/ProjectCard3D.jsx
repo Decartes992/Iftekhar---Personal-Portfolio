@@ -1,7 +1,4 @@
 import React, { useState, useRef } from 'react';
-import Tilt3D from './Tilt3D'; // Assuming Tilt3D is in the same directory
-import Button from './Button.astro'; // Astro components can't be directly used in JSX like this.
-                                  // We'll need to pass button props or use standard HTML buttons/links.
 
 // Helper for GitHub icon (simple SVG path)
 const GitHubIcon = () => (
@@ -20,8 +17,6 @@ const ProjectCard3D = ({
   demoUrl = '#',
   codeUrl = '#',
   featured = false,
-  livePreviewUrl, // For embedded mini-previews (advanced)
-  githubStars, // For GitHub integration (advanced)
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -100,9 +95,6 @@ const ProjectCard3D = ({
               <TagCloud items={techStack} />
             </div>
           )}
-
-          {/* GitHub Integration - Placeholder for stars/commits */}
-          {/* {githubStars !== undefined && <p className="text-xs ...">⭐ {githubStars}</p>} */}
 
           <div className="mt-auto flex gap-3 pt-3 border-t border-border-current dark:border-border-dark/50">
             {demoUrl && demoUrl !== '#' && (

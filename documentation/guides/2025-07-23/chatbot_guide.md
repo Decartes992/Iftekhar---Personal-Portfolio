@@ -1,3 +1,8 @@
+<!-- Temporary Directory for External Reviews -->
+<!-- This directory is used to store files for external AI assistant reviews -->
+<!-- Path: /documentation/dev_docs/temp -->
+<!-- Last updated: 2025-07-23 -->
+
 # Astro Personal Portfolio - Master Documentation Guide
 
 ## Executive Summary
@@ -179,7 +184,7 @@ This comprehensive guide synthesizes analysis of a modern Astro-based personal p
 ### Component Analysis Queries
 
 **Query**: "Show me the interactive components and their functionality"
-**Response Focus**: [`components_interactive.md`](documentation/components_interactive.md:1-400), React components, animations
+**Response Focus**: [`components_interactive.md`](documentation/dev_docs/components/2025-07-17/components_interactive.md:1-400), React components, animations
 
 **Query**: "How does the contact form work?"
 **Response Focus**: [`ContactForm.jsx`](src/components/ContactForm.jsx:1-100), validation, API integration
@@ -213,19 +218,86 @@ This comprehensive guide synthesizes analysis of a modern Astro-based personal p
 
 ## Documentation Navigation
 
+### Documentation Organization
+
+The documentation has been reorganized into a structured folder hierarchy to improve discoverability and maintainability. All documentation files are now categorized by type and date.
+
+#### Folder Structure by Type
+- `/documentation/dev_docs/architecture/` - Architecture-related documentation
+- `/documentation/dev_docs/components/` - Component documentation
+- `/documentation/dev_docs/apis/` - API documentation
+- `/documentation/dev_docs/features/` - Feature implementation documentation
+- `/documentation/dev_docs/plans/` - Project plans and roadmaps
+- `/documentation/dev_docs/reports/` - Technical reports and audits
+- `/documentation/dev_docs/guides/` - Implementation guides and style guides
+
+#### Date-Based Subfolders
+All documentation is organized in dated subfolders using the YYYY-MM-DD format. This allows for version tracking and historical reference.
+
+#### Navigation Guidelines
+1. Identify the type of documentation needed (architecture, components, etc.)
+2. Navigate to the appropriate top-level folder
+3. Select the most recent dated subfolder
+4. Find the specific document within that folder
+
+#### Rationale for Categorization
+- **Improved Discoverability**: Related documents are grouped together
+- **Version Control**: Date-based folders allow tracking of documentation evolution
+- **Scalability**: The structure can easily accommodate new documentation types
+- **Maintainability**: Clear organization reduces documentation debt
+
 ### Quick Reference Links
 
-- **Architecture Overview**: [`architecture_configs.md`](documentation/architecture_configs.md)
-- **Styling System**: [`styling_overview.md`](documentation/styling_overview.md)
-- **Data Schemas**: [`data_schemas.md`](documentation/data_schemas.md)
-- **Interactive Components**: [`components_interactive.md`](documentation/components_interactive.md)
-- **UI Components**: [`components_ui.md`](documentation/components_ui.md)
-- **Functional Components**: [`components_functional.md`](documentation/components_functional.md)
-- **Pages & Routing**: [`pages_routing.md`](documentation/pages_routing.md)
-- **API Endpoints**: [`api_endpoints.md`](documentation/api_endpoints.md)
-- **Scripts & Interactions**: [`scripts_interactions.md`](documentation/scripts_interactions.md)
+- **Architecture Overview**: [`architecture_configs.md`](documentation/dev_docs/architecture/2025-07-17/architecture_configs.md)
+- **Styling System**: [`styling_overview.md`](documentation/dev_docs/architecture/2025-07-17/styling_overview.md)
+- **Data Schemas**: [`data_schemas.md`](documentation/dev_docs/apis/2025-07-17/data_schemas.md)
+- **Interactive Components**: [`components_interactive.md`](documentation/dev_docs/components/2025-07-17/components_interactive.md)
+- **UI Components**: [`components_ui.md`](documentation/dev_docs/components/2025-07-17/components_ui.md)
+- **Functional Components**: [`components_functional.md`](documentation/dev_docs/components/2025-07-17/components_functional.md)
+- **Pages & Routing**: [`pages_routing.md`](documentation/dev_docs/features/2025-07-17/pages_routing.md)
+- **API Endpoints**: [`api_endpoints.md`](documentation/dev_docs/apis/2025-07-17/api_endpoints.md)
+- **Scripts & Interactions**: [`scripts_interactions.md`](documentation/dev_docs/features/2025-07-17/scripts_interactions.md)
 
-### File Structure Map
+### Documentation Structure
+
+The new documentation structure follows a clear hierarchy:
+
+```
+documentation/dev_docs/
+├── architecture/          # Architecture-related documentation
+│   └── 2025-07-17/       # Date-based versioning
+│       ├── architecture_configs.md
+│       └── styling_overview.md
+├── components/           # Component documentation
+│   └── 2025-07-17/       # Date-based versioning
+│       ├── components_functional.md
+│       ├── components_interactive.md
+│       └── components_ui.md
+├── apis/                 # API documentation
+│   └── 2025-07-17/       # Date-based versioning
+│       ├── api_endpoints.md
+│       └── data_schemas.md
+├── features/             # Feature implementation documentation
+│   └── 2025-07-17/       # Date-based versioning
+│       ├── pages_routing.md
+│       └── scripts_interactions.md
+├── plans/                # Project plans and roadmaps
+│   └── 2025-06-16/       # Date-based versioning
+│       └── ui-design-overhaul-plan.md
+├── reports/              # Technical reports and audits
+│   ├── 2025-06-16/       # Date-based versioning
+│   │   └── UI_OVERHAUL_PROGRESS_REPORT.md
+│   ├── 2025-06-28/       # Date-based versioning
+│   │   └── THEME_AUDIT_REPORT.md
+│   └── 2025-07-17/       # Date-based versioning
+│       └── hybrid_transition_report.md
+└── guides/               # Implementation guides and style guides
+    ├── 2025-06-28/       # Date-based versioning
+    │   └── THEME_AUDIT_PLAN.md
+    └── 2025-07-23/       # Date-based versioning
+        ├── chatbot_guide.md
+        ├── CHATBOT_GUIDE.md
+        └── STYLE_GUIDE.md
 
 ```
 src/
@@ -299,6 +371,13 @@ src/
 - [ ] Advanced analytics integration
 - [ ] Performance budget enforcement
 
+### Temporary Review Directory
+A temporary directory `/documentation/dev_docs/temp/` has been created for external AI assistant review. This directory contains:
+- Copied source files for security and code analysis
+- Current repository structure (`repo_tree.txt`)
+- Documentation files updated since July 17, 2025
+- Missing files log (`missing_files.txt`)
+
 ## External Review Guidelines
 
 ### For Security Auditors
@@ -328,6 +407,37 @@ Focus on:
 - Type safety implementation
 - Documentation completeness
 - Testing strategy development
+
+## Task Management Integration
+
+### Todoist Task Tracking
+A comprehensive task tracking system has been implemented using Todoist-compatible CSV format. The file `/documentation/dev_docs/todoist_tasks.csv` contains all project tasks organized by priority and category.
+
+**File Structure:**
+- **Location**: `/documentation/dev_docs/todoist_tasks.csv`
+- **Format**: Todoist import compatible CSV
+- **Columns**: TYPE, CONTENT, DESCRIPTION, PRIORITY, INDENT, DATE
+- **Last Updated**: 2025-07-23
+
+**Task Categories:**
+1. **Documentation & Organization** (Priority 1-2)
+2. **UI/UX Implementation** (Priority 1-2)  
+3. **Additional Tasks** (Priority 3-4)
+
+**Usage Instructions:**
+1. Import the CSV file into Todoist using the "Import from template" feature
+2. Tasks are organized hierarchically with proper indentation
+3. Priority levels: 1=High, 2=Medium, 3=Low, 4=Very Low
+4. All tasks are dated with current project date (2025-07-23)
+
+### Quick Task Reference
+- **Share file contents**: Priority 1 - Immediate action required
+- **Review organization output**: Priority 1 - Critical for project planning
+- **Implement dark/light mode toggle**: Priority 1 - Core functionality
+- **Generate PLAN.md if missing**: Priority 2 - Documentation completeness
+- **Enhance animations**: Priority 2 - User experience improvement
+
+This integration provides a bridge between the technical documentation and practical task management, ensuring all identified improvements are tracked and actionable.
 
 ## Conclusion
 

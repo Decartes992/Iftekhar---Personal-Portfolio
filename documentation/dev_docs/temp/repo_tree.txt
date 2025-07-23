@@ -1,0 +1,242 @@
+.
+├── .astro
+│   ├── collections
+│   │   ├── blog.schema.json
+│   │   └── projects.schema.json
+│   ├── content-assets.mjs
+│   ├── content-modules.mjs
+│   ├── content.d.ts
+│   ├── data-store.json
+│   ├── settings.json
+│   └── types.d.ts
+├── .gitattributes
+├── .github
+│   └── workflows
+│       └── documentation_linting.yaml
+├── .vercel
+│   └── output
+│       └── server
+├── README.md
+├── astro.config.mjs
+├── dist
+│   ├── _astro
+│   │   ├── AnimatedStatsCounter.DPTau3x7.js
+│   │   ├── AnimatedTimeline.DLlkob8I.js
+│   │   ├── BlogPostCard.D7DD0Hz_.js
+│   │   ├── ClientRouter.astro_astro_type_script_index_0_lang.CtSceO8m.js
+│   │   ├── ContactForm.Dv4vCakJ.js
+│   │   ├── CustomCursor.BFa1alZn.js
+│   │   ├── InteractiveResumeSection.DxIjEMJZ.js
+│   │   ├── ParticleBackground.B7_gZZc4.js
+│   │   ├── ProjectCard3D.0g2vkWO4.js
+│   │   ├── ProjectFilterSort.Dfx8GcJl.js
+│   │   ├── SectionDivider.CoQEV5x5.js
+│   │   ├── SkillRadarChart.B02QXmpu.js
+│   │   ├── about.174c4987.l0sNRNKZ.js
+│   │   ├── about.DxjcHZB3.css
+│   │   ├── client.BPIbHqJh.js
+│   │   ├── index.BVOCwoKb.js
+│   │   ├── inter-cyrillic-ext-wght-normal.B2xhLi22.woff2
+│   │   ├── inter-cyrillic-wght-normal.CMZtQduZ.woff2
+│   │   ├── inter-greek-ext-wght-normal.CGAr0uHJ.woff2
+│   │   ├── inter-greek-wght-normal.CaVNZxsx.woff2
+│   │   ├── inter-latin-ext-wght-normal.DO1Apj_S.woff2
+│   │   ├── inter-latin-wght-normal.Dx4kXJAl.woff2
+│   │   ├── inter-vietnamese-wght-normal.CBcvBZtf.woff2
+│   │   ├── jetbrains-mono-cyrillic-400-normal.BEIGL1Tu.woff2
+│   │   ├── jetbrains-mono-cyrillic-400-normal.ugxPyKxw.woff
+│   │   ├── jetbrains-mono-greek-400-normal.B9oWc5Lo.woff
+│   │   ├── jetbrains-mono-greek-400-normal.C190GLew.woff2
+│   │   ├── jetbrains-mono-latin-400-normal.6-qcROiO.woff
+│   │   ├── jetbrains-mono-latin-400-normal.V6pRDFza.woff2
+│   │   ├── jetbrains-mono-latin-ext-400-normal.Bc8Ftmh3.woff2
+│   │   ├── jetbrains-mono-latin-ext-400-normal.fXTG6kC5.woff
+│   │   ├── jetbrains-mono-vietnamese-400-normal.CqNFfHCs.woff
+│   │   ├── jsx-runtime.D_zvdyIk.js
+│   │   ├── playfair-display-cyrillic-400-normal.CjW2EstV.woff2
+│   │   ├── playfair-display-cyrillic-400-normal.ZiRag6zj.woff
+│   │   ├── playfair-display-latin-400-normal.BnzyPTkU.woff
+│   │   ├── playfair-display-latin-400-normal.C_co0ool.woff2
+│   │   ├── playfair-display-latin-ext-400-normal.Ds4yBQoc.woff
+│   │   ├── playfair-display-latin-ext-400-normal.YltwXpkM.woff2
+│   │   ├── playfair-display-vietnamese-400-normal.BV2APVTb.woff2
+│   │   └── playfair-display-vietnamese-400-normal.BbvUAu4N.woff
+│   ├── _noop-actions.mjs
+│   ├── _noop-middleware.mjs
+│   ├── about
+│   │   └── index.html
+│   ├── blog
+│   │   ├── first-post
+│   │   │   └── index.html
+│   │   └── index.html
+│   ├── chunks
+│   │   ├── BaseLayout_B4tAeTz0.mjs
+│   │   ├── BlogPostCard_B_Jtq9YK.mjs
+│   │   ├── ParticleBackground_Df2T0plM.mjs
+│   │   ├── SectionDivider_Do43jRHo.mjs
+│   │   ├── _astro_assets_CYu5Q0Sa.mjs
+│   │   ├── _astro_content_peXGOEan.mjs
+│   │   ├── _astro_data-layer-content_RmH2TTxd.mjs
+│   │   ├── aboutData_BjTP3D2B.mjs
+│   │   ├── astro
+│   │   │   └── server_CUDSO68N.mjs
+│   │   ├── astro_pcujXTcD.mjs
+│   │   ├── consts_DHZTJEPY.mjs
+│   │   ├── content-assets_DleWbedO.mjs
+│   │   ├── content-modules_Dz-S_Wwv.mjs
+│   │   └── sharp_ijeJVydZ.mjs
+│   ├── contact
+│   │   └── index.html
+│   ├── favicon.svg
+│   ├── images
+│   │   └── iftekhar_photo.jpg
+│   ├── manifest_WVpjv3-V.mjs
+│   ├── pages
+│   │   ├── about.astro.mjs
+│   │   ├── api
+│   │   │   └── contact.astro.mjs
+│   │   ├── blog
+│   │   │   ├── _---slug_.astro.mjs
+│   │   │   └── tags
+│   │   │       └── _tag_.astro.mjs
+│   │   ├── blog.astro.mjs
+│   │   ├── contact.astro.mjs
+│   │   ├── index.astro.mjs
+│   │   ├── projects.astro.mjs
+│   │   └── resume.astro.mjs
+│   ├── projects
+│   │   └── index.html
+│   ├── renderers.mjs
+│   ├── resume
+│   │   └── index.html
+│   └── scripts
+│       ├── aos.js
+│       └── theme-toggle.js
+├── documentation
+│   ├── apis
+│   │   └── 2025-07-17
+│   │       ├── api_endpoints.md
+│   │       └── data_schemas.md
+│   ├── architecture
+│   │   └── 2025-07-17
+│   │       ├── architecture_configs.md
+│   │       └── styling_overview.md
+│   ├── components
+│   │   └── 2025-07-17
+│   │       ├── components_functional.md
+│   │       ├── components_interactive.md
+│   │       └── components_ui.md
+│   ├── dev_docs
+│   │   ├── Old docs
+│   │   │   ├── Theme Audits
+│   │   │   │   └── June 28 2025
+│   │   │   └── UI Changes
+│   │   │       └── June 16 2025
+│   │   ├── organization_report.md
+│   │   └── temp
+│   │       ├── architecture_configs.md
+│   │       ├── config.ts
+│   │       ├── contact.ts
+│   │       ├── hybrid_transition_report.md
+│   │       └── repo_tree.txt
+│   ├── features
+│   │   └── 2025-07-17
+│   │       ├── pages_routing.md
+│   │       └── scripts_interactions.md
+│   ├── guides
+│   │   ├── 2025-06-28
+│   │   │   └── THEME_AUDIT_PLAN.md
+│   │   └── 2025-07-23
+│   │       ├── CHATBOT_GUIDE.md
+│   │       ├── STYLE_GUIDE.md
+│   │       └── chatbot_guide.md
+│   ├── plans
+│   │   └── 2025-06-16
+│   │       └── ui-design-overhaul-plan.md
+│   └── reports
+│       ├── 2025-06-16
+│       │   └── UI_OVERHAUL_PROGRESS_REPORT.md
+│       ├── 2025-06-28
+│       │   └── THEME_AUDIT_REPORT.md
+│       └── 2025-07-17
+│           └── hybrid_transition_report.md
+├── package-lock.json
+├── package.json
+├── personal-portfolio
+│   ├── NetworkingSummary.md
+│   ├── documentation
+│   │   ├── Documentation_Plan.md
+│   │   ├── config-astro.config.mjs.md
+│   │   ├── config-postcss.config.cjs.md
+│   │   ├── config-tailwind.config.js.md
+│   │   └── config-tsconfig.json.md
+│   └── package.json
+├── postcss.config.cjs
+├── public
+│   ├── favicon.svg
+│   ├── images
+│   │   └── iftekhar_photo.jpg
+│   └── scripts
+│       ├── aos.js
+│       └── theme-toggle.js
+├── src
+│   ├── components
+│   │   ├── About.astro
+│   │   ├── AchievementBadge.jsx
+│   │   ├── AnimatedSkillBars.jsx
+│   │   ├── AnimatedStatsCounter.jsx
+│   │   ├── AnimatedTimeline.jsx
+│   │   ├── BlogPostCard.jsx
+│   │   ├── Button.astro
+│   │   ├── CommandPalette.astro
+│   │   ├── CommandPaletteSearch.jsx
+│   │   ├── ContactForm.jsx
+│   │   ├── CustomCursor.jsx
+│   │   ├── Footer.astro
+│   │   ├── Header.astro
+│   │   ├── Hero.astro
+│   │   ├── HomePageClickCounter.jsx
+│   │   ├── InteractiveResumeSection.jsx
+│   │   ├── ParticleBackground.jsx
+│   │   ├── PersonalityIndicator.jsx
+│   │   ├── ProjectCard3D.jsx
+│   │   ├── ProjectDashboard.jsx
+│   │   ├── ProjectFilterSort.jsx
+│   │   ├── ProjectSpecificViz.jsx
+│   │   ├── ProjectsSection.astro
+│   │   ├── SectionDivider.jsx
+│   │   ├── SkillRadarChart.jsx
+│   │   ├── ThemeToggleButton.astro
+│   │   └── Tilt3D.jsx
+│   ├── content
+│   │   ├── blog
+│   │   │   └── first-post.md
+│   │   ├── config.ts
+│   │   └── projects
+│   │       └── sample-project.md
+│   ├── data
+│   │   └── aboutData.ts
+│   ├── layouts
+│   │   └── BaseLayout.astro
+│   ├── pages
+│   │   ├── about.astro
+│   │   ├── api
+│   │   │   └── contact.ts
+│   │   ├── blog
+│   │   │   ├── [...slug].astro
+│   │   │   ├── index.astro
+│   │   │   └── tags
+│   │   │       └── [tag].astro
+│   │   ├── contact.astro
+│   │   ├── index.astro
+│   │   ├── projects.astro
+│   │   └── resume.astro
+│   ├── scripts
+│   │   └── about-interactive.js
+│   └── styles
+│       └── global.css
+├── tailwind.config.js
+├── tsconfig.json
+└── vercel.json
+
+66 directories, 173 files

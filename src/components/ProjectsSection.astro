@@ -9,61 +9,34 @@
  * @example
  * <ProjectsSection />
  */
-import ProjectCard from './ProjectCard.astro';
+import ProjectCard from './ProjectCard3D.jsx';
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects');
+const projects = (await getCollection('projects')).sort((a, b) => (b.data.featured ? 1 : 0) - (a.data.featured ? 1 : 0));
 ---
 
-<section class="projects-section" id="projects" aria-labelledby="projects-headline">
-  <div class="container">
-    <h2 id="projects-headline" class="section-title">Featured Projects</h2>
-    <div class="projects-grid">
+<section id="projects" class="py-16 md:py-24 bg-bg-alt-current" aria-labelledby="projects-headline">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12 md:mb-16">
+      <h2 id="projects-headline" class="text-4xl md:text-5xl font-bold font-display text-text-head-current tracking-tight leading-tight">
+        Featured Projects
+      </h2>
+      <p class="mt-4 text-lg md:text-xl text-text-sub-current max-w-3xl mx-auto">
+        A selection of my favorite projects. See my full portfolio for more.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
       {projects.map(project => (
-        <ProjectCard
-          title={project.data.title}
-          description={project.data.description}
-          tags={project.data.tags || project.data.technologies || []}
-          image={project.data.image || "/images/project-placeholder.jpg"}
-          demoUrl={project.data.demoUrl}
-          codeUrl={project.data.codeUrl}
-          featured={project.data.featured}
-        />
+        <div data-aos="fade-up" data-aos-delay={project.data.featured ? "100" : "300"}>
+          <ProjectCard {...project.data} />
+        </div>
       ))}
+    </div>
+    <div class="text-center mt-16">
+      <a href="/projects" class="text-primary-500-current hover:text-primary-600-current font-semibold text-lg transition-colors duration-300">
+        View All Projects
+        <span class="ml-2">→</span>
+      </a>
     </div>
   </div>
 </section>
-
-<style>
-  .projects-section {
-    padding-block: clamp(3rem, 10vh, 5rem);
-    background-color: var(--clr-bg-alt-current, var(--clr-bg-current));
-  }
-
-  .container {
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: 1rem;
-  }
-
-  .section-title {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    font-size: var(--fs-3);
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
-    gap: 2rem;
-  }
-
-  @media (max-width: 600px) {
-    .projects-grid { gap: 1rem; }
-  }
-
-  .view-all-cta {
-    text-align: center;
-    margin-top: 3rem;
-  }
-</style>
