@@ -392,3 +392,11 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     await tester.runAll();
   });
 }
+/ /  
+ T e s t  
+ s u i t e  
+ f i l e  
+ f o r  
+ t h e m e  
+ f u n c t i o n a l i t y  
+ 
