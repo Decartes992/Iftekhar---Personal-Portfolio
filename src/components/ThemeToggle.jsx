@@ -1,1 +1,74 @@
-import React,{useState,useEffect,useCallback,useRef}from"react";const ThemeToggle=()=>{const[e,t]=useState(!1),[n,o]=useState(!1),r=useRef(null),a=useRef(null);useEffect(()=>{t(document.documentElement.classList.contains("dark")),o(!0)},[]);const s=useCallback(e=>{const n="dark"===e.detail?.theme;t(n),n&&a.current&&(a.current.textContent=n?"Switched to dark mode":"Switched to light mode",setTimeout(()=>{a.current&&(a.current.textContent="")},1e3))},[n]);useEffect(()=>{n&&document.addEventListener("themechange",s);return()=>{document.removeEventListener("themechange",s)}},[s,n]);const c=useCallback(e=>{("Enter"===e.key||" "===e.key)&&e.preventDefault()},[]);return React.createElement(React.Fragment,null,React.createElement("div",{ref:a,"aria-live":"polite","aria-atomic":"true",className:"sr-only"}),React.createElement("button",{ref:r,type:"button",role:"switch","aria-pressed":e,"aria-label":e?"Switch to light mode":"Switch to dark mode",onKeyDown:c,className:"relative inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:ring-offset-white dark:focus:ring-offset-gray-900 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95"},React.createElement("span",{className:"sr-only"},e?"Currently in dark mode":"Currently in light mode"),React.createElement("div",{className:"relative w-6 h-6"},React.createElement("div",{className:`absolute inset-0 transition-all duration-300 ease-in-out ${e?"opacity-0 rotate-90 scale-50":"opacity-100 rotate-0 scale-100"}`},React.createElement("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor",className:"w-6 h-6 text-yellow-500","aria-hidden":"true"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591"}))),React.createElement("div",{className:`absolute inset-0 transition-all duration-300 ease-in-out ${e?"opacity-100 rotate-0 scale-100":"opacity-0 -rotate-90 scale-50"}`},React.createElement("svg",{xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor",className:"w-6 h-6 text-blue-400","aria-hidden":"true"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"}))))))};export default ThemeToggle;
+import React, { useState, useEffect } from 'react';
+
+const ThemeToggle = () => {
+  // Initialize state with a default value (e.g., false for light mode).
+  // The actual theme will be determined on the client side to avoid SSR errors.
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // This effect runs only on the client, after the component has mounted.
+  useEffect(() => {
+    // Determine the initial theme only on the client
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    } else {
+      setIsDarkMode(prefersDark);
+    }
+  }, []); // The empty dependency array ensures this runs only once on mount.
+
+  // This effect applies the theme class whenever the isDarkMode state changes.
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
+      title={isDarkMode ? 'Activate light mode' : 'Activate dark mode'}
+      className="relative inline-flex items-center justify-center w-12 h-12 rounded-full text-text transition-colors bg-background-alt hover:bg-border focus:outline-none focus:ring-2 focus:ring-primary"
+    >
+      <span className="relative w-6 h-6">
+        {/* Sun Icon */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={`w-full h-full text-amber-500 transition-all duration-300 ease-in-out transform ${
+            isDarkMode ? 'opacity-0 scale-50 rotate-90' : 'opacity-100 scale-100 rotate-0'
+          }`}
+          aria-hidden="true"
+        >
+          <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.106a.75.75 0 011.06-1.06l1.591 1.591a.75.75 0 11-1.06 1.06l-1.591-1.591zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM18.894 17.894a.75.75 0 011.06 1.06l-1.591 1.591a.75.75 0 11-1.06-1.06l1.591-1.591zM12 18a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM5.106 17.894A.75.75 0 016.166 18.95l-1.591-1.591a.75.75 0 011.06-1.06l1.591 1.591zM4.5 12a.75.75 0 01-.75-.75H1.5a.75.75 0 010-1.5h2.25a.75.75 0 01.75.75zM5.106 6.106a.75.75 0 011.06 1.06l-1.591-1.591a.75.75 0 11-1.06-1.06l1.591 1.591z" />
+        </svg>
+        {/* Moon Icon */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          className={`absolute inset-0 w-full h-full text-slate-400 transition-all duration-300 ease-in-out transform ${
+            isDarkMode ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-50 -rotate-90'
+          }`}
+          aria-hidden="true"
+        >
+          <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.981A10.503 10.503 0 0118 18a10.5 10.5 0 01-10.5-10.5c0-1.741.54-3.418 1.5-4.822a.75.75 0 01.819.162z" clipRule="evenodd" />
+        </svg>
+      </span>
+    </button>
+  );
+};
+
+export default ThemeToggle;

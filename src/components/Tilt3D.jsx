@@ -14,10 +14,10 @@ import React, { useState, useRef } from 'react';
  */
 const Tilt3D = ({ 
   children, 
-  perspective = 1000, 
-  maxTilt = 15, 
-  scale = 1.05,
-  transitionSpeed = 400,
+  perspective = 500, 
+  maxTilt = 5, 
+  scale = 1.0,
+  transitionSpeed = 200,
   transitionEase = 'cubic-bezier(.03,.98,.52,.99)',
   className = '',
 }) => {

@@ -36,7 +36,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Optional: Add the gradient background class here if you want to use it */
+/* Optional Animated Gradient Background:
+  Add the `with-gradient-background` class to the <body> tag in a layout 
+  (e.g., via `<body class:list={{ 'with-gradient-background': true }}>`) 
+  to enable this effect on a specific page.
+*/
 .with-gradient-background {
     background: linear-gradient(
         -45deg,

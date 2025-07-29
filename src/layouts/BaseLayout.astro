@@ -1,20 +1,10 @@
 ---
 /**
- * Base layout component for all pages
+ * Base layout component for all pages (Visually Enhanced)
  *
  * @module BaseLayout
- * @description Provides the common structure for all pages including head, header, main content, and footer.
- * Handles theme initialization, page transitions, and scroll animations.
- *
- * @prop {string} title - Page title.
- * @prop {string} [description='Iftekhar - Personal Portfolio'] - Page meta description.
- * @prop {Date} [lastUpdated] - The date the content was last updated. Passed to the footer.
- * @prop {boolean} [withGradientBackground=false] - If true, applies an animated gradient to the background.
- *
- * @example
- * <BaseLayout title="Home" withGradientBackground={true}>
- * <!-- Page content -->
- * </BaseLayout>
+ * @description Provides the common structure for all pages. This version includes
+ * custom page transitions and a scroll-driven header effect.
  */
 import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
@@ -59,12 +49,7 @@ const {
         <!-- Astro View Transitions for smooth page navigation -->
         <ViewTransitions fallback="animate" />
 
-        <!-- 
-          Theme Manager Script:
-          This inline script runs before the page is rendered to prevent a "flash of unstyled content" (FOUC).
-          It checks localStorage and the user's system preference to apply the 'dark' class to the <html> element if needed.
-          This is the core of the theme switching logic.
-        -->
+        <!-- Correct Theme Manager Script -->
         <script is:inline>
             const getTheme = () => {
                 if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -75,9 +60,7 @@ const {
                 }
                 return 'light';
             };
-
             const theme = getTheme();
-
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
             } else {
@@ -85,19 +68,54 @@ const {
             }
         </script>
 
-        <!-- 
-          The inline <style> tag has been removed. 
-          All styles, including the optional gradient background, are now correctly handled in `src/styles/global.css`.
-          This prevents style conflicts and improves maintainability.
-        -->
+        <!-- Inline styles for page transitions and scroll effects -->
+        <style>
+            /* --- 1. Custom View Transition Animation (Slide + Fade) --- */
+            ::view-transition-old(root) {
+                animation: slide-and-fade 0.4s ease-out;
+            }
+            ::view-transition-new(root) {
+                animation: slide-from-right-and-fade 0.4s ease-in;
+            }
+
+            @keyframes slide-and-fade {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(-10%); opacity: 0; }
+            }
+
+            @keyframes slide-from-right-and-fade {
+                from { transform: translateX(10%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            /* --- 2. Scroll-Driven Header Styles (Theme-Aware) --- */
+            header {
+                /* Ensures a smooth transition for the background and shadow */
+                transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            }
+            
+            header.scrolled {
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px); /* For Safari */
+                box-shadow: 0 4px 6px hsl(var(--color-background) / 0.1);
+                border-bottom-color: transparent;
+            }
+
+            /* Light mode scrolled background */
+            header.scrolled {
+                background-color: hsl(var(--color-background) / 0.8);
+            }
+            /* Dark mode scrolled background */
+            .dark header.scrolled {
+                background-color: hsl(var(--color-background) / 0.6);
+            }
+        </style>
     </head>
 
     <body class:list={[
-        // This Astro directive conditionally adds the 'with-gradient-background' class
-        // to the body if the `withGradientBackground` prop is true on a page.
         { 'with-gradient-background': withGradientBackground }
     ]}>
-        <CustomCursor client:only="jsx" />
+        <CustomCursor client:load />
         <Header />
 
         <main
@@ -112,19 +130,38 @@ const {
         <!-- External script for Animate on Scroll library -->
         <script src="/scripts/aos.js" defer></script>
         
-        <!-- Script to initialize animations on each page load -->
+        <!-- Script to initialize animations and interactions -->
         <script>
-            // This declaration informs TypeScript that a global 'AOS' object will exist at runtime,
-            // resolving the "Cannot find name 'AOS'" error.
             declare const AOS: any;
 
-            document.addEventListener('astro:page-load', () => {
+            // Function to handle scroll-driven header style changes
+            const handleScroll = () => {
+                const header = document.querySelector('header');
+                if (header) {
+                    header.classList.toggle('scrolled', window.scrollY > 50);
+                }
+            };
+            
+            // This master function runs on initial load and after every page transition
+            const runPageScripts = () => {
+                // Initialize AOS (Animate on Scroll)
                 if (typeof AOS !== 'undefined') {
                     AOS.init({
                         duration: 800,
-                        once: true, // Animation happens only once
+                        once: true,
                     });
                 }
+                
+                // Add scroll listener for the header effect
+                window.addEventListener('scroll', handleScroll, { passive: true });
+            };
+            
+            // --- Event Listeners ---
+            document.addEventListener('astro:page-load', runPageScripts);
+            
+            document.addEventListener('astro:before-swap', () => {
+                // Clean up scroll listener before page swaps to prevent duplicates
+                window.removeEventListener('scroll', handleScroll);
             });
         </script>
     </body>

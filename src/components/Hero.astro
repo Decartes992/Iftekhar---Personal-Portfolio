@@ -1,19 +1,10 @@
 ---
 /**
- * Hero Component (Upgraded)
+ * Hero Component (Theme-Aware)
  *
  * @module Hero
- * @description An advanced, interactive hero section featuring a 3D tilt effect,
- * a cursor-following aura, a glassmorphism bento grid, and refined animations.
- * This component is designed to create a memorable and high-impact first impression.
- *
- * @prop {string} headline - Main headline text.
- * @prop {string} subheadline - Supporting subheadline text.
- * @prop {string} ctaPrimaryText - Text for the primary CTA button.
- * @prop {string} ctaPrimaryLink - URL for the primary CTA button.
- * @prop {string} ctaSecondaryText - Text for the secondary CTA button.
- * @prop {string} ctaSecondaryLink - URL for the secondary CTA button.
- * @prop {string} imageUrl - URL for the hero profile image.
+ * @description An advanced, interactive hero section that is fully integrated
+ * with the new theme system, ensuring it looks visually appealing in both light and dark modes.
  */
 
 import Button from './Button.astro';
@@ -37,8 +28,8 @@ const bentoItems = [
 ];
 ---
 
-<section id="hero-section" class="relative min-h-screen flex items-center overflow-hidden bg-gradient-hero-final print:min-h-0 print:py-12">
-  <!-- The interactive aura element that follows the cursor -->
+<section id="hero-section" class="relative min-h-screen flex items-center overflow-hidden bg-background print:min-h-0 print:py-12">
+  <!-- The interactive aura element now uses the theme's primary color -->
   <div id="hero-aura" class="aura"></div>
 
   <div class="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
@@ -46,12 +37,11 @@ const bentoItems = [
 
       <!-- Left Column: Text Content -->
       <div class="lg:col-span-7 text-center lg:text-left">
-        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold font-display text-white tracking-tighter hero-headline-shadow mb-6">
-          <!-- Staggered slide-up animation for the headline -->
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-bold font-display text-text tracking-tighter hero-headline-shadow mb-6">
           <span class="animate-slide-up" style="--delay: 0.1s;">{headline}</span>
         </h1>
 
-        <p class="text-xl sm:text-2xl font-primary text-primary-200/90 max-w-xl mx-auto lg:mx-0 mb-8 animate-slide-up" style="--delay: 0.2s;">
+        <p class="text-xl sm:text-2xl font-primary text-text-muted max-w-xl mx-auto lg:mx-0 mb-8 animate-slide-up" style="--delay: 0.2s;">
           {subheadline}
         </p>
 
@@ -62,20 +52,20 @@ const bentoItems = [
               <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd" />
             </svg>
           </Button>
-          <Button href={ctaSecondaryLink} variant="outline" size="lg" extraClass="text-white border-primary-200/70 hover:bg-white/10 hover:border-white shadow-lg hover:shadow-xl transform hover:scale-105">
+          <Button href={ctaSecondaryLink} variant="outline" size="lg" extraClass="shadow-lg hover:shadow-xl transform hover:scale-105">
             {ctaSecondaryText}
           </Button>
         </div>
       </div>
 
-      <!-- Right Column: Image and Bento Grid with 3D Tilt Effect -->
+      <!-- Right Column: Image and Bento Grid -->
       <div id="hero-interactive-zone" class="lg:col-span-5 mt-16 lg:mt-0">
         <div class="relative max-w-sm mx-auto animate-slide-up" style="--delay: 0.4s;">
-          <div class="absolute -inset-4 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full blur-2xl opacity-50 animate-pulse-slow"></div>
+          <div class="absolute -inset-4 bg-gradient-to-r from-primary to-secondary rounded-full blur-2xl opacity-40 dark:opacity-30 animate-pulse-slow"></div>
           <img
             src={imageUrl}
             alt="Profile portrait of Iftekhar Rafi"
-            class="relative z-10 w-full h-auto rounded-full object-cover border-4 border-gray-800/50 shadow-2xl"
+            class="relative z-10 w-full h-auto rounded-full object-cover border-4 border-background-alt shadow-2xl"
           />
         </div>
         <div class="grid grid-cols-3 gap-4 mt-8 max-w-sm mx-auto">
@@ -94,68 +84,65 @@ const bentoItems = [
 </section>
 
 <style>
-  /* --- Main Hero Styles --- */
-  .bg-gradient-hero-final {
-    background: #0D1117; /* A deep, near-black for a sophisticated look */
-  }
   .hero-headline-shadow {
-    text-shadow: 0px 4px 16px rgba(0,0,0,0.4);
+    /* Subtle shadow that works on light and dark backgrounds */
+    text-shadow: 0px 2px 8px hsl(var(--color-background) / 0.3);
   }
 
-  /* --- Glassmorphism Card Style --- */
+  /* --- Glassmorphism Card Style (Theme-Aware) --- */
   .glass-card {
-    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 0.75rem; /* 12px */
-    padding: 1rem; /* 16px */
+    border-radius: 0.75rem;
+    padding: 1rem;
     text-align: center;
-    color: white;
     font-weight: 600;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    box-shadow: 0 8px 32px 0 hsl(var(--color-background) / 0.1);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
-  /* --- Cursor Aura Effect --- */
+  /* Light Mode Style */
+  .glass-card {
+    background-color: hsl(var(--color-background-alt) / 0.5);
+    border: 1px solid hsl(var(--color-border) / 0.5);
+    color: hsl(var(--color-text));
+  }
+
+  /* Dark Mode Style */
+  .dark .glass-card {
+    background-color: hsl(var(--color-background-alt) / 0.2);
+    border: 1px solid hsl(var(--color-border) / 0.3);
+    color: hsl(var(--color-text));
+  }
+
+  /* --- Cursor Aura Effect (Theme-Aware) --- */
   .aura {
     position: absolute;
     top: 0;
     left: 0;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 60%);
+    background: radial-gradient(circle, hsl(var(--color-primary) / 0.15) 0%, hsl(var(--color-primary) / 0) 60%);
     border-radius: 50%;
     pointer-events: none;
     transition: transform 0.2s ease-out;
     will-change: transform;
     z-index: 0;
   }
-
+  
   /* --- Animation Keyframes --- */
   @keyframes slide-up {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .animate-slide-up {
     animation: slide-up 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay, 0s) backwards;
   }
 
-  /* --- Reduced Motion Accessibility --- */
   @media (prefers-reduced-motion: reduce) {
-    .animate-slide-up, #hero-interactive-zone {
-      animation: none;
-      transition: none;
-    }
-    .aura {
-      display: none;
-    }
+    .animate-slide-up, #hero-interactive-zone { animation: none; transition: none; }
+    .aura { display: none; }
   }
 </style>
 
@@ -168,25 +155,20 @@ const bentoItems = [
 
     if (!heroSection || !aura || !interactiveZone) return;
 
-    // A flag to ensure we only run this on non-touch devices
     let isPointerDevice = window.matchMedia('(pointer: fine)').matches;
 
-    const handleMouseMove = (e: MouseEvent) => { // <-- FIXED: Added MouseEvent type
+    const handleMouseMove = (e: MouseEvent) => {
       if (!isPointerDevice) return;
 
-      // --- Aura Effect ---
-      // Get position relative to the viewport
       const { clientX, clientY } = e;
-      // Center the aura on the cursor
       aura.style.transform = `translate(${clientX - aura.offsetWidth / 2}px, ${clientY - aura.offsetHeight / 2}px)`;
 
-      // --- 3D Tilt Effect ---
       const { left, top, width, height } = interactiveZone.getBoundingClientRect();
       const x = (clientX - left - width / 2) / (width / 2);
       const y = (clientY - top - height / 2) / (height / 2);
 
-      const tiltX = y * -8; // Max tilt in degrees
-      const tiltY = x * 8;  // Max tilt in degrees
+      const tiltX = y * -2; // Reduced max tilt
+      const tiltY = x * 2;  // Reduced max tilt
 
       interactiveZone.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1, 1, 1)`;
       interactiveZone.style.transition = 'transform 0.1s ease-out';
@@ -194,18 +176,15 @@ const bentoItems = [
 
     const handleMouseLeave = () => {
        if (!isPointerDevice) return;
-      // Reset the tilt when the mouse leaves the interactive zone
       interactiveZone.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
       interactiveZone.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
     };
 
-    // Attach listeners only on non-touch devices
     if (isPointerDevice) {
       heroSection.addEventListener('mousemove', handleMouseMove);
       interactiveZone.addEventListener('mouseleave', handleMouseLeave);
     }
 
-    // Clean up listeners on page swap
     document.addEventListener('astro:before-swap', () => {
       if (isPointerDevice) {
         heroSection.removeEventListener('mousemove', handleMouseMove);

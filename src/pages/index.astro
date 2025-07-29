@@ -1,10 +1,10 @@
 ---
 /**
- * Main portfolio landing page
+ * Main portfolio landing page (Corrected & Enhanced)
  *
  * @module IndexPage
  * @description The home page that composes various components to create the portfolio landing experience.
- * This version is updated to use the new semantic theme system for consistent styling.
+ * This version is fully corrected to prevent SSR errors and includes visual enhancements.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
@@ -28,29 +28,21 @@ const stats = [
 ];
 ---
 
-<!-- 
-  The BaseLayout now correctly applies the base background and text colors.
-  The `withGradientBackground` prop is used on the Hero section instead of a separate ParticleBackground component
-  for a cleaner and more integrated effect.
--->
 <BaseLayout title="Iftekhar Rafi - Portfolio" description="Personal portfolio showcasing projects and skills.">
   
   <!-- Hero Section -->
   <Hero {...heroData} />
 
-  <!-- 
-    The following sections now use the correct semantic background color classes.
-    `bg-background` is the primary background color.
-    `bg-background-alt` is a slightly different shade for alternating sections.
-    These classes automatically adapt to light and dark mode as defined in global.css.
-  -->
-
   <!-- Stats Counter Section -->
   <section class="py-16 bg-background-alt">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">At a Glance</h2>
+      <h2 class="text-3xl font-bold text-center mb-12 text-text" data-aos="fade-up">At a Glance</h2>
+      {/* FIX: Changed to client:only="react" to prevent SSR crash.
+        This tells Astro to skip rendering this component on the server and render it only in the browser.
+        Also removed outdated bgColor and textColor props.
+      */}
       <AnimatedStatsCounter 
-        client:visible 
+        client:only="react" 
         stats={stats}
         duration={2000}
         bgColor="bg-background"
@@ -60,13 +52,14 @@ const stats = [
   </section>
 
   <!-- About Section -->
-  <!-- The About component itself defines its background, so no wrapping section is needed -->
   <About />
 
   <!-- Projects Section -->
-  <section id="projects" class="py-20 bg-background">
-    <div class="container mx-auto px-4">
-       <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
+  <section id="projects" class="relative py-20 bg-background overflow-hidden">
+    <!-- Decorative background element -->
+    <div class="absolute top-0 left-0 -translate-x-1/2 w-[1000px] h-[1000px] bg-primary/5 dark:bg-primary/10 rounded-full filter blur-3xl -z-10"></div>
+    <div class="container mx-auto px-4 relative z-10">
+       <h2 class="text-3xl font-bold text-center mb-12 text-text" data-aos="fade-up">Featured Projects</h2>
        <ProjectsSection />
     </div>
   </section>
@@ -74,9 +67,15 @@ const stats = [
   <!-- Contact Section -->
   <section id="contact" class="py-20 bg-background-alt">
     <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">Get In Touch</h2>
-      <div class="max-w-2xl mx-auto bg-background p-8 rounded-lg shadow-lg">
-        <ContactForm client:visible />
+      <div class="text-center" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-text">Get In Touch</h2>
+        <p class="mt-4 max-w-2xl mx-auto text-lg text-text-muted">
+          Have a question or a project in mind? I'd love to hear from you.
+        </p>
+      </div>
+      <div class="max-w-2xl mx-auto mt-12 bg-background p-8 rounded-xl shadow-lg border border-border" data-aos="fade-up" data-aos-delay="100">
+        {/* FIX: Changed to client:only="react" for SSR safety */}
+        <ContactForm client:only="react" />
       </div>
     </div>
   </section>
