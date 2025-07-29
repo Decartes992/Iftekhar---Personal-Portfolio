@@ -213,4 +213,14 @@ class ThemePerformanceTester {
     const passed = hasSupport && matchesSystem;
     
     this.results.systemPref = {
-      status: passed ? 'pass'
+      status: passed ? 'pass' : 'fail',
+      value: { hasSupport, matchesSystem, systemTheme, expectedSystem }
+    };
+    
+    console.log(`🖥️ System preference: ${passed ? 'DETECTED CORRECTLY' : 'MISMATCH'} - ${systemTheme} (expected: ${expectedSystem})`);
+    return passed;
+  }
+}
+
+// Export for use in other files
+export default ThemePerformanceTester;
