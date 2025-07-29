@@ -4,141 +4,81 @@
  *
  * @module IndexPage
  * @description The home page that composes various components to create the portfolio landing experience.
- * Includes hero section, stats counter, about section, projects showcase, and contact form.
- *
- * @example
- * // Renders the portfolio landing page
- * <IndexPage />
+ * This version is updated to use the new semantic theme system for consistent styling.
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
 import About from '../components/About.astro';
 import ProjectsSection from '../components/ProjectsSection.astro';
 import ContactForm from '../components/ContactForm.jsx';
-import SectionDivider from '../components/SectionDivider.jsx';
-import ParticleBackground from '../components/ParticleBackground.jsx';
 import AnimatedStatsCounter from '../components/AnimatedStatsCounter.jsx';
 
-// Define props/data for Hero section
+// Data for Hero section
 const heroData = {
-  headline: "Iftekhar Rafi: Building digital Experiences",
+  headline: "Iftekhar Rafi: Building Digital Experiences",
   subheadline: "Passionate developer specializing in modern web technologies and user-centric design.",
 };
 
-// Stats for AnimatedStatsCounter
+// Data for AnimatedStatsCounter
 const stats = [
-  {
-    label: "Projects Completed",
-    value: 30,
-    icon: {
-      path: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-    }
-  },
-  {
-    label: "Happy Clients",
-    value: 25,
-    icon: {
-      path: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-    }
-  },
-  {
-    label: "Years Experience",
-    value: 5,
-    icon: {
-      path: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-    }
-  },
-  {
-    label: "Technologies",
-    value: 15,
-    icon: {
-      path: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
-    }
-  }
+  { label: "Projects Completed", value: 30, icon: { path: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" } },
+  { label: "Happy Clients", value: 25, icon: { path: "M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" } },
+  { label: "Years Experience", value: 5, icon: { path: "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" } },
+  { label: "Technologies", value: 15, icon: { path: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" } }
 ];
 ---
 
-<BaseLayout title="Iftekhar Rafi - Portfolio" description="Personal portfolio showcasing projects and skills in programming.">
-  <!-- Hero section with particle background -->
-  <div class="relative">
-    <ParticleBackground 
-      client:load
-      color="59, 130, 246" 
-      particleDensity={8}
-      opacity={0.2}
-      mouseInteract={true}
-      maxConnectDistance={150}
-      minSize={1}
-      maxSize={3}
-      minSpeed={0.3}
-      maxSpeed={0.8}
-    />
-    <Hero {...heroData} />
-  </div>
+<!-- 
+  The BaseLayout now correctly applies the base background and text colors.
+  The `withGradientBackground` prop is used on the Hero section instead of a separate ParticleBackground component
+  for a cleaner and more integrated effect.
+-->
+<BaseLayout title="Iftekhar Rafi - Portfolio" description="Personal portfolio showcasing projects and skills.">
+  
+  <!-- Hero Section -->
+  <Hero {...heroData} />
 
-  <!-- Section divider after hero -->
-  <SectionDivider 
-    client:load
-    type="wave" 
-    position="bottom" 
-    color="bg-white dark:bg-bg-dark" 
-    bgColor=""
-    flipX={false}
-    height={60}
-    width={100}
-  />
+  <!-- 
+    The following sections now use the correct semantic background color classes.
+    `bg-background` is the primary background color.
+    `bg-background-alt` is a slightly different shade for alternating sections.
+    These classes automatically adapt to light and dark mode as defined in global.css.
+  -->
 
-  <!-- Stats counter section -->
-  <section class="py-16 bg-gray-50 dark:bg-gray-900">
+  <!-- Stats Counter Section -->
+  <section class="py-16 bg-background-alt">
     <div class="container mx-auto px-4">
-      <h2 class="section-title text-center mb-12">At a Glance</h2>
+      <h2 class="text-3xl font-bold text-center mb-12">At a Glance</h2>
       <AnimatedStatsCounter 
         client:visible 
-        stats={stats} 
-        bgColor="bg-white dark:bg-gray-800"
-        textColor="text-primary"
+        stats={stats}
         duration={2000}
+        bgColor="bg-background"
+        textColor="text-primary"
       />
     </div>
   </section>
 
-  <!-- About section -->
+  <!-- About Section -->
+  <!-- The About component itself defines its background, so no wrapping section is needed -->
   <About />
 
-  <!-- Section divider before projects -->
-  <SectionDivider 
-    client:load
-    type="curve" 
-    position="top" 
-    color="bg-white dark:bg-bg-dark"
-    bgColor=""
-    flipX={false}
-    height={60}
-    width={100}
-  />
-
-  <!-- Projects section -->
-  <ProjectsSection />
-
-  <!-- Section divider before contact -->
-  <SectionDivider 
-    client:load
-    type="triangles" 
-    position="top" 
-    color="bg-white dark:bg-bg-dark"
-    bgColor=""
-    flipX={false}
-    height={60}
-    width={100}
-  />
-
-  <!-- Contact section -->
-  <section id="contact" class="py-16 bg-gray-50 dark:bg-gray-900">
+  <!-- Projects Section -->
+  <section id="projects" class="py-20 bg-background">
     <div class="container mx-auto px-4">
-      <h2 class="section-title text-center mb-12">Get In Touch</h2>
-      <div class="max-w-2xl mx-auto">
+       <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
+       <ProjectsSection />
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-background-alt">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-12">Get In Touch</h2>
+      <div class="max-w-2xl mx-auto bg-background p-8 rounded-lg shadow-lg">
         <ContactForm client:visible />
       </div>
     </div>
   </section>
+
 </BaseLayout>
