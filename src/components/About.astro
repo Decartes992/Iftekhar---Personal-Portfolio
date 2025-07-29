@@ -1,23 +1,84 @@
-/**
- * About Section Component
- *
- * Displays the "About Me" section with profile image, bio text, and skills list.
- *
- * @component
- *
- * @example
- * <About />
- */
 ---
-import { skillsData, experienceData, achievements, personalityTraits } from '../data/aboutData.ts';
-import type { LegacySkill as Skill, LegacyExperience as Experience, LegacyAchievement as Achievement, LegacyPersonalityTrait as PersonalityTrait } from '../data/aboutData.ts';
+/**
+ * About.astro
+ *
+ * This component displays the "About Me" section.
+ * It fetches all data from the unified `resumeData` object and performs any necessary transformations
+ * directly within this file, making it self-contained and easy to manage.
+ * This approach eliminates the need for a separate transformation file.
+ */
 
+// SECTION: Imports
+import { resumeData } from '../data/aboutData.ts';
+import type { Skill, TimelineEntry, Achievement, PersonalityTrait } from '../data/aboutData.ts';
+
+// Import UI Components
 import SkillRadarChart from './SkillRadarChart.jsx';
 import AnimatedTimeline from './AnimatedTimeline.jsx';
 import AchievementBadge from './AchievementBadge.jsx';
 import InteractiveResumeSection from './InteractiveResumeSection.jsx';
 import PersonalityIndicator from './PersonalityIndicator.jsx';
+
+// SECTION: Data Transformations
+
+// The data for these components already matches the required format.
+const achievements: Achievement[] = resumeData.achievements;
+const personalityTraits: PersonalityTrait[] = resumeData.personalityTraits;
+
+/**
+ * The SkillRadarChart expects an array of objects with `name` and `level`.
+ * The `skills` data in `resumeData` already matches this format, so no transformation is needed.
+ */
+const skillsForChart: { name: string; level: number }[] = resumeData.skills;
+
+
+/**
+ * The AnimatedTimeline component expects an array of items with a specific structure.
+ * We need to transform our `TimelineEntry` data into this format.
+ * This also combines work experience and academic projects into a single, sorted timeline.
+ */
+interface TimelineItem {
+  date: string;
+  title: string;
+  description: string;
+  technologies: string[];
+}
+
+const allJourneyEntries: TimelineEntry[] = [...resumeData.workExperience, ...resumeData.academicProjects];
+
+// Sort the combined journey entries chronologically (most recent first).
+const sortedJourneyEntries = allJourneyEntries.sort((a, b) => {
+  const getEndDate = (dateStr: string): number => {
+    // Handle "Present" by using current year
+    if (dateStr.includes('Present')) {
+      return new Date().getFullYear();
+    }
+    
+    // Extract all 4-digit years from the string
+    const years = dateStr.match(/\d{4}/g);
+    if (!years || years.length === 0) return 0;
+    
+    // If we have multiple years, use the last one (end date)
+    // If we have only one year, use that
+    return parseInt(years[years.length - 1], 10);
+  };
+  
+  const getEndDateA = getEndDate(a.period);
+  const getEndDateB = getEndDate(b.period);
+  return getEndDateB - getEndDateA; // Most recent first
+});
+
+// Transform the sorted entries into the format expected by the AnimatedTimeline component.
+const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
+  date: entry.period,
+  title: `${entry.role} at ${entry.entity}`,
+  description: entry.points.join(' '),
+  technologies: entry.technologies || []
+}));
+
 ---
+
+<!-- SECTION: HTML Template -->
 
 <section class="about-section py-12 md:py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900" id="about" aria-labelledby="about-headline">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
@@ -26,6 +87,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
     </h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 items-start mb-16">
+      <!-- Profile Picture and Info Column -->
       <div class="md:col-span-1 flex flex-col items-center" data-aos="fade-right" data-aos-delay="200">
         <div class="relative group mb-6">
           <img
@@ -45,7 +107,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
           <div class="mb-6">
             <h4 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Personality Snapshot</h4>
             <div class="space-y-2">
-              {personalityTraits.map((trait: PersonalityTrait) => (
+              {personalityTraits.map((trait) => (
                 <PersonalityIndicator trait={trait.trait} level={trait.level} color={trait.color} type="bar" size="small" client:visible />
               ))}
             </div>
@@ -53,6 +115,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
         </div>
       </div>
 
+      <!-- Bio and Achievements Column -->
       <div class="md:col-span-2" data-aos="fade-left" data-aos-delay="300">
         <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
           I am an Electrical Engineering student with a strong foundation in Computer Engineering from Dalhousie University. My academic journey and project experiences have equipped me with robust skills in software development, embedded systems, and system design. I thrive on solving complex problems and building innovative technology solutions.
@@ -64,7 +127,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
         <div class="mb-10">
           <h4 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">My Achievements</h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {achievements.map((badge: Achievement, index: number) => (
+            {achievements.map((badge, index) => (
               <div data-aos="fade-up" data-aos-delay={index * 100 + 400}>
                 <AchievementBadge icon={badge.icon} title={badge.title} description={badge.description} color={badge.color} client:visible />
               </div>
@@ -74,23 +137,32 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
       </div>
     </div>
 
+    <!-- Skills Section -->
     <div class="mb-16" data-aos="fade-up" data-aos-delay="200">
       <h3 class="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">Skills & Expertise</h3>
       <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg">
-        <SkillRadarChart skills={skillsData} client:load />
+        <SkillRadarChart
+          skills={skillsForChart}
+          client:load
+          primaryColor="rgb(59, 130, 246)"
+          backgroundColor="rgba(59, 130, 246, 0.1)"
+          height={400}
+          animationDuration={1500}
+          showLegend={false}
+        />
       </div>
     </div>
 
+    <!-- Journey Section -->
     <div data-aos="fade-up" data-aos-delay="300">
       <h3 class="text-3xl font-bold text-center mb-10 text-gray-800 dark:text-white">My Journey</h3>
-      <div class="max-w-3xl mx-auto">
-        {experienceData.map((exp: Experience, index: number) => (
-          <div data-aos="fade-up" data-aos-delay={index * 150 + 400}>
-            <InteractiveResumeSection title={`${exp.title} (${exp.date})`} initiallyOpen={index === 0} client:load>
-              <AnimatedTimeline items={[exp]} layout="vertical" alternating={false} accentColor="var(--tw-prose-links)" lineColor="var(--tw-prose-bullets)" client:visible />
-            </InteractiveResumeSection>
-          </div>
-        ))}
+      <div class="max-w-4xl mx-auto">
+        <InteractiveResumeSection title="Career & Project Timeline" initiallyOpen={true} client:load>
+          <AnimatedTimeline
+            items={journeyForTimeline}
+            client:visible
+          />
+        </InteractiveResumeSection>
       </div>
     </div>
 
@@ -98,13 +170,7 @@ import PersonalityIndicator from './PersonalityIndicator.jsx';
 </section>
 
 <style>
-  /* Custom styles for About section if needed, complementing Tailwind */
   .animate-pulse-slow {
     animation: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 </style>
-
-<script>
-  // Potential client-side interactions for this specific About page
-  console.log("About section interactive elements initialized.");
-</script>

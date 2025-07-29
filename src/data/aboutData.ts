@@ -1,33 +1,47 @@
+/**
+ * aboutData.ts
+ *
+ * This file serves as the single source of truth for all data related to the "About Me" section and resume.
+ * It defines the data structures and exports a single, comprehensive `resumeData` object.
+ * This modern, unified structure is designed to be flexible and easily maintainable.
+ */
+
+// SECTION: Data Type Definitions
+
 export interface Skill {
   name: string;
-  level?: number; // Optional level for skills that are more binary (e.g., proficient)
+  /** A numerical value from 0-100 representing proficiency. Used for charts. */
+  level: number;
+  /** The category for organizing and displaying skills. */
   category: 'Programming Languages' | 'Frameworks/Libraries' | 'Tools/Platforms' | 'Methodologies' | 'Software' | 'Hardware' | 'Soft Skills';
-  keywords?: string[]; // For filtering or more detailed display
+  /** Optional keywords for filtering or providing more detail. */
+  keywords?: string[];
 }
 
 export interface Certification {
   name: string;
   issuer: string;
-  date?: string; // Optional date of achievement
-  url?: string; // Optional link to certificate
+  /** Optional date of achievement. */
+  date?: string;
+  /** Optional link to the certificate for verification. */
+  url?: string;
 }
 
-export interface WorkExperienceEntry {
+export interface TimelineEntry {
+  /** The role or title of the position/project. */
   role: string;
-  company: string;
+  /** The company or affiliation (e.g., "Dalhousie University"). */
+  entity: string;
+  /** The location of the work or project. */
   location: string;
+  /** The time period (e.g., "Oct 2021 – Apr 2023"). */
   period: string;
-  responsibilities: string[];
+  /** A list of key responsibilities or highlights. */
+  points: string[];
+  /** A list of technologies or skills used. */
   technologies?: string[];
-}
-
-export interface AcademicProjectEntry {
-  name: string;
-  affiliation: string;
-  period: string;
-  description?: string; // Optional short description
-  highlights: string[];
-  technologies?: string[];
+  /** The type of entry, used for sorting and display logic. */
+  type: 'work' | 'project' | 'education';
 }
 
 export interface EducationEntry {
@@ -35,209 +49,148 @@ export interface EducationEntry {
   institution: string;
   period: string;
   details?: string[];
-  gpa?: string; // Optional
+  gpa?: string;
 }
 
-// Resume Data Structure
+export interface Achievement {
+  icon: string; // e.g., 'code', 'award', 'trophy'
+  title: string;
+  description: string;
+  color: 'blue' | 'gold' | 'green' | 'purple' | 'red';
+}
+
+export interface PersonalityTrait {
+  trait: string;
+  /** A numerical value from 0-100. */
+  level: number;
+  /** A hex color code for display in charts/indicators. */
+  color: string;
+}
+
+// SECTION: Main Resume Data Structure
+
 export interface ResumeData {
   skills: Skill[];
   certifications: Certification[];
-  workExperience: WorkExperienceEntry[];
-  academicProjects: AcademicProjectEntry[];
+  workExperience: TimelineEntry[];
+  academicProjects: TimelineEntry[];
   education: EducationEntry[];
+  achievements: Achievement[];
+  personalityTraits: PersonalityTrait[];
 }
+
+// SECTION: Data Export
 
 export const resumeData: ResumeData = {
   skills: [
     // Programming Languages
-    { name: "Python", category: "Programming Languages", keywords: ["Scripting", "Data Analysis", "Backend"] },
-    { name: "JavaScript/TypeScript", category: "Programming Languages", keywords: ["Web Development", "Frontend", "Backend"] },
-    { name: "C/C++", category: "Programming Languages", keywords: ["Embedded Systems", "Performance"] },
-    { name: "HTML5", category: "Programming Languages", keywords: ["Web Development", "Frontend"] },
-    { name: "CSS3/SCSS", category: "Programming Languages", keywords: ["Web Development", "Frontend", "Styling"] },
-    { name: "SQL", category: "Programming Languages", keywords: ["Databases"] },
-    
+    { name: "Python", level: 90, category: "Programming Languages", keywords: ["Scripting", "Data Analysis", "Backend"] },
+    { name: "JavaScript/TS", level: 88, category: "Programming Languages", keywords: ["Web Dev", "Frontend", "Backend"] },
+    { name: "C/C++", level: 85, category: "Programming Languages", keywords: ["Embedded Systems", "Performance"] },
+    { name: "HTML5", level: 95, category: "Programming Languages", keywords: ["Web Dev", "Frontend"] },
+    { name: "CSS3/SCSS", level: 92, category: "Programming Languages", keywords: ["Web Dev", "Frontend", "Styling"] },
+    { name: "SQL", level: 75, category: "Programming Languages", keywords: ["Databases"] },
+
     // Frameworks/Libraries
-    { name: "React/Next.js", category: "Frameworks/Libraries", keywords: ["Frontend", "Web Applications"] },
-    { name: "Node.js/Express.js", category: "Frameworks/Libraries", keywords: ["Backend", "APIs"] },
-    { name: "Astro", category: "Frameworks/Libraries", keywords: ["Static Site Generation", "Content Sites"] },
-    { name: "Tailwind CSS", category: "Frameworks/Libraries", keywords: ["CSS Framework", "Utility-first"] },
-    { name: "Matplotlib/NumPy", category: "Frameworks/Libraries", keywords: ["Data Visualization", "Scientific Computing"] },
+    { name: "React/Next.js", level: 85, category: "Frameworks/Libraries", keywords: ["Frontend", "Web Apps"] },
+    { name: "Node.js/Express", level: 82, category: "Frameworks/Libraries", keywords: ["Backend", "APIs"] },
+    { name: "Astro", level: 90, category: "Frameworks/Libraries", keywords: ["Static Sites", "Performance"] },
+    { name: "Tailwind CSS", level: 95, category: "Frameworks/Libraries", keywords: ["CSS Framework", "Utility-first"] },
+    { name: "Matplotlib/NumPy", level: 78, category: "Frameworks/Libraries", keywords: ["Data Viz", "Scientific Computing"] },
 
     // Tools/Platforms
-    { name: "Git/GitHub", category: "Tools/Platforms", keywords: ["Version Control"] },
-    { name: "Linux/Unix", category: "Tools/Platforms", keywords: ["Operating Systems", "CLI"] },
-    { name: "Docker", category: "Tools/Platforms", keywords: ["Containerization", "DevOps"] },
-    { name: "VS Code", category: "Tools/Platforms", keywords: ["IDE"] },
-    { name: "Jira/Confluence", category: "Tools/Platforms", keywords: ["Project Management"] },
-    { name: "Firebase", category: "Tools/Platforms", keywords: ["BaaS", "Cloud"] },
-    { name: "Vercel/Netlify", category: "Tools/Platforms", keywords: ["Deployment", "Hosting"] },
+    { name: "Git/GitHub", level: 95, category: "Tools/Platforms", keywords: ["Version Control"] },
+    { name: "Linux/Unix", level: 85, category: "Tools/Platforms", keywords: ["OS", "CLI"] },
+    { name: "Docker", level: 80, category: "Tools/Platforms", keywords: ["Containerization", "DevOps"] },
+    { name: "VS Code", level: 98, category: "Tools/Platforms", keywords: ["IDE"] },
+    { name: "Jira/Confluence", level: 88, category: "Tools/Platforms", keywords: ["Project Management"] },
+    { name: "Firebase", level: 75, category: "Tools/Platforms", keywords: ["BaaS", "Cloud"] },
+    { name: "Vercel/Netlify", level: 90, category: "Tools/Platforms", keywords: ["Deployment", "Hosting"] },
 
     // Methodologies
-    { name: "Agile/Scrum", category: "Methodologies" },
-    { name: "RESTful APIs", category: "Methodologies" },
-    { name: "CI/CD", category: "Methodologies" },
+    { name: "Agile/Scrum", level: 85, category: "Methodologies" },
+    { name: "RESTful APIs", level: 90, category: "Methodologies" },
+    { name: "CI/CD", level: 78, category: "Methodologies" },
 
     // Software
-    { name: "SolidWorks", category: "Software", keywords: ["CAD", "3D Modeling"] },
-    { name: "Microsoft Office 365", category: "Software" },
-    { name: "Figma", category: "Software", keywords: ["UI/UX Design"] },
+    { name: "SolidWorks", level: 92, category: "Software", keywords: ["CAD", "3D Modeling"] },
+    { name: "MS Office 365", level: 95, category: "Software" },
+    { name: "Figma", level: 85, category: "Software", keywords: ["UI/UX Design"] },
 
     // Hardware
-    { name: "Oscilloscope, Signal Generator, Multimeter", category: "Hardware", keywords: ["Electronics Testing"] },
-    { name: "Soldering", category: "Hardware", keywords: ["Electronics Assembly"] },
-    { name: "CNC, Laser Cutter, 3D Printers (FDM/Resin)", category: "Hardware", keywords: ["Prototyping", "Fabrication"] },
-
-    // Soft Skills
-    { name: "Technical Communication", category: "Soft Skills" },
-    { name: "Problem Solving & Critical Thinking", category: "Soft Skills" },
-    { name: "Project Management", category: "Soft Skills" },
-    { name: "Teamwork & Collaboration", category: "Soft Skills" },
-    { name: "Adaptability & Flexibility", category: "Soft Skills" },
-    { name: "Self-Directed Learning", category: "Soft Skills" },
-    { name: "Time Management", category: "Soft Skills" },
+    { name: "Test Equipment", level: 90, category: "Hardware", keywords: ["Oscilloscope", "Signal Gen", "Multimeter"] },
+    { name: "Soldering", level: 95, category: "Hardware", keywords: ["Electronics Assembly"] },
+    { name: "Rapid Prototyping", level: 93, category: "Hardware", keywords: ["CNC", "Laser Cutter", "3D Print"] },
   ],
   certifications: [
     { name: "Diploma of Engineering", issuer: "Dalhousie University" },
     { name: "Emergency First Aid & CPR/AED Level C", issuer: "Canadian Red Cross" },
-    // Add more certifications here if any, e.g., cloud certifications, language proficiency
   ],
   workExperience: [
     {
       role: "Makerspace Coordinator",
-      company: "Dalhousie University (Emera IdeaHub)",
+      entity: "Dalhousie University (Emera IdeaHub)",
       location: "Halifax, NS",
       period: "Oct 2021 – Apr 2023",
-      responsibilities: [
+      points: [
         "Advised and guided students on over 100 innovative engineering projects, utilizing industrial-grade mechanical and electrical equipment.",
-        "Managed, maintained, and trained users on 25+ pieces of advanced equipment including 3D printers (FDM, SLA), CNC mills, laser cutters, and electronics workstations.",
-        "Implemented innovative workflow management strategies that increased student project throughput and lab efficiency by approximately 30%.",
-        "Collaborated with faculty, external professionals, and organizations on prototyping and research projects.",
-        "Developed and delivered safety and equipment operation training workshops."
+        "Managed, maintained, and trained users on 25+ pieces of advanced equipment including 3D printers, CNC mills, and laser cutters.",
+        "Implemented workflow management strategies that increased lab efficiency by approximately 30%.",
+        "Collaborated with faculty and external professionals on prototyping and research projects.",
       ],
-      technologies: ["3D Printing (FDM/SLA)", "CNC Machining", "Laser Cutting", "SolidWorks", "Electronics Prototyping", "Safety Protocols"]
+      technologies: ["3D Printing", "CNC Machining", "Laser Cutting", "SolidWorks", "Electronics Prototyping"],
+      type: 'work',
     },
-    // Add other work experiences if any
   ],
   academicProjects: [
     {
-      name: "Low Orbit Reconnaissance Imagery Satellite (LORIS)",
-      affiliation: "Dalhousie Space Systems Lab (Core Software Developer)",
+      role: "Core Software Developer",
+      entity: "Dalhousie Space Systems Lab (LORIS)",
+      location: "Halifax, NS",
       period: "Oct 2020 – Present",
-      highlights: [
-        "Developing embedded C software for the satellite's onboard computer, focusing on modular, fault-tolerant systems within FreeRTOS environment.",
-        "Engineered a custom file system module for efficient satellite data storage, retrieval, and management, achieving an 8% improvement in module unit testing efficiency.",
-        "Designed and implemented communication protocols (SPI, I2C, UART) for key satellite subsystems including RF telemetry, command handling, and mission control interfaces.",
-        "Authored and presented bi-weekly progress reports on software development, fostering cross-functional team collaboration for hardware-software integration.",
-        "Contributed to system architecture design and participated in rigorous code reviews and testing phases."
+      points: [
+        "Developing embedded C software for the satellite's onboard computer using FreeRTOS.",
+        "Engineered a custom file system module for efficient satellite data storage and management.",
+        "Designed and implemented communication protocols (SPI, I2C, UART) for key satellite subsystems.",
+        "Authored and presented bi-weekly progress reports on software development.",
       ],
-      technologies: ["C", "FreeRTOS", "Embedded Systems", "Satellite Communication", "Git", "Jira"]
+      technologies: ["C", "FreeRTOS", "Embedded Systems", "Satellite Comms", "Git", "Jira"],
+      type: 'project',
     },
     {
-      name: "Subsea Infrastructure Sensory Pod",
-      affiliation: "Dalhousie Engineering Design II (Electrical Team)",
+      role: "Electrical Team Member",
+      entity: "Dalhousie Engineering Design II",
+      location: "Halifax, NS",
       period: "Jan 2022 – Apr 2022",
-      highlights: [
-        "Programmed an ATmega328P microcontroller using C (Microchip Studio/AVR GCC) for detecting seawater electrical faults and fluid contamination.",
-        "Designed internal mechanical components using SolidWorks and prototyped enclosures using FDM 3D printing.",
-        "Developed and integrated an ultrasonic sensor-based module for precise fluid contamination detection.",
-        "Delivered two professional technical presentations covering system methodology, architecture, software components, and testing results.",
-        "Co-authored a comprehensive 40-page technical design report, achieving a grade of A."
+      points: [
+        "Programmed an ATmega328P microcontroller using C for detecting seawater electrical faults.",
+        "Designed internal mechanical components using SolidWorks and prototyped enclosures using 3D printing.",
+        "Developed and integrated an ultrasonic sensor-based module for fluid contamination detection.",
+        "Co-authored a comprehensive 40-page technical design report, achieving a grade of A.",
       ],
-      technologies: ["C", "ATmega328P", "Microchip Studio", "SolidWorks", "3D Printing", "Sensors", "Technical Writing"]
+      technologies: ["C", "ATmega328P", "Microchip Studio", "SolidWorks", "3D Printing", "Sensors"],
+      type: 'project',
     },
-    // Add MILTON project details here if it's to be included in resume
   ],
   education: [
     {
-      degree: "BEng Electrical Engineering with Computer Option",
+      degree: "BEng Electrical Engineering, Computer Option",
       institution: "Dalhousie University",
-      period: "Sep 2020 – Present", // Update to graduation year when applicable
+      period: "Sep 2020 – Present",
       details: [
-        "Relevant Coursework: Data Structures & Algorithms, Embedded Systems, Software Engineering, Digital Logic Design, Communication Systems, Control Systems.",
-        "Served as Secretary for the Dalhousie IEEE Power and Energy Society, organizing 5+ technical events and workshops."
+        "Relevant Coursework: Data Structures & Algorithms, Embedded Systems, Software Engineering, Digital Logic.",
+        "Secretary for the Dalhousie IEEE Power and Energy Society, organizing 5+ technical events.",
       ],
-      // gpa: "3.X/4.3" // Optional: Add GPA if desired
     },
-    // Add other education entries if any (e.g., relevant online courses, previous degrees)
+  ],
+  achievements: [
+    { icon: 'code', title: 'Open Source Contributor', description: 'Active contributor to several community projects.', color: 'blue' },
+    { icon: 'award', title: 'Hackathon Winner', description: '1st place in Dal Innovates Codefest 2023.', color: 'gold' },
+    { icon: 'trophy', title: 'Dean\'s List', description: 'Recognized for academic excellence for 4 consecutive semesters.', color: 'green' },
+  ],
+  personalityTraits: [
+    { trait: "Creativity", level: 85, color: "#8B5CF6" },
+    { trait: "Problem Solving", level: 92, color: "#3B82F6" },
+    { trait: "Teamwork", level: 78, color: "#10B981" },
   ]
 };
-
-// The existing exports for skillsData, experienceData, achievements, personalityTraits can be kept for other components
-// or deprecated if the new resumeData structure covers all needs.
-// For now, let's keep them to avoid breaking other parts of the site immediately.
-
-export interface LegacySkill {
-  name: string;
-  level: number;
-}
-
-export interface LegacyExperience {
-  date: string;
-  title: string;
-  description: string;
-  technologies: string[];
-}
-
-export interface LegacyAchievement {
-  icon: string;
-  title: string;
-  description: string;
-  color: 'blue' | 'gold' | 'green' | 'purple';
-}
-
-export interface LegacyPersonalityTrait {
-  trait: string;
-  level: number;
-  color: string;
-}
-
-export const skillsData: LegacySkill[] = [
-  { name: "JavaScript", level: 90 },
-  { name: "React", level: 85 },
-  { name: "Node.js", level: 80 },
-  { name: "Python", level: 75 },
-  { name: "C/C++", level: 70 },
-  { name: "Embedded Systems", level: 65 },
-  { name: "UI/UX Design", level: 60 },
-  { name: "DevOps", level: 55 }
-];
-
-export const experienceData: LegacyExperience[] = [
-  {
-    date: "2023 - Present",
-    title: "Core Software Developer",
-    description: "Dalhousie Space Systems Lab, LORIS satellite project. Developing flight software and ground control systems.",
-    technologies: ["Python", "C++", "Git", "Linux"]
-  },
-  {
-    date: "2022 - 2023",
-    title: "Software Developer",
-    description: "MILTON AI-powered training application. Designed and implemented core algorithms and API integration.",
-    technologies: ["JavaScript", "React", "Node.js", "Docker"]
-  },
-  {
-    date: "2021 - 2022",
-    title: "Makerspace Coordinator",
-    description: "Dalhousie's Emera Ideahub. Advised students on engineering projects and maintained advanced equipment.",
-    technologies: ["3D Printing", "CAD", "Electronics"]
-  },
-  {
-    date: "2020 - 2021",
-    title: "Student Researcher",
-    description: "Research in electrical engineering with focus on renewable energy systems and smart grid technology.",
-    technologies: ["MATLAB", "Data Analysis", "Circuit Design"]
-  }
-];
-
-export const achievements: LegacyAchievement[] = [
-  { icon: 'code', title: 'Open Source Contributor', description: 'Contributed to 5+ major OS projects.', color: 'blue' },
-  { icon: 'award', title: 'Hackathon Winner', description: '1st place in Dal Innovates Codefest 2023.', color: 'gold' },
-  { icon: 'trophy', title: 'Top Student Award', description: "Dean's List for 4 consecutive semesters.", color: 'green' },
-];
-
-export const personalityTraits: LegacyPersonalityTrait[] = [
-  { trait: "Creativity", level: 85, color: "#8B5CF6" },
-  { trait: "Problem Solving", level: 92, color: "#3B82F6" },
-  { trait: "Teamwork", level: 78, color: "#10B981" },
-];

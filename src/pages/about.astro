@@ -1,119 +1,184 @@
 ---
-// src/pages/about.astro
+/**
+ * src/pages/about.astro
+ *
+ * This is the dedicated "About Me" page.
+ * It is designed to be a visually rich and comprehensive overview of my skills, experience, and journey.
+ * All data is imported from the single source of truth (`aboutData.ts`) and transformed directly
+ * within this file, eliminating external dependencies and potential errors.
+ */
+
+// SECTION: Layout and Component Imports
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SkillRadarChart from '../components/SkillRadarChart.jsx';
 import AnimatedTimeline from '../components/AnimatedTimeline.jsx';
-import SectionDivider from '../components/SectionDivider.jsx';
-// Import data from the new file
-import { skillsData, experienceData } from '../data/aboutData';
+import AchievementBadge from '../components/AchievementBadge.jsx';
+
+// SECTION: Data Imports and Transformations
+import { resumeData } from '../data/aboutData.ts';
+import type { Skill, TimelineEntry, Achievement } from '../data/aboutData.ts';
 
 const pageTitle = "About Me | Iftekhar's Portfolio";
+
+// --- Data for Skills Section ---
+const skillsForChart: { name: string; level: number }[] = resumeData.skills;
+
+// Group skills by category for display as tags
+const skillsByCategory = resumeData.skills.reduce((acc, skill) => {
+  if (!acc[skill.category]) {
+    acc[skill.category] = [];
+  }
+  acc[skill.category].push(skill);
+  return acc;
+}, {} as Record<Skill['category'], Skill[]>);
+
+const categoryOrder: Skill['category'][] = [
+  'Programming Languages',
+  'Frameworks/Libraries',
+  'Tools/Platforms',
+  'Hardware',
+  'Software',
+  'Methodologies',
+  'Soft Skills',
+];
+
+
+// --- Data for Journey Timeline ---
+interface TimelineItem {
+  date: string;
+  title: string;
+  description: string;
+  technologies: string[];
+}
+
+// Combine work and academic projects into a single journey
+const allJourneyEntries: TimelineEntry[] = [...resumeData.workExperience, ...resumeData.academicProjects];
+
+// Sort the combined journey chronologically (most recent first)
+const sortedJourneyEntries = allJourneyEntries.sort((a, b) => {
+  const getYear = (dateStr: string): number => {
+    const match = dateStr.match(/(\d{4})|Present/);
+    if (!match) return 0;
+    return match[0] === 'Present' ? new Date().getFullYear() : parseInt(match[0], 10);
+  };
+  return getYear(b.period) - getYear(a.period);
+});
+
+// Transform the sorted entries into the format for the AnimatedTimeline component
+const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
+  date: entry.period,
+  title: `${entry.role} at ${entry.entity}`,
+  description: entry.points.join(' '),
+  technologies: entry.technologies || []
+}));
+
+// --- Data for Achievements ---
+const achievements: Achievement[] = resumeData.achievements;
 ---
 
 <BaseLayout title={pageTitle}>
-  <!-- Hero Section -->
-  <section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-bg-dark">
-    <div class="container mx-auto px-4">
-      <h1 class="text-4xl md:text-5xl font-bold text-center mb-4 text-gradient-primary">About Me</h1>
-      <p class="text-xl text-center text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
-        Electrical Engineering student with a passion for software development and embedded systems
-      </p>
-    </div>
-  </section>
-  
-  <!-- Profile Section -->
-  <section class="py-16 bg-white dark:bg-bg-dark">
-    <div class="container mx-auto px-4">
-      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-        <img 
-          src="/images/iftekhar_photo.jpg" 
-          alt="Iftekhar Hossain Rafi" 
-          class="w-48 h-48 rounded-full object-cover shadow-lg ring-4 ring-primary/20"
-        >
-        <div>
-          <p class="text-lg mb-4">Hello! I'm Iftekhar Hossain Rafi, an Electrical Engineering student at Dalhousie University with a strong focus on the Computer Engineering option. I'm passionate about the intersection of hardware and software, with hands-on experience in software development (Python, C/C++), embedded systems programming, and system architecture.</p>
-          <p class="text-lg mb-4">My academic journey and project work, such as contributing as a core software developer for the Dalhousie Space Systems Lab's LORIS satellite project and working on the MILTON AI-powered training decisions application, have allowed me to develop practical skills in areas like data structures, algorithms, API development, and working with tools like Git, Docker, and Linux.</p>
-          <p class="text-lg mb-4">Previously, as a Makerspace Coordinator at Dalhousie's Emera Ideahub, I enjoyed advising students on diverse engineering projects and maintaining a variety of advanced equipment.</p>
-          <p class="text-lg mb-4">I am actively seeking opportunities where I can apply my skills in software engineering, systems development, and electrical engineering to contribute to innovative projects.</p>
+  <div class="space-y-20 md:space-y-28 py-16 md:py-24">
+
+    <!-- HERO SECTION -->
+    <section class="container mx-auto px-4 text-center">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500 dark:from-primary-400 dark:to-secondary-400" data-aos="fade-up">
+          My Story & Skills
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mx-auto max-w-2xl" data-aos="fade-up" data-aos-delay="100">
+          A deep dive into my technical journey, from embedded systems to modern web development.
+        </p>
+      </div>
+    </section>
+
+    <!-- BIO & PROFILE SECTION -->
+    <section class="container mx-auto px-4">
+      <div class="grid md:grid-cols-12 gap-8 md:gap-12 items-center">
+        <div class="md:col-span-4" data-aos="fade-right">
+          <div class="relative w-max mx-auto">
+             <img
+              src="/images/iftekhar_photo.jpg"
+              alt="Profile picture of Iftekhar"
+              loading="lazy"
+              class="relative z-10 rounded-full w-52 h-52 md:w-64 md:h-64 object-cover border-4 border-white dark:border-gray-800 shadow-2xl"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full blur-xl animate-pulse-slow"></div>
+          </div>
+        </div>
+        <div class="md:col-span-8 text-gray-700 dark:text-gray-300 text-lg" data-aos="fade-left" data-aos-delay="100">
+          <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-4">Who I Am</h2>
+          <p class="mb-4 leading-relaxed">
+            Hello! I'm Iftekhar, an Electrical Engineering student at Dalhousie University with a specialized focus in Computer Engineering. I am driven by a passion for bridging the gap between hardware and software, creating tangible solutions through technology.
+          </p>
+          <p class="mb-4 leading-relaxed">
+            My experience spans from low-level embedded systems programming for satellites to building modern, interactive web applications. I thrive in environments where I can tackle complex problems, whether it's designing a fault-tolerant system in C or architecting a scalable API with Node.js.
+          </p>
+           <p class="leading-relaxed">
+            I am actively seeking opportunities to contribute to impactful projects in software engineering, systems development, or innovative electrical engineering.
+          </p>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- Section Divider -->
-  <SectionDivider 
-    client:load
-    type="wave" 
-    position="bottom" 
-    color="bg-gray-50 dark:bg-gray-900" 
-    height={60}
-    bgColor=""
-    flipX={false}
-    width={100}
-  />
-  
-  <!-- Skills Section with Radar Chart -->
-  <section class="py-16 bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">Technical Skills</h2>
-      <div class="max-w-3xl mx-auto">
+    </section>
+
+    <!-- SKILLS SECTION -->
+    <section class="container mx-auto px-4">
+       <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white" data-aos="fade-up">Technical Skillset</h2>
+       <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+         <div class="order-2 lg:order-1 space-y-8" data-aos="fade-right">
+           {categoryOrder.map(category => (
+             <div class="bg-white dark:bg-gray-800/50 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+               <h3 class="font-semibold text-primary-600 dark:text-primary-400 mb-3">{category}</h3>
+               <div class="flex flex-wrap gap-2">
+                 {skillsByCategory[category] && skillsByCategory[category].map(skill => (
+                   <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm font-medium px-3 py-1 rounded-full">
+                     {skill.name}
+                   </span>
+                 ))}
+               </div>
+             </div>
+           ))}
+         </div>
+         <div class="order-1 lg:order-2" data-aos="fade-left">
+           <div class="bg-white dark:bg-gray-800/50 p-6 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
         <SkillRadarChart
-          client:visible
-          skills={skillsData}
+          skills={skillsForChart}
+          client:load
           primaryColor="rgb(59, 130, 246)"
           backgroundColor="rgba(59, 130, 246, 0.1)"
           height={400}
           animationDuration={1500}
-          showLegend={true}
+          showLegend={false}
         />
+           </div>
+         </div>
+       </div>
+    </section>
+
+    <!-- JOURNEY TIMELINE SECTION -->
+    <section class="container mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white" data-aos="fade-up">The Full Journey</h2>
+      <div class="max-w-4xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+        <AnimatedTimeline items={journeyForTimeline} client:visible />
       </div>
-    </div>
-  </section>
-  
-  <!-- Section Divider -->
-  <SectionDivider 
-    client:load
-    type="triangles" 
-    position="top" 
-    color="bg-white dark:bg-bg-dark" 
-    height={60}
-    bgColor=""
-    flipX={false}
-    width={100}
-  />
-  
-  <!-- Experience Timeline Section -->
-  <section class="py-16 bg-white dark:bg-bg-dark">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-12">Professional Journey</h2>
-      <div class="max-w-4xl mx-auto">
-        <AnimatedTimeline
-          client:visible
-          items={experienceData}
-          layout="vertical"
-          alternating={true}
-          lineColor="#3B82F6"
-          accentColor="#3B82F6"
-        />
-      </div>
-    </div>
-  </section>
-  
-  <!-- Education Section -->
-  <section class="py-16 bg-gray-50 dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-8">Education</h2>
-      <div class="max-w-2xl mx-auto">
-        <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md">
-          <h3 class="text-xl font-bold mb-2">Bachelor of Electrical Engineering</h3>
-          <p class="text-gray-700 dark:text-gray-300 mb-1">Dalhousie University</p>
-          <p class="text-gray-600 dark:text-gray-400 mb-4">Computer Engineering Option, Graduating 2025</p>
-          <p class="text-gray-700 dark:text-gray-300">
-            Relevant coursework includes data structures and algorithms, embedded systems, digital logic, signals and systems, 
-            and software development methodologies.
-          </p>
+    </section>
+
+    <!-- ACHIEVEMENTS SECTION -->
+    <section class="container mx-auto px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white" data-aos="fade-up">Key Achievements</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {achievements.map((badge, index) => (
+              <div data-aos="fade-up" data-aos-delay={index * 100}>
+                <AchievementBadge icon={badge.icon} title={badge.title} description={badge.description} color={badge.color} client:visible />
+              </div>
+            ))}
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
+
+  </div>
 </BaseLayout>
+
+<style>
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+</style>
