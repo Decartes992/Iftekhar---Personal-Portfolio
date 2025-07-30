@@ -16,7 +16,7 @@ const AnimatedStatsCounter = ({
   duration = 2000
 }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [counters, setCounters] = useState(stats.map(() => 0));
+  const [counters, setCounters] = useState(stats.map(stat => (stat.value && typeof stat.value === 'number' ? 0 : 0)));
   const counterRef = useRef(null);
   
   // Set up intersection observer to trigger animation when element is in view
@@ -49,7 +49,7 @@ const AnimatedStatsCounter = ({
     const steps = duration / stepDuration;
     
     // For each stat, calculate increment per step
-    const incrementValues = stats.map(stat => stat.value / steps);
+    const incrementValues = stats.map(stat => (stat.value && typeof stat.value === 'number' ? stat.value : 0) / steps);
     
     let currentStep = 0;
     
@@ -58,7 +58,7 @@ const AnimatedStatsCounter = ({
       
       if (currentStep >= steps) {
         // Ensure final values are exact
-        setCounters(stats.map(stat => stat.value));
+        setCounters(stats.map(stat => (stat.value && typeof stat.value === 'number' ? stat.value : 0)));
         clearInterval(timer);
       } else {
         // Increment counters for each step
@@ -98,25 +98,30 @@ const AnimatedStatsCounter = ({
       ref={counterRef} 
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
     >
-      {stats.map((stat, index) => (
-        <div 
-          key={index}
-          className={`${bgColor} p-6 rounded-lg shadow-md flex flex-col items-center text-center transition-transform hover:scale-105 duration-300`}
-        >
-          {/* Icon if provided */}
-          {stat.icon && renderIcon(stat.icon)}
-          
-          {/* Counter value */}
-          <div className={`text-4xl font-bold mb-2 ${textColor}`}>
-            {formatNumber(counters[index])}
+      {stats.map((stat, index) => {
+        // Skip rendering if stat doesn't have required properties
+        if (!stat || typeof stat !== 'object') return null;
+        
+        return (
+          <div
+            key={index}
+            className={`${bgColor} p-6 rounded-lg shadow-md flex flex-col items-center text-center transition-transform hover:scale-105 duration-300`}
+          >
+            {/* Icon if provided */}
+            {stat.icon && renderIcon(stat.icon)}
+            
+            {/* Counter value */}
+            <div className={`text-4xl font-bold mb-2 ${textColor}`}>
+              {formatNumber(counters[index])}
+            </div>
+            
+            {/* Label */}
+            <div className="text-gray-600 dark:text-gray-300 font-medium">
+              {stat.label || ''}
+            </div>
           </div>
-          
-          {/* Label */}
-          <div className="text-gray-600 dark:text-gray-300 font-medium">
-            {stat.label}
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

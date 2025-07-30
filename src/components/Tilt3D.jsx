@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 /**
  * Tilt3D - Creates a 3D tilt effect on hover for cards and other elements
@@ -12,23 +12,50 @@ import React, { useState, useRef } from 'react';
  * @param {number} props.transitionEase - Easing function for the transition (default: 'cubic-bezier(.03,.98,.52,.99)')
  * @param {string} props.className - Additional CSS classes
  */
-const Tilt3D = ({ 
-  children, 
-  perspective = 500, 
-  maxTilt = 5, 
+const Tilt3D = ({
+  children,
+  perspective = 500,
+  maxTilt = 5,
   scale = 1.0,
   transitionSpeed = 200,
   transitionEase = 'cubic-bezier(.03,.98,.52,.99)',
   className = '',
 }) => {
+  const [supports3D, setSupports3D] = useState(false);
   const [style, setStyle] = useState({
     transform: `perspective(${perspective}px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`,
   });
+  
+  // Check for CSS 3D transform support
+  useEffect(() => {
+    const check3DSupport = () => {
+      const element = document.createElement('div');
+      const testProperties = [
+        'transform',
+        'WebkitTransform',
+        'MozTransform',
+        'msTransform',
+        'OTransform'
+      ];
+      
+      return testProperties.some(property => {
+        if (property in element.style) {
+          element.style[property] = 'matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)';
+          return element.style[property] !== '';
+        }
+        return false;
+      });
+    };
+    
+    setSupports3D(check3DSupport());
+  }, []);
   
   const cardRef = useRef(null);
   const transitionRef = useRef(null);
   
   const handleMouseMove = (e) => {
+    if (!supports3D) return;
+    
     if (transitionRef.current) clearTimeout(transitionRef.current);
     
     const card = cardRef.current;
@@ -49,6 +76,13 @@ const Tilt3D = ({
   };
 
   const handleMouseLeave = () => {
+    if (!supports3D) {
+      setStyle({
+        transform: 'none',
+      });
+      return;
+    }
+    
     if (transitionRef.current) clearTimeout(transitionRef.current);
     
     transitionRef.current = setTimeout(() => {
@@ -60,6 +94,8 @@ const Tilt3D = ({
   };
 
   const handleMouseEnter = () => {
+    if (!supports3D) return;
+    
     if (transitionRef.current) clearTimeout(transitionRef.current);
     
     setStyle({
@@ -75,7 +111,7 @@ const Tilt3D = ({
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
       style={style}
-      className={`tilt-3d will-change-transform ${className}`}
+      className={`tilt-3d ${supports3D ? 'will-change-transform' : ''} ${className}`}
     >
       {children}
     </div>
