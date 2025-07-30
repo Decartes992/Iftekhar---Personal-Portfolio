@@ -61,7 +61,7 @@ const ProjectCard3D = ({
       >
         {/* Card Front */}
         <div className="project-card-face project-card-front bg-bg-base-current dark:bg-bg-alt-dark rounded-xl overflow-hidden flex flex-col h-full">
-          <div className="relative overflow-hidden h-48 sm:h-56 group">
+          <div className="relative overflow-hidden min-h-[12rem] sm:min-h-[14rem] group">
             <img 
               src={image} 
               alt={`Preview of ${title}`}

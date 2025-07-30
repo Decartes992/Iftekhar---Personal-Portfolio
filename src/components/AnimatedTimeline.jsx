@@ -137,12 +137,12 @@ const AnimatedTimeline = ({
     <div ref={timelineRef} className="py-6">
       {layout === "vertical" ? (
         <div className="relative">
-          {items.map((item, index) => (
+          {Array.isArray(items) && items.map((item, index) => (
             <div key={index} className="timeline-item" data-index={index}>
-              <VerticalTimelineItem 
-                item={item} 
-                index={index} 
-                isVisible={visibleItems[index]} 
+              <VerticalTimelineItem
+                item={item}
+                index={index}
+                isVisible={visibleItems[index]}
               />
             </div>
           ))}
@@ -150,19 +150,19 @@ const AnimatedTimeline = ({
       ) : (
         <div className="relative">
           {/* Horizontal timeline line */}
-          <div 
-            className="absolute top-2 left-0 w-full h-0.5" 
+          <div
+            className="absolute top-2 left-0 w-full h-0.5"
             style={{ backgroundColor: lineColor, opacity: 0.3 }}
           />
           
           {/* Horizontal timeline items */}
           <div className="flex overflow-x-auto space-x-6 py-4 px-2">
-            {items.map((item, index) => (
+            {Array.isArray(items) && items.map((item, index) => (
               <div key={index} className="timeline-item" data-index={index}>
-                <HorizontalTimelineItem 
-                  item={item} 
-                  index={index} 
-                  isVisible={visibleItems[index]} 
+                <HorizontalTimelineItem
+                  item={item}
+                  index={index}
+                  isVisible={visibleItems[index]}
                 />
               </div>
             ))}
