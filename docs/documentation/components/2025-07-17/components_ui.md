@@ -19,7 +19,7 @@ The static components follow a consistent pattern:
 
 ### About.astro
 
-**Purpose**: Comprehensive "About Me" section with profile information, skills visualization, and timeline.
+**Purpose**: Comprehensive "About Me" section with profile information, skills visualization, and timeline. Fully theme-aware with unified CSS variable system for styling.
 
 #### Props Interface
 ```typescript
@@ -33,6 +33,7 @@ interface AboutProps {
 - **Components**: SkillRadarChart, AnimatedTimeline, AchievementBadge, PersonalityIndicator
 - **Animations**: AOS (Animate On Scroll) with staggered delays
 - **Data Source**: [`aboutData.ts`](src/data/aboutData.ts:1)
+- **Theme System**: Relies on unified CSS variable system for all styling
 
 #### Usage Example
 ```astro
@@ -42,7 +43,14 @@ import About from '../components/About.astro';
 <About />
 ```
 
-#### Accessibility Issues
+#### Theme Awareness
+- **CSS Variables**: Uses CSS custom properties for all colors and styling
+- **No Hardcoded Colors**: Removed all hardcoded color props from child components
+- **Automatic Adaptation**: Automatically adapts to light/dark mode changes
+- **Consistent Styling**: Unified design system across all child components
+
+#### Accessibility Improvements
+- **Enhanced**: Improved ARIA labels for interactive components
 - **Missing**: Alt text validation for profile image
 - **Issue**: PersonalityIndicator lacks proper ARIA labels
 - **Gap**: Timeline items need semantic markup improvements
@@ -57,6 +65,11 @@ import About from '../components/About.astro';
 - ✅ Lazy loading for profile image
 - ✅ Static generation for all content
 - **Missing**: Image optimization with Astro's Image component
+
+#### Implementation Details
+- **Import Paths**: Updated relative import paths for child components
+- **Component Integration**: Child components use `client:only="react"` for proper SSR handling
+- **Styling System**: Uses theme-aware Tailwind classes (`bg-background-alt`, `text-text-muted`, etc.)
 
 ---
 
@@ -426,6 +439,11 @@ import SectionDivider from '../components/SectionDivider.jsx';
 - Ensure WCAG 2.1 AA compliance
 - Add non-color indicators
 
+#### 5. Theme Accessibility
+- Ensure sufficient contrast in both light and dark themes
+- Test colorblind-friendly theme variations
+- Verify reduced motion preferences are respected
+
 ---
 
 ## Performance Optimizations
@@ -435,8 +453,8 @@ import SectionDivider from '../components/SectionDivider.jsx';
 #### 1. Image Optimization
 ```astro
 <!-- Replace standard img with Astro Image -->
-<Image 
-  src={image} 
+<Image
+  src={image}
   alt={altText}
   width={600}
   height={400}
@@ -454,6 +472,11 @@ import SectionDivider from '../components/SectionDivider.jsx';
 - Monitor component-specific bundle sizes
 - Lazy load heavy dependencies
 - Use dynamic imports for conditional components
+
+#### 4. Theme Performance
+- Minimize CSS variables for better rendering performance
+- Use efficient theme switching mechanisms
+- Cache theme-related computations when possible
 
 ---
 

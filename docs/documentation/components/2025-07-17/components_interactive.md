@@ -15,53 +15,58 @@ The portfolio utilizes several advanced interactive components to create engagin
 **File**: [`src/components/AnimatedTimeline.jsx`](src/components/AnimatedTimeline.jsx:1)
 
 #### Description
-A scroll-triggered timeline component that displays chronological data with smooth animations. Supports both vertical and horizontal layouts with intersection observer-based visibility detection.
+A theme-aware, scroll-triggered timeline component that displays chronological data with smooth animations. Uses Tailwind CSS classes for styling and supports only vertical layout with intersection observer-based visibility detection.
 
 #### Props & State Management
 - **Props**:
   - `items`: Array of timeline objects with `date`, `title`, `description`, and optional `technologies`
-  - `layout`: "vertical" | "horizontal" (default: "vertical")
+  - `layout`: "vertical" | "horizontal" (default: "vertical", horizontal layout not implemented)
   - `alternating`: boolean - alternates item sides in vertical layout (default: true)
-  - `lineColor`: string - timeline line color (default: "#3B82F6")
-  - `accentColor`: string - highlight color (default: "#3B82F6")
 
 - **State**:
   - `visibleItems`: boolean[] - tracks visibility of each timeline item
-  - `timelineRef`: useRef - intersection observer target
+  - `itemRefs`: useRef[] - array of refs for intersection observer targets
+
+#### Theme Awareness
+- **CSS Variables**: Uses Tailwind theme-aware classes for all styling
+- **No Hardcoded Colors**: Removed `lineColor` and `accentColor` props
+- **Automatic Adaptation**: Automatically adapts to light/dark mode changes
+- **Consistent Styling**: Unified design system with parent components
 
 #### Performance Analysis
 - **Intersection Observer**: Efficient scroll detection with 20% threshold
 - **Re-render Pattern**: Individual item visibility updates prevent full component re-renders
 - **Animation Performance**: CSS transitions with `translate` and `opacity` for smooth 60fps animations
+- **Observer Cleanup**: Improved cleanup with individual item refs
+
+#### Implementation Improvements
+- **Responsive Design**: Enhanced mobile and desktop layouts
+- **Styling System**: Uses theme-aware Tailwind classes (`bg-background-alt`, `text-text`, etc.)
+- **Ref Management**: Individual refs for each timeline item for better observer management
+- **Layout**: Vertical layout only with improved responsive behavior
 
 #### Issues Identified
-1. **Memory Leak Risk**: Observer cleanup may miss elements if `timelineRef.current` becomes null
-2. **Layout Shift**: Horizontal layout lacks proper container sizing
-3. **Accessibility**: Missing ARIA attributes for screen readers
+1. **Layout Removal**: Horizontal layout implementation has been removed
+2. **Accessibility**: Missing ARIA attributes for screen readers
 
 #### Optimization Recommendations
 ```jsx
-// Improved observer cleanup
+// Component now uses individual refs for better management
+const itemRefs = useRef([]);
+
 useEffect(() => {
   const observer = new IntersectionObserver(callback, options);
-  const elements = timelineRef.current?.querySelectorAll('.timeline-item');
   
-  elements?.forEach(el => observer.observe(el));
+  itemRefs.current.forEach(item => {
+    if (item) observer.observe(item);
+  });
   
   return () => {
-    elements?.forEach(el => observer.unobserve(el));
-    observer.disconnect(); // Ensure complete cleanup
+    itemRefs.current.forEach(item => {
+      if (item) observer.unobserve(item);
+    });
   };
 }, [items]);
-
-// Add proper container sizing for horizontal layout
-const HorizontalContainer = () => (
-  <div className="overflow-x-auto">
-    <div className="min-w-max flex space-x-6">
-      {/* timeline items */}
-    </div>
-  </div>
-);
 ```
 
 ---
@@ -71,30 +76,45 @@ const HorizontalContainer = () => (
 **File**: [`src/components/SkillRadarChart.jsx`](src/components/SkillRadarChart.jsx:1)
 
 #### Description
-Interactive radar chart using Chart.js for visualizing skill proficiency levels with theme-aware styling.
+Theme-aware interactive radar chart using Chart.js for visualizing skill proficiency levels. Completely refactored to use CSS variables for all styling and automatically adapt to theme changes.
 
 #### Props & State Management
 - **Props**:
   - `skills`: Array of {name, level} objects
-  - `primaryColor`: string - chart line color
-  - `backgroundColor`: string - chart fill color
-  - `height`: number - chart height in pixels
-  - `animationDuration`: number - animation length
-  - `showLegend`: boolean - display legend
+  - `height`: number - chart height in pixels (default: 400)
+  - `animationDuration`: number - animation length (default: 1500)
+  - `showLegend`: boolean - display legend (default: false)
 
 - **State**:
   - `chartRef`: useRef - canvas reference
   - `chartInstance`: useRef - Chart.js instance
 
+#### Theme Awareness
+- **CSS Variables**: Uses CSS custom properties for all colors
+  - `--primary`: Primary color for chart lines
+  - `--text`: Text color for labels
+  - `--text-muted`: Muted text color for ticks
+  - `--border`: Border color for grid lines
+- **Color Conversion**: HSL to HSLA conversion for transparent backgrounds
+- **Automatic Adaptation**: Automatically adapts to light/dark mode changes
+- **No Hardcoded Colors**: Removed `primaryColor` and `backgroundColor` props
+
+#### Implementation Details
+- **Color Functions**:
+  - `getCssVariable()`: Retrieves CSS variable values
+  - `hslToHsla()`: Converts HSL strings to HSLA with alpha
+- **Theme Detection**: Uses MutationObserver to detect theme changes
+- **Responsive Design**: Height prop for flexible sizing
+
 #### Performance Analysis
 - **Chart.js Overhead**: Full library import increases bundle size (~60KB gzipped)
 - **Re-render Optimization**: Proper cleanup in useEffect prevents memory leaks
-- **Theme Handling**: Event listener for theme changes may cause unnecessary re-renders
+- **Theme Handling**: Efficient MutationObserver for theme changes
+- **Animation Performance**: CSS transitions for smooth 60fps animations
 
 #### Issues Identified
 1. **Bundle Size**: Entire Chart.js library imported for single chart type
-2. **Theme Sync**: Manual theme detection instead of React context
-3. **Missing Error Boundaries**: No handling for invalid skill data
+2. **Missing Error Boundaries**: No handling for invalid skill data
 
 #### Optimization Recommendations
 ```jsx
@@ -111,13 +131,16 @@ const SkillRadarChart = ({ skills }) => {
   // ... rest of component
 };
 
-// Use React context for theme
-const { theme } = useTheme();
-useEffect(() => {
-  if (chartInstance.current) {
-    updateChartColors(chartInstance.current, theme);
-  }
-}, [theme]);
+// Theme-aware color management
+const getCssVariable = (variable) => {
+  if (typeof window === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+};
+
+const hslToHsla = (hslString, alpha) => {
+  if (!hslString) return `hsla(0, 0%, 0%, ${alpha})`;
+  return `hsla(${hslString}, ${alpha})`;
+};
 ```
 
 ---
@@ -422,6 +445,12 @@ useEffect(() => {
 - **Event Listener Removal**: Complete cleanup in useEffect
 - **Canvas Cleanup**: Clear canvas contexts on unmount
 
+### 5. Theme Performance
+- **CSS Variable Optimization**: Cache frequently accessed CSS variables
+- **Theme Change Efficiency**: Use efficient theme change detection (MutationObserver)
+- **Re-render Minimization**: Optimize components to prevent unnecessary re-renders on theme changes
+- **Color Conversion**: Implement efficient HSL to HSLA conversion functions
+
 ---
 
 ## Accessibility Considerations
@@ -440,6 +469,12 @@ useEffect(() => {
 - Respect `prefers-reduced-motion`
 - Provide static alternatives
 - Implement reduced animation modes
+
+### 4. Theme Accessibility
+- Ensure sufficient contrast in both light and dark themes
+- Test colorblind-friendly theme variations
+- Verify reduced motion preferences are respected across all components
+- Implement high contrast mode support
 
 ---
 
