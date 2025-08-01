@@ -2,43 +2,69 @@ import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 /**
- * SkillRadarChart - Creates a radar chart to visualize skills
- * 
+ * Gets a specific CSS variable value from the root element.
+ * @param {string} variable - The name of the CSS variable (e.g., '--primary').
+ * @returns {string} The computed value of the variable.
+ */
+const getCssVariable = (variable) => {
+  if (typeof window === 'undefined') return '';
+  return getComputedStyle(document.documentElement).getPropertyValue(variable).trim();
+};
+
+/**
+ * Converts an HSL color string (e.g., "210 40% 96.1%") to an HSLA string.
+ * @param {string} hslString - The HSL string from the CSS variable.
+ * @param {number} alpha - The alpha transparency value (0 to 1).
+ * @returns {string} The HSLA color string.
+ */
+const hslToHsla = (hslString, alpha) => {
+  if (!hslString) return `hsla(0, 0%, 0%, ${alpha})`;
+  return `hsla(${hslString}, ${alpha})`;
+};
+
+/**
+ * SkillRadarChart - A theme-aware radar chart to visualize skills.
+ * It automatically adapts to light/dark mode by using CSS variables for colors.
+ *
  * @param {Object} props
- * @param {Array} props.skills - Array of skill objects with name and level properties
- * @param {string} props.primaryColor - Primary color for the chart (default: "rgb(59, 130, 246)")
- * @param {string} props.backgroundColor - Background color for the chart area (default: "rgba(59, 130, 246, 0.1)")
- * @param {number} props.height - Height of the chart in pixels (default: 400)
- * @param {number} props.animationDuration - Duration of the animation in milliseconds (default: 1500)
- * @param {boolean} props.showLegend - Whether to show the legend (default: false)
+ * @param {Array} props.skills - Array of skill objects with name and level properties.
+ * @param {number} [props.height=400] - Height of the chart in pixels.
+ * @param {number} [props.animationDuration=1500] - Duration of the animation in milliseconds.
+ * @param {boolean} [props.showLegend=false] - Whether to show the legend.
  */
 const SkillRadarChart = ({
   skills = [],
-  primaryColor = "rgb(59, 130, 246)",
-  backgroundColor = "rgba(59, 130, 246, 0.1)",
   height = 400,
   animationDuration = 1500,
   showLegend = false
 }) => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
-  
-  useEffect(() => {
-    // Clean up any existing chart
+
+  const drawChart = () => {
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
-    
-    // Make sure we have a canvas element and skills
     if (!chartRef.current || !skills.length) return;
-    
+
     const ctx = chartRef.current.getContext('2d');
-    
-    // Extract skill data for chart
+
+    // Get theme colors from CSS variables
+    const primaryColorHsl = getCssVariable('--primary');
+    const textColorHsl = getCssVariable('--text');
+    const mutedColorHsl = getCssVariable('--text-muted');
+    const gridColorHsl = getCssVariable('--border');
+
+    const primaryColor = `hsl(${primaryColorHsl})`;
+    const backgroundColor = hslToHsla(primaryColorHsl, 0.1);
+    const textColor = `hsl(${textColorHsl})`;
+    const mutedTextColor = `hsl(${mutedColorHsl})`;
+    const gridColor = `hsl(${gridColorHsl})`;
+
+
     const labels = skills.map(skill => skill.name);
     const data = skills.map(skill => skill.level);
-    
-    // Create chart
+
     chartInstance.current = new Chart(ctx, {
       type: 'radar',
       data: {
@@ -60,50 +86,30 @@ const SkillRadarChart = ({
       options: {
         scales: {
           r: {
-            angleLines: {
-              color: 'rgba(100, 100, 100, 0.1)'
-            },
-            grid: {
-              color: 'rgba(100, 100, 100, 0.1)'
-            },
+            angleLines: { color: gridColor },
+            grid: { color: gridColor },
             pointLabels: {
-              color: 'var(--color-text, rgb(100, 100, 100))',
-              font: {
-                size: 12,
-                family: 'Poppins, sans-serif'
-              }
+              color: textColor,
+              font: { size: 12, family: 'Inter, sans-serif' }
             },
             suggestedMin: 0,
             suggestedMax: 100,
             ticks: {
               stepSize: 20,
               backdropColor: 'transparent',
-              color: 'var(--color-text, rgb(100, 100, 100))'
+              color: mutedTextColor
             }
           }
         },
         plugins: {
           legend: {
             display: showLegend,
-            position: 'bottom',
-            labels: {
-              color: 'var(--color-text, rgb(100, 100, 100))',
-              font: {
-                size: 12,
-                family: 'Poppins, sans-serif'
-              },
-              boxWidth: 12,
-              padding: 15
-            }
+            labels: { color: textColor }
           },
           tooltip: {
             backgroundColor: 'rgba(0, 0, 0, 0.7)',
-            titleFont: {
-              size: 13
-            },
-            bodyFont: {
-              size: 12
-            },
+            titleFont: { size: 13 },
+            bodyFont: { size: 12 },
             padding: 10,
             displayColors: false
           }
@@ -116,44 +122,31 @@ const SkillRadarChart = ({
         maintainAspectRatio: false
       }
     });
-    
-    // Cleanup on unmount
-    return () => {
-      if (chartInstance.current) {
-        chartInstance.current.destroy();
-      }
-    };
-  }, [skills, primaryColor, backgroundColor, animationDuration, showLegend]);
-  
-  // Handle system theme change for dark mode support
+  };
+
   useEffect(() => {
-    const handleThemeChange = () => {
-      if (chartInstance.current) {
-        // Get the updated colors based on current theme
-        const isDarkMode = document.documentElement.classList.contains('dark');
-        const textColor = isDarkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.7)';
-        
-        // Update chart colors
-        chartInstance.current.options.scales.r.pointLabels.color = textColor;
-        chartInstance.current.options.scales.r.ticks.color = textColor;
-        chartInstance.current.options.plugins.legend.labels.color = textColor;
-        
-        // Update the chart
-        chartInstance.current.update();
-      }
-    };
-    
-    // Initialize with correct colors
-    handleThemeChange();
-    
-    // Listen for theme changes if using a theme toggle
-    window.addEventListener('themechange', handleThemeChange);
-    
-    return () => {
-      window.removeEventListener('themechange', handleThemeChange);
-    };
-  }, []);
-  
+    // Initial draw
+    drawChart();
+
+    // Redraw chart when theme changes
+    const themeToggle = document.getElementById('theme-toggle'); // Assuming your toggle has this ID
+    if (themeToggle) {
+        // Use a MutationObserver to detect class changes on <html>, which is more reliable
+        const observer = new MutationObserver((mutationsList) => {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    // Add a small delay to allow CSS variables to update
+                    setTimeout(drawChart, 50);
+                }
+            }
+        });
+
+        observer.observe(document.documentElement, { attributes: true });
+
+        return () => observer.disconnect();
+    }
+  }, [skills, animationDuration, showLegend, height]);
+
   return (
     <div style={{ height: `${height}px`, width: '100%' }}>
       <canvas ref={chartRef} />

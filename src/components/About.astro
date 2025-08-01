@@ -1,44 +1,29 @@
 ---
 /**
- * About.astro (Corrected & Enhanced)
- *
- * @module About
- * @description This version is fully corrected to prevent SSR errors by using the `client:only` directive
- * for all interactive React components. It also features a complete visual redesign and removes hardcoded colors.
+ * About.astro (Theme-Aware & Corrected)
+ * @description This version is fully theme-aware, removing all hardcoded color props
+ * from child components. It relies on a unified CSS variable system for styling.
  */
 
 // SECTION: Imports
-// Import resume data from the data file
 import { resumeData } from '../data/aboutData.ts';
-// Import TypeScript types for type safety
 import type { Skill, TimelineEntry, Achievement } from '../data/aboutData.ts';
-// Import React components used in this Astro component
-import SkillRadarChart from './SkillRadarChart.jsx';
-import AnimatedTimeline from './AnimatedTimeline.jsx';
-import AchievementBadge from './AchievementBadge.jsx';
+import SkillRadarChart from '../components/SkillRadarChart.jsx';
+import AnimatedTimeline from '../components/AnimatedTimeline.jsx';
+import AchievementBadge from '../components/AchievementBadge.jsx';
 
 // SECTION: Data Transformations
-// Extract achievements array from resumeData for easier access
 const achievements: Achievement[] = resumeData.achievements;
-
-// Prepare skills data for the radar chart component
-// Maps skills to an array of objects with name and level properties
 const skillsForChart: { name: string; level: number }[] = resumeData.skills;
 
-// Group skills by category using reduce function
-// Creates an object where keys are categories and values are arrays of skills in that category
 const skillsByCategory = resumeData.skills.reduce((acc, skill) => {
-  // If category doesn't exist in accumulator, initialize it as empty array
   if (!acc[skill.category]) {
     acc[skill.category] = [];
   }
-  // Add current skill to its category array
   acc[skill.category].push(skill);
   return acc;
 }, {} as Record<Skill['category'], Skill[]>);
 
-// Define the order in which skill categories should be displayed
-// This ensures consistent ordering regardless of data structure
 const categoryOrder: Skill['category'][] = [
   'Programming Languages',
   'Frameworks/Libraries',
@@ -48,109 +33,75 @@ const categoryOrder: Skill['category'][] = [
   'Methodologies',
 ];
 
-// Define interface for timeline items to ensure consistent data structure
-// This helps with type safety when working with timeline data
 interface TimelineItem {
-  date: string;        // Date or period of the event
-  title: string;       // Title of the event (e.g., "Role at Company")
-  description: string; // Description of the event
-  technologies: string[]; // Technologies used in this event
+  date: string;
+  title: string;
+  description: string;
+  technologies: string[];
 }
 
-// Combine work experience and academic projects into a single array
-// This allows us to display all experiences in a unified timeline
 const allJourneyEntries: TimelineEntry[] = [...resumeData.workExperience, ...resumeData.academicProjects];
 
-// Sort journey entries by date in descending order (most recent first)
-// Uses a custom sorting function to extract years from date strings
 const sortedJourneyEntries = allJourneyEntries.sort((a, b) => {
-  // Helper function to extract year from date string
-  // Handles both numeric years and "Present" text
   const getYear = (dateStr: string): number => {
-    // Match either a 4-digit year or the word "Present"
     const match = dateStr.match(/(\d{4})|Present/);
-    // Return 0 if no match found (shouldn't happen with valid data)
     if (!match) return 0;
-    // Return current year for "Present", otherwise parse the matched year
     return match[0] === 'Present' ? new Date().getFullYear() : parseInt(match[0], 10);
   };
-  // Sort by year in descending order (most recent first)
   return getYear(b.period) - getYear(a.period);
 });
 
-// Transform sorted journey entries into timeline items format
-// Maps each entry to the TimelineItem interface structure
 const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
-  date: entry.period,                    // Direct mapping of period
-  title: `${entry.role} at ${entry.entity}`, // Combine role and entity for title
-  description: entry.points.join(' '),  // Join all points into a single description
-  technologies: entry.technologies || [] // Use provided technologies or empty array
+  date: entry.period,
+  title: `${entry.role} at ${entry.entity}`,
+  description: entry.points.join(' '),
+  technologies: entry.technologies || []
 }));
 ---
 
 <!-- SECTION: HTML Template -->
-<!-- Main section container with responsive padding and background -->
 <section class="relative py-20 md:py-28 bg-background overflow-hidden min-h-screen" id="about" aria-labelledby="about-headline">
   <!-- Decorative background shapes -->
-  <!-- Top left decorative circle with gradient and blur effect -->
   <div class="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3">
     <div class="w-96 h-96 bg-primary/5 dark:bg-primary/10 rounded-full filter blur-3xl"></div>
   </div>
-  <!-- Bottom right decorative circle with gradient and blur effect -->
   <div class="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3">
     <div class="w-96 h-96 bg-secondary/5 dark:bg-secondary/10 rounded-full filter blur-3xl"></div>
   </div>
 
-  <!-- Main content container with responsive padding -->
   <div class="relative container mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Section header with animated entrance -->
     <div class="text-center" data-aos="fade-up">
-      <!-- Main heading with animated text -->
       <h2 id="about-headline" class="text-4xl md:text-5xl font-bold text-text tracking-tight">
         More About <span class="text-primary">Me</span>
       </h2>
-      <!-- Subheading with description -->
       <p class="mt-4 max-w-2xl mx-auto text-lg text-text-muted">
         A glimpse into my background, skills, and professional journey.
       </p>
     </div>
 
     <!-- Profile & Bio Section -->
-    <!-- Responsive grid layout for profile image and bio text -->
     <div class="mt-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-      <!-- Profile image container with animated entrance from right -->
       <div class="lg:col-span-5" data-aos="fade-right">
-        <!-- Relative container for profile image and glow effect -->
         <div class="relative mx-auto w-fit">
-           <!-- Profile image with responsive sizing and styling -->
            <img
             src="/images/iftekhar_photo.jpg"
             alt="Profile portrait of Iftekhar"
             loading="lazy"
             class="relative z-10 rounded-2xl w-64 h-64 md:w-80 md:h-80 object-cover border-4 border-background shadow-2xl"
           />
-          <!-- Animated glow effect behind profile image -->
           <div class="absolute -inset-2 bg-gradient-to-r from-primary to-secondary rounded-2xl blur-lg opacity-60 animate-pulse-slow"></div>
         </div>
       </div>
-      <!-- Bio text container with animated entrance from left -->
       <div class="lg:col-span-7 text-text-muted text-lg" data-aos="fade-left" data-aos-delay="100">
-        <!-- First paragraph of bio -->
         <p class="mb-4 leading-relaxed">
           I'm an Electrical Engineering student at Dalhousie University with a specialized focus in Computer Engineering. I am driven by a passion for bridging the gap between hardware and software, creating tangible solutions through technology.
         </p>
-        <!-- Second paragraph of bio -->
         <p class="leading-relaxed">
           My experience spans from low-level embedded systems programming for satellites to building modern, interactive web applications. I thrive in environments where I can tackle complex problems.
         </p>
-        <!-- Achievements grid with animated entrance -->
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <!-- Map through achievements and render AchievementBadge components -->
           {achievements.map((badge, index) => (
-            <!-- Each badge with individual delay for staggered animation -->
             <div data-aos="fade-up" data-aos-delay={index * 100}>
-              <!-- FIX: Use client:only="react" to prevent SSR crash -->
-              <!-- AchievementBadge is a React component that needs client-side rendering -->
               <AchievementBadge client:only="react" icon={badge.icon} title={badge.title} description={badge.description} color={badge.color} />
             </div>
           ))}
@@ -159,26 +110,16 @@ const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
     </div>
 
     <!-- Skills Section -->
-    <!-- Skills section with responsive top margin -->
     <div class="mt-20 md:mt-28">
-      <!-- Section heading with animated entrance -->
       <h3 class="text-3xl font-bold text-center mb-12 text-text" data-aos="fade-up">Skills & Expertise</h3>
-      <!-- Responsive grid for skills list and radar chart -->
       <div class="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
-        <!-- Skills list container with animated entrance from right -->
         <div class="lg:col-span-7 space-y-6" data-aos="fade-right">
-          <!-- Map through categoryOrder to display skills by category -->
           {categoryOrder.map(category => (
-             <!-- Category container with styling -->
-             <div class="bg-background p-4 rounded-lg shadow-sm border border-border">
-               <!-- Category heading -->
+             <div class="bg-background-alt p-4 rounded-lg shadow-sm border border-border">
                <h4 class="font-semibold text-primary mb-3">{category}</h4>
-               <!-- Skills tags container -->
                <div class="flex flex-wrap gap-2">
-                 <!-- Map through skills in current category -->
                  {skillsByCategory[category].map(skill => (
-                   <!-- Individual skill tag with styling -->
-                   <span class="bg-background-alt text-text text-sm font-medium px-3 py-1 rounded-full border border-border">
+                   <span class="bg-background text-text text-sm font-medium px-3 py-1 rounded-full border border-border">
                      {skill.name}
                    </span>
                  ))}
@@ -186,17 +127,12 @@ const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
              </div>
            ))}
         </div>
-        <!-- Radar chart container with animated entrance from left -->
         <div class="lg:col-span-5" data-aos="fade-left" data-aos-delay="100">
-           <!-- Chart container with styling -->
-           <div class="bg-background p-6 rounded-xl shadow-lg border border-border">
-             <!-- FIX: Use client:only="react" and remove hardcoded color props -->
-             <!-- SkillRadarChart is a React component that needs client-side rendering -->
+           <div class="bg-background-alt p-4 sm:p-6 rounded-xl shadow-lg border border-border">
+             <!-- No more hardcoded color props! -->
              <SkillRadarChart
                client:only="react"
                skills={skillsForChart}
-               primaryColor="rgb(59, 130, 246)"
-               backgroundColor="rgba(59, 130, 246, 0.1)"
                height={400}
                animationDuration={1500}
                showLegend={false}
@@ -207,14 +143,10 @@ const journeyForTimeline: TimelineItem[] = sortedJourneyEntries.map(entry => ({
     </div>
 
     <!-- Journey Section -->
-    <!-- Journey section with animated entrance -->
     <div class="mt-20 md:mt-28" data-aos="fade-up">
-      <!-- Section heading -->
       <h3 class="text-3xl font-bold text-center mb-12 text-text">My Journey</h3>
-      <!-- Timeline container with styling -->
-      <div class="max-w-4xl mx-auto bg-background p-6 sm:p-8 rounded-xl shadow-lg border border-border">
-        <!-- FIX: Use client:only="react" -->
-        <!-- AnimatedTimeline is a React component that needs client-side rendering -->
+      <div class="max-w-4xl mx-auto bg-background-alt p-4 sm:p-6 rounded-xl shadow-lg border border-border">
+        <!-- No more hardcoded color props! -->
         <AnimatedTimeline client:only="react" items={journeyForTimeline} />
       </div>
     </div>
